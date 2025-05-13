@@ -4,69 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <title>Servicios Médicos</title>
 
 
-  <!-- Fuente e íconos -->
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9fcff;
-    }
-
-    header {
-      background-color: #00b69e;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #caf0f8;
-      padding: 10px 0;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #023e8a;
-      margin: 0 20px;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #00b69e;
-    }
-
-    .container {
-      padding: 30px;
-      text-align: center;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-
-    footer {
-      background-color: #00b69e;
-      color: white;
-      text-align: center;
-      padding: 15px 0;
-      margin-top: 30px;
-    }
-  </style>
 </head>
 
 <body>
@@ -77,14 +18,21 @@
   </header>
 
   <nav>
-    
-    <a href="#" onclick="showSection('inicio')">Inicio</a>
-    <a href="#" onclick="showSection('servicios')">Alumnos</a>
-    <a href="#" onclick="showSection('conferencias')">Conferencias</a>
-    <a href="#" onclick="showSection('contacto')">Servicio Medico</a>
+    <button class="transparent_button" (click)="navigateMain()">prueba</button>
+    <button class="transparent_button" (click)="navigateServices()">servicios</button>
+    <button class="transparent_button" (click)="navigateConfer()">Conferencias</button>
+    <button class="transparent_button" (click)="navigateStudent()">Alumnos</button>
+
+
   </nav>
-  <router-outlet></router-outlet>
+  <router-outlet class="container"></router-outlet>
+
+  <footer
+    style="position: fixed; left: 0; bottom: 0; width: 100%;  text-align: center; padding: 10px 0; box-shadow: 0 -1px 5px rgba(0,0,0,0.1);">
+    &copy; 2025 Servicios Médicos - Todos los derechos reservados
+  </footer>
+
+
 </body>
 
 </html>
-

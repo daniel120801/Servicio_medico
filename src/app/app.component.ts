@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -13,13 +13,22 @@ export class AppComponent {
   constructor(private router: Router) { }
 
 
+  navigateMain() {
 
-  navigate(route:String) {
-    
+    this.router.navigate(['/main']);
   }
+  navigateServices() {
 
+    this.router.navigate(['/servicios']);
+  }
+  navigateConfer() {
 
+    this.router.navigate(['/confer']);
+  }
+  navigateStudent() {
 
+    this.router.navigate(['/alumnos']);
+  }
 
 
 
