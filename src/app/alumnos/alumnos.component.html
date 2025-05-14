@@ -1,16 +1,21 @@
 <div class="container">
-    <div class="mb-3">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Buscar...">
-            <select class="form-select" style="max-width: 120px;">
-          <option>Filtro</option>
-          <option>Matricula</option>
-          <option>Nombre</option>
-          <option>Carrera</option>
-        </select>
-            <button class="btn btn-outline-secondary">🔍</button>
+
+    <form [formGroup]="searchForm">
+        <div class="mb-3">
+            <div class="input-group">
+                <input type="text" formControlName="searchInput" class="form-control" placeholder="Buscar...">
+                <select 
+                formControlName="filterSearch"
+                class="form-select" style="max-width: 120px;">
+
+                <option id="nombre" value="nombre">Nombre</option>
+                <option id="matricula" value="matricula">Matricula</option>
+                    <option id="carrera" value="carrera">Carrera</option>
+                </select>
+                <button class="btn btn-outline-secondary">🔍</button>
+            </div>
         </div>
-    </div>
+    </form>
 
     <ul class="list-group">
         <!-- resultados -->
