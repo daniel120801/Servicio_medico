@@ -1,0 +1,16 @@
+<p>form-registro-modal works!</p>
+
+<div class="container">
+    <form [formGroup]="formRegistro">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre">
+        </div>
+        <div class="mb-3">
+            <label for="matricula" class="form-label">Matrícula</label>
+            <input type="text" id="matricula" formControlName="matricula" class="form-control" placeholder="Matrícula">
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+
+</div>
