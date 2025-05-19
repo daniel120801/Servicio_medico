@@ -1,7 +1,5 @@
-<p>form-registro-modal works!</p>
-
 <div class="container">
-    <form [formGroup]="formRegistro">
+    <form [formGroup]="formRegistro" (ngSubmit)="onSubmit()">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre">

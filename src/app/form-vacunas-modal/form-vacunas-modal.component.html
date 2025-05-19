@@ -1,0 +1,25 @@
+<div class="container border p-4 mt-4" style="max-width: 500px;">
+    <form [formGroup]="vacunaForm" (ngSubmit)="onSubmit()">
+        <div class="row mb-3 ">
+
+            <div class="col-8 ">
+                <label for="vacuna " class="form-label ">vacuna</label>
+                <input type="text " id="vacuna " class="form-control form-control-lg " placeholder="Agregar texto " formControlName="vacuna ">
+            </div>
+
+            <div class="col-4 ">
+                <label for="dosis " class="form-label ">dosis</label>
+                <input type="number " id="dosis " class="form-control " placeholder="Agregar texto " formControlName="dosis ">
+            </div>
+
+            <div class="col-4 ">
+                <label for="fecha " class="form-label ">fecha</label>
+                <input type="date " id="fecha " class="form-control " formControlName="fecha ">
+            </div>
+        </div>
+
+        <div class="text-center mt-4 ">
+            <button type="submit " class="btn btn-outline-primary btn-lg ">Agregar</button>
+        </div>
+    </form>
+</div>
