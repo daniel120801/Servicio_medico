@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Conferencia } from './Models/conferencia.model';
 
 @Component({
   selector: 'app-conferencias',
@@ -7,5 +8,14 @@ import { Component } from '@angular/core';
   styleUrl: './conferencias.component.css'
 })
 export class ConferenciasComponent {
+
+  @ViewChild(FormConferModalComponent) modal!: FormConferModalComponent;
+
+
+
+  createNewConfer(conferencia:Conferencia): void {
+    
+  }
+
 
 }
