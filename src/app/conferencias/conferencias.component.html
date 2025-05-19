@@ -1,17 +1,28 @@
-<div class="container">
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">Conferencias</h4>
+                    <button (click)="navigateToForm()" class="btn btn-outline-primary w-100 mb-3">
+            Nueva
+          </button>
+                    <ul class="list-group">
+                        <!-- Aquí va la lista de conferencias -->
+                        <li class="list-group-item conference-item">Conferencia 1</li>
+                        <li class="list-group-item conference-item">Conferencia 2</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-    <div class="col-md-4 left-panel container">
-        <h4>Conferencias</h4>
-        <button  (click)="navigateToForm()"  class="btn btn-outline-primary mb-3">Nueva</button>
-        <ul class="list-group">
-            <!--lista de conferencias -->
-        </ul>
-    </div>
-
-    <!-- Detalles de conferencia -->
-    <div class="col-md-8  container  ">
-        <div class="conference-detail " id="detalleConferencia ">
-            <!--  detalles de la conferencia -->
+        <div class="col-md-8">
+            <div class="card shadow-sm h-100">
+                <div class="card-body" id="detalleConferencia">
+                    <h5 class="card-title">Detalles de la Conferencia</h5>
+                    <p class="card-text">Selecciona una conferencia para ver los detalles.</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

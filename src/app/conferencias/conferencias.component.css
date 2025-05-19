@@ -1,21 +1,4 @@
-  body {
-      padding: 20px;
-  }
-  
-  .container {
-      padding: 30px;
-  }
-  
-  .left-panel {
-      border-right: 1px solid #ccc;
-  }
-  
-  .conference-detail {
-      border: 1px solid black;
-      padding: 20px;
-  }
-  
-  .conference-item:hover {
-      cursor: pointer;
-      background-color: #f8f9fa;
-  }
+.conference-item:hover {
+    background-color: #e9f5ff;
+    cursor: pointer;
+}
