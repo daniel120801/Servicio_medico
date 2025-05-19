@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Conferencia } from '../conferencias/Models/conferencia.model';
+import { Component } from '@angular/core';
+import { Conferencia } from '../core/Models/conferencia.model';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ConferenciaServiceService } from '../../conferencia-service.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ConferenciaServiceService } from '../core/servicesComponent/conferencia-service.service';
 @Component({
   selector: 'app-form-confer-modal',
   imports: [ReactiveFormsModule],
@@ -12,26 +12,17 @@ import { ConferenciaServiceService } from '../../conferencia-service.service';
 })
 export class FormConferModalComponent {
 
-  conferencia: Conferencia = new Conferencia(
-    '',
-    '',
-    '',
-    '',
-    '',
-    ''
-  );
-
+  conferencia: Conferencia = new Conferencia( '', '',  '', '', '', '' );
   formConfer: FormGroup;
   constructor(private router: Router, private fb: FormBuilder, public conferenciaService: ConferenciaServiceService) {
     this.formConfer = this.fb.group({
-      nombre: [''],
-      fecha: [''],
-      hora: [''],
-      descripcion: [''],
-      presentador: ['']
+      nombre: ['',Validators.required],
+      fecha: ['',Validators.required],
+      hora: ['',Validators.required],
+      descripcion: ['',Validators.required],
+      presentador: ['',Validators.required]
     });
   }
-
   // Método para cerrar el modal
   volver(): void {
     this.router.navigate(['/confer']);
@@ -41,6 +32,8 @@ export class FormConferModalComponent {
   save(): void {
     this.formConfer.markAllAsTouched();
     if (this.formConfer.invalid) {
+       console.log('Formulario invalido');
+       
       return;
     }
     this.conferencia = new Conferencia(
@@ -53,7 +46,7 @@ export class FormConferModalComponent {
     );
     console.log('Conferencia guardada:', this.formConfer.value);
 
-     this.conferenciaService.addConferencia(this.conferencia).subscribe({
+    this.conferenciaService.addConferencia(this.conferencia).subscribe({
       next: (response) => {
         console.log('Conferencia guardada:', response);
       },
@@ -61,7 +54,6 @@ export class FormConferModalComponent {
         console.error('Error al guardar la conferencia:', error);
       }
     }
-    
     );
   }
 }

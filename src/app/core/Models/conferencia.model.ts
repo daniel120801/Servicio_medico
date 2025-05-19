@@ -12,13 +12,12 @@ export interface IConferencia {
 
 export class Conferencia implements IConferencia {
     constructor(
-        public id: string | number,
-        public nombre: string,
-        public fecha: string,
-        public hora: string,
+        public id: string | number = 0,
+        public nombre: string = '',
+        public fecha: string = '',
+        public hora: string = '',
         public descripcion: string = '',
-        public Presentador: string
+        public Presentador: string = ''
     ) { }
-
 }
 

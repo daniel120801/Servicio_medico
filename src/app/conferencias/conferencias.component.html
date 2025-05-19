@@ -2,16 +2,29 @@
 
     <div class="col-md-4 left-panel container">
         <h4>Conferencias</h4>
-        <button  (click)="navigateToForm()"  class="btn btn-outline-primary mb-3">Nueva</button>
+        <button (click)="navigateToForm()" class="btn btn-outline-primary mb-3">Nueva</button>
         <ul class="list-group">
-            <!--lista de conferencias -->
+
+            @for (item of conferencias; track $index) {
+            <li (click)="selectConferencia({item})">
+                <p> {{ item.nombre }}</p>
+
+            </li>
+            } @empty {
+            <li class="list-group-item">
+                <button class="text-center">No hay conferencias disponibles</button>
+            </li>
+            }
+
         </ul>
     </div>
 
     <!-- Detalles de conferencia -->
     <div class="col-md-8  container  ">
         <div class="conference-detail " id="detalleConferencia ">
-            <!--  detalles de la conferencia -->
+            <p>
+                {{ conferenciaSeleccionada.nombre }}
+            </p>
         </div>
     </div>
 </div>

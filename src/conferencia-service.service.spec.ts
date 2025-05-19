@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ConferenciaServiceService } from './conferencia-service.service';
+import { ConferenciaServiceService } from './app/core/servicesComponent/conferencia-service.service';
 
 describe('ConferenciaServiceService', () => {
   let service: ConferenciaServiceService;
