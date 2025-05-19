@@ -3,6 +3,7 @@ import { MainComponent } from './main/main.component';
 import { AlumnosComponent } from './alumnos/alumnos.component';
 import { ConferenciasComponent } from './conferencias/conferencias.component';
 import { ServiciosComponent } from './servicios/servicios.component';
+import { FormConferModalComponent } from './form-confer-modal/form-confer-modal.component';
 
 export const routes: Routes = [
     { path: '', component:MainComponent   },
@@ -10,5 +11,5 @@ export const routes: Routes = [
     {path:'alumnos', component:AlumnosComponent},
     {path:'servicios', component:ServiciosComponent},
     {path:'confer', component:ConferenciasComponent},
-   
+   {path:'formConfer', component:FormConferModalComponent},
 ];
