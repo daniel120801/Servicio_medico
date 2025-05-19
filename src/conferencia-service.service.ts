@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Conferencia } from './app/conferencias/Models/conferencia.model';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ConferenciaServiceService {
-  private apiUrl = 'https://api.example.com/conferencias';
+  //TODO: Cambiar la URL por la de tu API
+  private apiUrl = 'https://dandi1333.great-site.net/Estadias';
 
-  
+
   constructor(private http: HttpClient) { }
-  getConferencias() {
-    return this.http.get<Conferencia[]>(this.apiUrl);
+
+  getConferencias():Observable<Conferencia[]> {
+    return this.http.get<Conferencia[]>(this.apiUrl + '?all');
   }
 
   addConferencia(conferencia: Conferencia) {
