@@ -13,14 +13,15 @@
         </div>
     </form>
 
-    <ul class=" list-group list-group-flush  ">
+    <ul class="list-group list-group-flush">
         @for (item of filteredAlumnos; track $index) {
-        <li class="list-group-item ">
+        <li class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
                     <i class="bi bi-person-circle me-2 text-primary fs-4"></i>
-                    <strong>{{ item.nombre }}</strong>
+                    <strong class="fs-6">{{ item.nombre }}</strong>
                 </div>
+
             </div>
         </li>
         } @empty {
