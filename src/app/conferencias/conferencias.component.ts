@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Conferencia } from '../core/Models/conferencia.model';
 import { Router } from '@angular/router';
-import { ConferenciaServiceService } from '../core/servicesComponent/conferencia-service.service';
+import { ConferenciaServiceService } from '../core/servicesComponent/conferencia.service';
 import { FormConferModalComponent } from '../form-confer-modal/form-confer-modal.component';
 import { CommonModule } from '@angular/common';
 @Component({
@@ -24,7 +24,6 @@ export class ConferenciasComponent implements OnInit {
     '',
     ''
   );
-
   constructor(private router: Router, public conferenciaService: ConferenciaServiceService) { }
 
   ngOnInit(): void {

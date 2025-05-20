@@ -5,9 +5,8 @@
             <div class="input-group">
                 <input type="text" formControlName="searchInput" class="form-control" placeholder="Buscar...">
                 <select formControlName="filterSearch" class="form-select" style="max-width: 120px;">
-
-                <option id="nombre" value="nombre" selected>Nombre</option>
-                <option id="matricula" value="matricula">Matricula</option>
+                    <option id="nombre" value="nombre" selected>Nombre</option>
+                    <option id="matricula" value="matricula">Matricula</option>
                     <option id="carrera" value="carrera">Carrera</option>
                 </select>
             </div>
@@ -15,7 +14,17 @@
     </form>
 
     <ul class="list-group">
-        <!-- resultados -->
-        <!-- <li class="list-group-item">Nombre del Alumno | Matrícula</li> -->
+        @for (item of filteredAlumnos; track $index) {
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>{{ item.nombre }}</strong>
+                    </div>
+                </div>
+            </li>
+        }
+        @empty {
+            <li class="list-group-item">No hay resultados</li>
+        }
     </ul>
 </div>
