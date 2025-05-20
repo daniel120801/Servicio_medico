@@ -40,6 +40,7 @@ export class ConferenciasComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al obtener conferencias:', error);
+          
           this.conferencias.push(new Conferencia(
             '1',
             'Error 1',
@@ -48,6 +49,7 @@ export class ConferenciasComponent implements OnInit {
             'Descripcion no asignada',
             'Presentador no asignado'
           ));
+
           this.conferencias.push(new Conferencia(
             '2',
             'Error 2',
@@ -62,6 +64,7 @@ export class ConferenciasComponent implements OnInit {
     )
   }
   selectConferencia(conferencia: any): void {
+
     this.conferenciaSeleccionada = conferencia;
     console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
     

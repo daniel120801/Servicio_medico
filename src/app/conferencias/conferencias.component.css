@@ -2,3 +2,7 @@
     background-color: #e9f5ff;
     cursor: pointer;
 }
+
+li {
+    user-select: none;
+}

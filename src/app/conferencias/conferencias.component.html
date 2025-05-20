@@ -5,12 +5,19 @@
                 <div class="card-body">
                     <h4 class="card-title text-primary">Conferencias</h4>
                     <button (click)="navigateToForm()" class="btn btn-outline-primary w-100 mb-3">
-            Nueva
-          </button>
+                        Nueva
+                    </button>
                     <ul class="list-group">
-                        <!-- Aquí va la lista de conferencias -->
-                        <li class="list-group-item conference-item">Conferencia 1</li>
-                        <li class="list-group-item conference-item">Conferencia 2</li>
+                        @for (item of conferencias; track $index) {
+                        <li  class="list-group-item conference-item" (click)="selectConferencia({item})">
+                            <p> {{ item.nombre }}</p>
+
+                        </li>
+                        } @empty {
+                        <li class="list-group-item conference-item">
+                            <button class="text-center">No hay conferencias disponibles</button>
+                        </li>
+                        }
                     </ul>
                 </div>
             </div>
