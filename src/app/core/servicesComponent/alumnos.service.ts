@@ -7,16 +7,16 @@ import { Alumno } from '../Models/alumno.model';
 export class AlumnosServiceService {
   private apiUrl = 'https://dandi1333.great-site.net/Estadias/Alumnos';
   constructor(private http: HttpClient) { }
-  alumnos: any = [];
+  alumnos2: any = [];
 
   headers = class Headers {
-
+    
     alumnos: Alumno[] = [];
 
     constructor(private parent: AlumnosServiceService) {
 
     }
-    getAlumnosHeaders() {
+    public getAlumnosHeaders() {
       this.parent.http.get(this.parent.apiUrl + '?allheaders=').subscribe(
         {
           next: (response) => {
@@ -36,33 +36,31 @@ export class AlumnosServiceService {
           }
         }
       );
-      console.log(typeof this.alumnos);
+      console.log('instancia' + typeof this.alumnos);
 
       return this.alumnos
     }
+    public filterAlumnosByText(text: string): Alumno[] | [] {
 
+      if (this.alumnos) {
 
-  }
+        const filtro = this.alumnos.filter((alumno: Alumno) => {
+          return alumno.nombre.toLowerCase().includes(text.toLowerCase());
+        });
+        return filtro
 
-  getAlumnosById(id: number): Observable<Alumno> {
-    return this.http.get<Alumno>(this.apiUrl + '?alumno=' + id);
-  }
-  filterAlumnosByText(text: string): Alumno[] | [] {
-    console.log('Texto de búsqueda:', text);
-    console.log('Alumnos:', this.alumnos);
-
-    if (this.alumnos) {
-
-      const filtro = this.alumnos.filter((alumno: Alumno) => {
-        return alumno.nombre.toLowerCase().includes(text.toLowerCase());
-      });
-      console.log('Alumnos filtrados:', filtro);
-      return filtro
+      }
+      return [];
 
     }
-    return [];
 
   }
+
+  /*
+  getAlumnosById(id: number): Observable<Alumno> {
+    return this.http.get<Alumno>(this.apiUrl + '?alumno=' + id);
+  }*/
+
 
 
 
