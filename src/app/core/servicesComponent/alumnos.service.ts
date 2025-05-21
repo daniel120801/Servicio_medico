@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { filter, Observable } from 'rxjs';
 import { Alumno } from '../Models/alumno.model';
+import { AlumnoHeaders } from '../Models/alumnoHeaders.model';
 
 @Injectable()
 export class AlumnosServiceService {
@@ -10,8 +11,8 @@ export class AlumnosServiceService {
   alumnos2: any = [];
 
   headers = class Headers {
-    
-    alumnos: Alumno[] = [];
+
+    alumnos: AlumnoHeaders[] = [];
 
     constructor(private parent: AlumnosServiceService) {
 
@@ -20,18 +21,22 @@ export class AlumnosServiceService {
       this.parent.http.get(this.parent.apiUrl + '?allheaders=').subscribe(
         {
           next: (response) => {
-            this.alumnos = <Alumno[]>response;
+            this.alumnos = <AlumnoHeaders[]>response;
             console.log('Alumnos obtenidos:', this.alumnos);
           },
           error: (error) => {
             console.error('Error al obtener alumnos:', error);
-            this.alumnos.push(new Alumno(
+            this.alumnos.push(new AlumnoHeaders(
               1,
-              'Error 3'
+              'Error 3',
+              'Carrera 1',
+              'Matricula 1'
             ));
-            this.alumnos.push(new Alumno(
+            this.alumnos.push(new AlumnoHeaders(
               2,
-              'Error 4'
+              'Error 4',
+              'Carrera 2',
+              'Matricula 2'
             ));
           }
         }
@@ -40,28 +45,59 @@ export class AlumnosServiceService {
 
       return this.alumnos
     }
-    public filterAlumnosByText(text: string): Alumno[] | [] {
 
-      if (this.alumnos) {
-
-        const filtro = this.alumnos.filter((alumno: Alumno) => {
-          return alumno.nombre.toLowerCase().includes(text.toLowerCase());
-        });
-        return filtro
-
+    public fillFilter(): AlumnoHeaders[] {
+      return this.alumnos;
+    }
+    public filterAlumnos(text: string, filterMode: FilterMode): AlumnoHeaders[] {
+      //todo: arreglar filtro
+      // 1. Validación más explícita
+      if (!this.alumnos || this.alumnos.length === 0 ) {
+        console.warn('No hay alumnos para filtrar o texto de búsqueda vacío');
+        return [];
       }
-      return [];
+      if(!text.trim()) {
+        console.warn('Texto de búsqueda vacío o solo espacios');
+        return this.fillFilter();
+      }
+      // 2. Normalizar el texto de búsqueda una sola vez
+      const searchText = text.trim().toLowerCase();
 
+      // 3. Filtrado con switch más claro
+      return this.alumnos.filter((alumno: AlumnoHeaders) => {
+        let fieldToSearch: string;
+
+        switch (filterMode) {
+          case FilterMode.MATRICULA:
+            fieldToSearch = alumno.matricula?.toLowerCase() || '';
+            break;
+          case FilterMode.CARRERA:
+            fieldToSearch = alumno.carrera?.toLowerCase() || '';
+            break;
+          default: // FilterMode.NOMBRE por defecto
+            fieldToSearch = alumno.nombre?.toLowerCase() || '';
+        }
+
+        return fieldToSearch.includes(searchText);
+      });
     }
 
   }
 
-  /*
-  getAlumnosById(id: number): Observable<Alumno> {
-    return this.http.get<Alumno>(this.apiUrl + '?alumno=' + id);
-  }*/
-
-
-
-
 }
+
+export enum FilterMode {
+  NOMBRE,
+  MATRICULA,
+  CARRERA
+}
+
+/*
+getAlumnosById(id: number): Observable<Alumno> {
+  return this.http.get<Alumno>(this.apiUrl + '?alumno=' + id);
+}*/
+
+
+
+
+
