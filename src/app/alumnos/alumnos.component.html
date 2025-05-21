@@ -13,7 +13,7 @@
         </div>
     </form>
 
-    <ul class=" list-group list-group-flush  ">
+    <ul class="list-group list-group-flush">
         @for (item of filteredAlumnos; track $index) {
         <li class="list-group-item  " (click)="onSelectAlumno(item)">
             <div class="d-flex justify-content-between align-items-center">
@@ -25,6 +25,7 @@
                     <br>
                     <strong>{{ item.matricula}}</strong>
                 </div>
+
             </div>
         </li>
         } @empty {
