@@ -7,6 +7,7 @@ import { FormConferModalComponent } from './form-confer-modal/form-confer-modal.
 import { PerfilAlumnoComponent } from './perfil-alumno/perfil-alumno.component';
 
 export const routes: Routes = [
+
     { path: '', component: MainComponent },
     { path: 'main', component: MainComponent },
     { path: 'alumnos', component: AlumnosComponent },
@@ -14,4 +15,5 @@ export const routes: Routes = [
     { path: 'confer', component: ConferenciasComponent },
     { path: 'formConfer', component: FormConferModalComponent },
     { path: 'perfilAlumno', component: PerfilAlumnoComponent }
+
 ];

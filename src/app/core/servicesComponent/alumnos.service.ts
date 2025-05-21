@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { filter, Observable } from 'rxjs';
-import { Alumno } from '../Models/alumno.model';
 import { AlumnoHeaders } from '../Models/alumnoHeaders.model';
 
 @Injectable()
-export class AlumnosServiceService {
+export class AlumnosService {
   private apiUrl = 'https://dandi1333.great-site.net/Estadias/Alumnos';
   constructor(private http: HttpClient) { }
   alumnos2: any = [];
@@ -14,7 +12,7 @@ export class AlumnosServiceService {
 
     alumnos: AlumnoHeaders[] = [];
 
-    constructor(private parent: AlumnosServiceService) {
+    constructor(private parent: AlumnosService) {
 
     }
     public getAlumnosHeaders() {
@@ -26,6 +24,7 @@ export class AlumnosServiceService {
           },
           error: (error) => {
             console.error('Error al obtener alumnos:', error);
+            //TODO: quitar los items de prueba una vez funcione el api
             this.alumnos.push(new AlumnoHeaders(
               1,
               'Error 3',
@@ -38,10 +37,10 @@ export class AlumnosServiceService {
               'Carrera 2',
               'Matricula 2'
             ));
+            //*-----------------------
           }
         }
       );
-      console.log('instancia' + typeof this.alumnos);
 
       return this.alumnos
     }
@@ -50,7 +49,7 @@ export class AlumnosServiceService {
       return this.alumnos;
     }
     public filterAlumnos(text: string, filterMode: FilterMode): AlumnoHeaders[] {
-      //todo: arreglar filtro
+      //TODO: arreglar filtro
       // 1. Validación más explícita
       if (!this.alumnos || this.alumnos.length === 0 ) {
         console.warn('No hay alumnos para filtrar o texto de búsqueda vacío');
@@ -84,6 +83,7 @@ export class AlumnosServiceService {
 
   }
 
+
 }
 
 export enum FilterMode {
@@ -91,11 +91,6 @@ export enum FilterMode {
   MATRICULA,
   CARRERA
 }
-
-/*
-getAlumnosById(id: number): Observable<Alumno> {
-  return this.http.get<Alumno>(this.apiUrl + '?alumno=' + id);
-}*/
 
 
 
