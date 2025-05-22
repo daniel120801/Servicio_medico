@@ -1,5 +1,5 @@
 <div class="container my-3">
-    <button type="button" class="btn btn-outline-secondary"> ← Regresar
+    <button type="button" class="btn btn-outline-secondary" (click)="volver()"> ← Regresar
         </button>
 
     <div class="row justify-content-center">
@@ -18,8 +18,8 @@
                     </div>
 
                     <div class="d-flex justify-content-around">
-                        <button class="btn btn-primary px-4" id="segmed">Seguimiento Médico</button>
-                        <button class="btn btn-success px-4" id="conasi">Conferencias Asistidas</button>
+                        <button class="btn btn-primary px-4" id="segmed" (click)="onOpenSegMedico()" >Seguimiento Médico</button>
+                        <button class="btn btn-success px-4" id="conasi" (click)="onOpenConferAsistidas()" >Conferencias Asistidas</button>
                     </div>
 
                 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { AlumnosService, FilterMode } from '../core/servicesComponent/alumnos.service';
 import { AlumnoHeaders } from '../core/Models/alumnoHeaders.model';
@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
   selector: 'app-alumnos',
   imports: [ReactiveFormsModule],
   templateUrl: './alumnos.component.html',
-  styleUrl: './alumnos.component.css',
+  styleUrls: ['./alumnos.component.css'],
   providers: [AlumnosService]
 })
 export class AlumnosComponent implements OnInit {
-
+  @Output() onSelectAlumnoEvent: EventEmitter<AlumnoHeaders> = new EventEmitter<AlumnoHeaders>();
   searchForm: FormGroup;
   opcionSeleccionada: any;
   filteredAlumnos: AlumnoHeaders[] = [];
@@ -55,12 +55,15 @@ export class AlumnosComponent implements OnInit {
   }
   onSelectAlumno(alumno: AlumnoHeaders) {
     console.log('Alumno seleccionado:', alumno);
-    this.router.navigate(['/perfilAlumno'], {
-      state: {
-        id: alumno.id
-      } // Pasar el objeto alumno como estado de navegación
-    }
-    );
+
+    this.onSelectAlumnoEvent.emit(alumno);
+    /*
+        this.router.navigate(['/perfilAlumno'], {
+          state: {
+            id: alumno.id
+          } // Pasar el objeto alumno como estado de navegación
+        }
+        );*/
     // Aquí puedes realizar la acción que desees con el alumno seleccionado
   }
 }

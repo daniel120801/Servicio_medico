@@ -5,12 +5,13 @@ import { ConferenciasComponent } from './conferencias/conferencias.component';
 import { ServiciosComponent } from './servicios/servicios.component';
 import { FormConferModalComponent } from './form-confer-modal/form-confer-modal.component';
 import { PerfilAlumnoComponent } from './perfil-alumno/perfil-alumno.component';
+import { ParentAlumnosComponent } from './parent-alumnos/parent-alumnos.component';
 
 export const routes: Routes = [
 
     { path: '', component: MainComponent },
     { path: 'main', component: MainComponent },
-    { path: 'alumnos', component: AlumnosComponent },
+    { path: 'alumnos', component: ParentAlumnosComponent },
     { path: 'servicios', component: ServiciosComponent },
     { path: 'confer', component: ConferenciasComponent },
     { path: 'formConfer', component: FormConferModalComponent },
