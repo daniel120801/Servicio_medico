@@ -9,9 +9,8 @@
                     </button>
                     <ul class="list-group">
                         @for (item of conferencias; track $index) {
-                        <li  class="list-group-item conference-item" (click)="selectConferencia({item})">
+                        <li class="list-group-item conference-item" (click)="selectConferencia(item)">
                             <p> {{ item.nombre }}</p>
-
                         </li>
                         } @empty {
                         <li class="list-group-item conference-item">
@@ -25,9 +24,18 @@
 
         <div class="col-md-8">
             <div class="card shadow-sm h-100">
-                <div class="card-body" id="detalleConferencia">
+                <div class="card-body text-center" id="detalleConferencia">
                     <h5 class="card-title">Detalles de la Conferencia</h5>
-                    <p class="card-text">Selecciona una conferencia para ver los detalles.</p>
+                    <ng-container *ngIf="conferenciaSeleccionada; else selecciona">
+                        <p class="card-text"><strong>Nombre:</strong> {{ conferenciaSeleccionada.nombre }}</p>
+                        <p class="card-text"><strong>Descripción:</strong> {{ conferenciaSeleccionada.descripcion }}</p>
+                        <p class="card-text"><strong>Fecha:</strong> {{ conferenciaSeleccionada.fecha}}</p>
+                        <p class="card-text"><strong>Hora:</strong> {{ conferenciaSeleccionada.hora }}</p>
+                        <p class="card-text"><strong>Expositor:</strong> {{ conferenciaSeleccionada.Presentador }}</p>
+                    </ng-container>
+                    <ng-template #selecciona>
+                        <p class="card-text">Selecciona una conferencia para ver los detalles.</p>
+                    </ng-template>
                 </div>
             </div>
         </div>
