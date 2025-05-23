@@ -1,16 +1,16 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { AlumnosService, FilterMode } from '../../core/servicesComponent/alumnos.service';
+import { AlumnosService, FilterMode } from '../alumnos.service';
 import { AlumnoHeaders } from '../../core/Models/alumnoHeaders.model';
 import { Router } from '@angular/router';
+import { provideSharedFeature } from '../alumnos.providers';
 
 
 @Component({
   selector: 'app-alumnos',
   imports: [ReactiveFormsModule],
   templateUrl: './alumnos-buscador.component.html',
-  styleUrls: ['./alumnos-buscador.component.css'],
-  providers: [AlumnosService]
+  styleUrls: ['./alumnos-buscador.component.css']
 })
 export class AlumnosComponent implements OnInit {
   @Output() onSelectAlumnoEvent: EventEmitter<AlumnoHeaders> = new EventEmitter<AlumnoHeaders>();
@@ -22,8 +22,7 @@ export class AlumnosComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private alumnosService: AlumnosService,
-    private router: Router) {
+    private alumnosService: AlumnosService) {
     this.searchForm = this.fb.group({
       filterSearch: ['nombre', Validators.required],
       searchInput: ['', Validators.required]
@@ -35,7 +34,6 @@ export class AlumnosComponent implements OnInit {
     this.filteredAlumnos = this.essentials.filterAlumnos(valor, this.filterMode)
   }
   ngOnInit(): void {
-
     this.essentials = new this.alumnosService.essentials(this.alumnosService);
     this.filteredAlumnos = this.essentials.getAlumnosHeaders();
 

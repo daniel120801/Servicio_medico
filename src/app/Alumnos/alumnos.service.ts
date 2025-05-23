@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AlumnoHeaders } from '../Models/alumnoHeaders.model';
-import { Alumno } from '../Models/alumno.model';
-import { alumnoTest1 } from '../../Tests/Alumno-tests';
+import { AlumnoHeaders } from '../core/Models/alumnoHeaders.model';
+import { Alumno } from '../core/Models/alumno.model';
+import { alumnoTest1 } from '../Tests/Alumno-tests';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AlumnosService {
+
   private apiUrl = 'https://dandi1333.great-site.net/Estadias/Alumnos';
   constructor(private http: HttpClient) { }
-
 
   essentials = class Essentials {
 
@@ -90,23 +91,13 @@ export class AlumnosService {
 
   }
   generals = class Generals {
+    alumno: Alumno | null = null;
     constructor(private parent: AlumnosService) {
 
     }
-    getAlumno(id: number): Alumno | null {
+    getAlumno(id: number): Observable<Alumno> { 
 
-      this.parent.http.get<Alumno>(this.parent.apiUrl + '?id=' + id).subscribe(
-        {
-          next: (response) => {
-            return response;
-          }
-          , error: (error) => {
-            console.error('Error al obtener alumno:', error);
-            return alumnoTest1;
-
-          }
-        });
-      return null;
+     return this.parent.http.get<Alumno>(this.parent.apiUrl + '?id=' + id);
     }
 
   }

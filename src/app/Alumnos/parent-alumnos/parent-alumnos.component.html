@@ -1,10 +1,10 @@
 <div [ngSwitch]="selectedPage">
     <div *ngSwitchCase="'alumnos'">
-        <app-alumnos *ngIf="selectedAlumno == null" (onSelectAlumnoEvent)="onAlumnoSelected($event)"></app-alumnos>
+        <app-alumnos  (onSelectAlumnoEvent)="onAlumnoSelected($event)"></app-alumnos>
 
     </div>
     <div *ngSwitchCase="'perfil'">
-        <app-perfil-alumno *ngIf="selectedAlumno" (volverEvent)="onClosePerfil()"
+        <app-perfil-alumno [alumnoId]="selectedIdAlumno"  *ngIf="selectedIdAlumno != -1" (volverEvent)="onClosePerfil()"
         (openSegMedicoEvent)="onSegMedico()"
         (openConferAsisEvent)="onConferAsistidas()"
         ></app-perfil-alumno>

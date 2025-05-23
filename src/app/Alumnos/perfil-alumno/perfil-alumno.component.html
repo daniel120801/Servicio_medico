@@ -7,14 +7,14 @@
             <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-body p-4">
 
-                    <div class="text-center mb-4">
-                        <h2 id="name" class="fw-bold">Nombre del alumno</h2>
-                        <p id="matricula" class="mb-1">Matrícula: 8888888888</p>
-                        <p id="age" class="mb-1">Edad: XX</p>
-                        <p id="curp" class="mb-1">CURP:VARL020412FDLDBBU3</p>
-                        <p id="city" class="mb-1">Ciudad: Piedras Negras</p>
-                        <p id="domicile" class="mb-1">Domicilio: Plan de Ayala #204, Esfuerzo Nacional</p>
-                        <p id="email" class="mb-0">Correo: ldvr30345gmail.com</p>
+                    <div  class="text-center mb-4">
+                        <h2 id="name" class="fw-bold">{{alumno?.nombre}}</h2>
+                        <p id="matricula" class="mb-1">Matrícula: {{alumno?.matricula}}</p>
+                        <p id="age" class="mb-1">Edad: {{alumno?.edad}}</p>
+                        <p id="curp" class="mb-1">CURP:{{alumno?.CURP}}</p>
+                        <p id="city" class="mb-1">Ciudad:{{alumno?.ciudad}}</p>
+                        <p id="domicile" class="mb-1">Domicilio: {{alumno?.domicilio}}</p>
+                        <p id="email" class="mb-0">Correo: {{alumno?.correo}}</p>
                     </div>
 
                     <div class="d-flex justify-content-around">
