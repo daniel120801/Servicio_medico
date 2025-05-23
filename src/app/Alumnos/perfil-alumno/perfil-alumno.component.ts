@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Alumno } from '../core/Models/alumno.model';
-import { AlumnosService } from '../core/servicesComponent/alumnos.service';
+import { Alumno } from '../../core/Models/alumno.model';
+import { AlumnosService } from '../../core/servicesComponent/alumnos.service';
 
 @Component({
   selector: 'app-perfil-alumno',

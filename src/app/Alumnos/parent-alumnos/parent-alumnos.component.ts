@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AlumnosComponent } from "../alumnos/alumnos.component";
+import { AlumnosComponent } from "../alumnos-buscador/alumnos-buscador.component";
 import { CommonModule } from '@angular/common';
 import { PerfilAlumnoComponent } from "../perfil-alumno/perfil-alumno.component";
-import { AlumnoHeaders } from '../core/Models/alumnoHeaders.model';
-import { AlumnosService } from '../core/servicesComponent/alumnos.service';
+import { AlumnoHeaders } from '../../core/Models/alumnoHeaders.model';
+import { AlumnosService } from '../../core/servicesComponent/alumnos.service';
 import { ConferAsistidasAlumnoComponent } from "../confer-asistidas-alumno/confer-asistidas-alumno.component";
 import { SegMedicoAlumnoComponent } from "../seg-medico-alumno/seg-medico-alumno.component";
 
