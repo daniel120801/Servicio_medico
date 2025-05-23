@@ -3,10 +3,12 @@ import { Conferencia } from '../core/Models/conferencia.model';
 import { Router } from '@angular/router';
 import { ConferenciaServiceService } from '../core/servicesComponent/conferencia.service';
 import { FormConferModalComponent } from '../form-confer-modal/form-confer-modal.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
+
+
 @Component({
   selector: 'app-conferencias',
-  imports: [],
+  imports: [NgIf],
   templateUrl: './conferencias.component.html',
   styleUrl: './conferencias.component.css',
   providers: [ConferenciaServiceService]
@@ -16,14 +18,7 @@ export class ConferenciasComponent implements OnInit {
 
   @ViewChild(FormConferModalComponent) modal!: FormConferModalComponent;
 
-  conferenciaSeleccionada: Conferencia = new Conferencia(
-    '',
-    '',
-    '',
-    '',
-    '',
-    ''
-  );
+  conferenciaSeleccionada: Conferencia | null = null;
   constructor(private router: Router, public conferenciaService: ConferenciaServiceService) { }
 
   ngOnInit(): void {
@@ -39,7 +34,7 @@ export class ConferenciasComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al obtener conferencias:', error);
-          
+
           this.conferencias.push(new Conferencia(
             '1',
             'Error 1',
@@ -66,7 +61,7 @@ export class ConferenciasComponent implements OnInit {
 
     this.conferenciaSeleccionada = conferencia;
     console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
-    
+
   }
   navigateToForm(): void {
     this.router.navigate(['/formConfer'])
