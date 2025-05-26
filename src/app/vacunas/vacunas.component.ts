@@ -8,9 +8,8 @@ import { Component } from '@angular/core';
 })
 export class VacunasComponent {
 
-filter: string = '';
+  filter: string = '';
   students: string[] = [
-    // Example data, replace with your actual data
     'Juan Perez',
     'Maria Lopez',
     'Carlos Sanchez'

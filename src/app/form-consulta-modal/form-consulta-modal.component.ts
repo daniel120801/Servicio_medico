@@ -1,11 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // <-- Agregado ReactiveFormsModule
 
 @Component({
   selector: 'app-form-consulta-modal',
-  imports: [],
   templateUrl: './form-consulta-modal.component.html',
-  styleUrl: './form-consulta-modal.component.css'
+  standalone: true,
+  imports: [ReactiveFormsModule], // <-- Ahora funcionará correctamente
+  styleUrls: ['./form-consulta-modal.component.css']
 })
-export class FormConsultaModalComponent {
+export class FormConsultaModalComponent implements OnInit {
+  formConsulta!: FormGroup;
 
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.formConsulta = this.fb.group({
+      nombrePaciente: ['', Validators.required],
+      fecha: ['', Validators.required],
+      generales: ['', Validators.required],
+      receta: ['', Validators.required]
+    });
+  }
+
+  onSubmit(): void {
+    if (this.formConsulta.valid) {
+      console.log('Consulta registrada:', this.formConsulta.value);
+      this.formConsulta.reset();
+    } else {
+      console.log('Formulario inválido');
+      this.formConsulta.markAllAsTouched(); 
+    }
+  }
+   @Output() cerrar = new EventEmitter<void>();
+
+  cerrarModal() {
+    this.cerrar.emit();
+  }
 }
