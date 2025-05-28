@@ -4,15 +4,17 @@ import { Router } from '@angular/router';
 import { ConferenciaServiceService } from '../core/servicesComponent/conferencia.service';
 import { FormConferModalComponent } from '../form-confer-modal/form-confer-modal.component';
 import { CommonModule, NgIf } from '@angular/common';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 
 @Component({
-  selector: 'app-conferencias',
-  imports: [NgIf],
+  selector: 'app-conferencias' ,
+  imports: [NgIf, QRCodeComponent],
   templateUrl: './conferencias.component.html',
   styleUrl: './conferencias.component.css',
   providers: [ConferenciaServiceService]
 })
+
 export class ConferenciasComponent implements OnInit {
   conferencias: Conferencia[] = [];
 

@@ -1,26 +1,43 @@
-<div class="container">
-    <div class="row mb-5">
-        <!-- Consulta: botón a la izquierda, formulario a la derecha -->
-        <div class="col-md-6">
-            <h4>Consulta</h4>
-            <button class="btn btn-primary" (click)="mostrarFormularioConsulta()">Abrir Consulta</button>
-        </div>
-        <div class="col-md-6" *ngIf="formularioConsultaVisible">
-            <app-form-consulta-modal (cerrar)="cerrarFormularioConsulta()"></app-form-consulta-modal>
-        </div>
-    </div>
+<div *ngIf="showVacunas">
+    <app-vacunas></app-vacunas>
+</div>
 
-    <div class="row">
-        <!-- Vacunas: botón a la izquierda, formulario a la derecha -->
-        <div class="col-md-6">
-            <h4>Vacunas</h4>
-            <ul class="list-group mb-3">
-                <!-- Lista de vacunas -->
-            </ul>
-            <button class="btn btn-success" (click)="mostrarFormularioVacunas()">Agregar</button>
+<div *ngIf="!showVacunas">
+
+    <div class="container">
+
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h4>Consulta</h4>
+                <button class="btn btn-primary" (click)="mostrarFormularioConsulta()">Abrir Consulta</button>
+            </div>
+            <div class="col-md-6" *ngIf="formularioConsultaVisible">
+                <app-form-consulta-modal (cerrar)="cerrarFormularioConsulta()"></app-form-consulta-modal>
+            </div>
         </div>
-        <div class="col-md-6" *ngIf="formularioVacunasVisible">
-            <app-form-vacunas-modal (cerrar)="cerrarFormularioVacunas()"></app-form-vacunas-modal>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Vacunas</h4>
+                <ul class="list-group mb-3">
+                    @for (item of vacunas; track $index) {
+                    <li class="list-group-item  " (click)="onVacunaSeleccionada(item)" style="cursor: pointer;">
+                        <div class="d-flex align-items-start">
+                            <div>
+                                <div class="fw-bold">{{ item }}</div>
+                            </div>
+                        </div>
+                    </li>
+                    } @empty {
+                    <li class="list-group-item ">No hay resultados</li>
+                    }
+
+                </ul>
+                <button class="btn btn-success" (click)="mostrarFormularioVacunas()">Agregar</button>
+            </div>
+            <div class="col-md-6" *ngIf="formularioVacunasVisible">
+                <app-form-vacunas-modal (cerrar)="cerrarFormularioVacunas()"></app-form-vacunas-modal>
+            </div>
         </div>
     </div>
 </div>
