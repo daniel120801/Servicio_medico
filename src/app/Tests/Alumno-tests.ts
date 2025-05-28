@@ -1,52 +1,52 @@
-// alumno-test.data.ts
-
-import { Alumno } from "../core/Models/alumno.model";
-
+import { Alumno } from "../Alumnos/models/alumno.model";
 
 // Alumno de prueba 1 - Datos completos
-export const alumnoTest1: Alumno = new Alumno(
-  1,
-  'María González López',
-  'A12345678',
-  '5512345678',
-  'maria.gonzalez@example.com',
-  'GOLM800101HDFLPR01',
-  'Ciudad de México',
-  'Calle Falsa 123, Col. Centro',
-  23,
-  '12345678901',
-  'IMSS',
-  'A+',
-  'Sí',
-  '65 kg',
-  '1.70 m',
-  'Penicilina, polen',
-  'Asma',
-  'Salbutamol cuando sea necesario',
-  'Ninguna',
-  'Llamar a Juan Pérez (55 9876 5432)'
-);
+export const alumnoTest1: Alumno = new Alumno({
+  general: {
+    id: 1,
+    nombre: 'María González López',
+    matricula: 'A12345678',
+    telefono: '5512345678',
+    correo: 'maria.gonzalez@example.com',
+    carrera: 'TIADSM',
+    CURP: 'GOLM800101HDFLPR01',
+    ciudad: 'Ciudad de México',
+    domicilio: 'Calle Falsa 123, Col. Centro',
+    edad: 23
+  },
+  medical: {
+    NSS: '12345678901',
+    Afiliacion: 'IMSS',
+    RH: 'A+',
+    Donador: 'Sí',
+    Peso: '65 kg',
+    Talla: '1.70 m',
+    Alergias: 'Penicilina, polen',
+    Enfermedades: 'Asma',
+    Tratamientos: 'Salbutamol cuando sea necesario',
+    discapacidad: 'Ninguna',
+    EnCasoDeAccidente: 'Llamar a Juan Pérez (55 9876 5432)'
+  }
+});
 
 // Alumno de prueba 2 - Datos mínimos
-export const alumnoTest2: Alumno = new Alumno(
-  2,
-  'Carlos Sánchez Ruiz',
-  'B87654321',
-  '',
-  'carlos.sanchez@example.com',
-  'SARL900202HDFLPR02',
-  'Guadalajara',
-  'Av. Siempre Viva 456',
-  21,
-  '',
-  '',
-  'O+',
-  'No',
-  '70 kg',
-  '1.75 m',
-  'Ninguna',
-  '',
-  '',
-  '',
-  'Llamar a Ana Sánchez (33 1234 5678)'
-);
+export const alumnoTest2: Alumno = new Alumno({
+  general: {
+    id: 2,
+    nombre: 'Carlos Sánchez Ruiz',
+    matricula: 'B87654321',
+    correo: 'carlos.sanchez@example.com',
+    CURP: 'SARL900202HDFLPR02',
+    ciudad: 'Guadalajara',
+    domicilio: 'Av. Siempre Viva 456',
+    carrera: 'TIADSM',
+    edad: 21
+  },
+  medical: {
+    RH: 'O+',
+    Donador: 'No',
+    Peso: '70 kg',
+    Talla: '1.75 m',
+    Alergias: 'Ninguna',
+     EnCasoDeAccidente: 'Llamar a Ana Sánchez (33 1234 5678)'
+  }});

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { AlumnosService, FilterMode } from '../alumnos.service';
-import { AlumnoHeaders } from '../../core/Models/alumnoHeaders.model';
+import { AlumnosService, FilterMode, filterUtility } from '../services/alumnos.service';
 import { Router } from '@angular/router';
-import { provideSharedFeature } from '../alumnos.providers';
+import { provideSharedFeature } from '../providers/alumnos.providers';
+import { IAlumnoHeaders } from '../models/alumno.model';
 
 
 @Component({
@@ -13,16 +13,17 @@ import { provideSharedFeature } from '../alumnos.providers';
   styleUrls: ['./alumnos-buscador.component.css']
 })
 export class AlumnosComponent implements OnInit {
-  @Output() onSelectAlumnoEvent: EventEmitter<AlumnoHeaders> = new EventEmitter<AlumnoHeaders>();
+  @Output() onSelectAlumnoEvent: EventEmitter<IAlumnoHeaders> = new EventEmitter<IAlumnoHeaders>();
   searchForm: FormGroup;
   opcionSeleccionada: any;
-  filteredAlumnos: AlumnoHeaders[] = [];
+  filteredAlumnos: IAlumnoHeaders[] = [];
   filterMode: FilterMode = FilterMode.NOMBRE;
-  essentials: any = null;
 
   constructor(
     private fb: FormBuilder,
+    private filter: filterUtility,
     private alumnosService: AlumnosService) {
+      this.filter = new filterUtility(this.alumnosService.getAlumnosHeaders());
     this.searchForm = this.fb.group({
       filterSearch: ['nombre', Validators.required],
       searchInput: ['', Validators.required]
@@ -31,18 +32,17 @@ export class AlumnosComponent implements OnInit {
   updateList(valor: string): void {
     console.log('Valor de searchInput:', valor);
 
-    this.filteredAlumnos = this.essentials.filterAlumnos(valor, this.filterMode)
+    this.filteredAlumnos = this.filter.filterAlumnos(valor, this.filterMode)
   }
   ngOnInit(): void {
-    this.essentials = new this.alumnosService.essentials(this.alumnosService);
-    this.filteredAlumnos = this.essentials.getAlumnosHeaders();
+    this.filteredAlumnos = this.alumnosService.getAlumnosHeaders();
 
     this.searchForm.get('filterSearch')?.valueChanges.subscribe(valor => {
 
       const value = (<string>valor);
       console.log('Valor de filterSearch:', value);
-      const newFolterMode = FilterMode[value.toUpperCase() as keyof typeof FilterMode];
-      this.filterMode = newFolterMode;
+      const newFilterMode = FilterMode[value.toUpperCase() as keyof typeof FilterMode];
+      this.filterMode = newFilterMode;
       console.log('filter mode: ' + this.filterMode);
     });
 
@@ -51,7 +51,7 @@ export class AlumnosComponent implements OnInit {
     });
 
   }
-  onSelectAlumno(alumno: AlumnoHeaders) {
+  onSelectAlumno(alumno: IAlumnoHeaders) {
     console.log('Alumno seleccionado:', alumno);
 
     this.onSelectAlumnoEvent.emit(alumno);

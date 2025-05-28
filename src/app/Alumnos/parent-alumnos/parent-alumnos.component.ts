@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlumnosComponent } from "../alumnos-buscador/alumnos-buscador.component";
 import { CommonModule } from '@angular/common';
 import { PerfilAlumnoComponent } from "../perfil-alumno/perfil-alumno.component";
-import { AlumnoHeaders } from '../../core/Models/alumnoHeaders.model';
 import { ConferAsistidasAlumnoComponent } from "../confer-asistidas-alumno/confer-asistidas-alumno.component";
 import { SegMedicoAlumnoComponent } from "../seg-medico-alumno/seg-medico-alumno.component";
-import { provideSharedFeature } from '../alumnos.providers';
+import { provideSharedFeature } from '../providers/alumnos.providers';
+import { Subscription } from 'rxjs';
+import { AlumnosService, ParentPages } from '../services/alumnos.service';
+import { Router } from '@angular/router';
+import { IAlumnoHeaders } from '../models/alumno.model';
 
 @Component({
   selector: 'app-parent-alumnos',
@@ -15,21 +18,29 @@ import { provideSharedFeature } from '../alumnos.providers';
   providers: [provideSharedFeature]
 
 })
-export class ParentAlumnosComponent {
-  selectedIdAlumno: number  = -1;
+export class ParentAlumnosComponent implements OnInit, OnDestroy {
 
-  selectedPage: ParentPages = ParentPages.ALUMNOS;
-  constructor() {
+
+  selectedIdAlumno: number = -1;
+  selectedPage: ParentPages = ParentPages.BUSCADOR;
+  subscription: Subscription = new Subscription();
+
+  constructor(private alumnosService: AlumnosService, private router: Router) { }
+  ngOnInit(): void {
+    this.subscription = this.alumnosService.routesObserver$.subscribe(
+      nuevoValor => {
+        this.selectedPage = nuevoValor;
+        console.log('Nuevo valor recibido:', nuevoValor);
+      }
+    );
   }
-
   onClosePerfil() {
     this.selectedIdAlumno = -1;
-    this.selectedPage = ParentPages.ALUMNOS;
+    this.selectedPage = ParentPages.BUSCADOR;
     console.log('Evento de cerrar perfil recibido');
     console.log('selectedAlumno después de cerrar perfil:', this.selectedIdAlumno);
   }
-
-  onAlumnoSelected(alumno: AlumnoHeaders) {
+  onAlumnoSelected(alumno: IAlumnoHeaders) {
     this.selectedIdAlumno = alumno.id;
     this.selectedPage = ParentPages.PERFIL;
     console.log('Alumno seleccionado en Parent:', this.selectedIdAlumno);
@@ -43,7 +54,7 @@ export class ParentAlumnosComponent {
     console.log('Evento de conferencias asistidas recibido');
   }
   onSegMedico() {
-       if (this.selectedIdAlumno == -1) {
+    if (this.selectedIdAlumno == -1) {
       console.error('No hay un alumno seleccionado para mostrar el seguro médico.');
       return;
     }
@@ -53,10 +64,17 @@ export class ParentAlumnosComponent {
   get ParentPages() {
     return ParentPages;
   }
-}
-enum ParentPages {
-  ALUMNOS = 'alumnos',
-  PERFIL = 'perfil',
-  CONFER_ASISTIDAS = 'confer_asistidas',
-  SEG_MEDICO = 'seg_medico'
+  toGeneralConferences() {
+    this.router.navigate(['/confer']);
+    console.log('Redirigiendo a conferencias generales');
+
+  }
+
+  toGeneralServices() {
+     this.router.navigate(['/servicios']);
+    console.log('Redirigiendo a servicios generales');
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

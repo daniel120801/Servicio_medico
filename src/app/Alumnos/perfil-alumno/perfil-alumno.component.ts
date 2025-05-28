@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Alumno } from '../../core/Models/alumno.model';
-import { AlumnosService } from '../alumnos.service';
+import { Alumno } from '../models/alumno.model';
+import { AlumnosService } from '../services/alumnos.service';
 import { alumnoTest1 } from '../../Tests/Alumno-tests';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-perfil-alumno',
+  imports: [CommonModule],
   templateUrl: './perfil-alumno.component.html',
   styleUrls: ['./perfil-alumno.component.css']
 })
@@ -19,11 +21,9 @@ export class PerfilAlumnoComponent implements OnInit {
 
   alumno: Alumno | null = null;
   constructor(private alumnosService: AlumnosService) {
-    this.generals = new this.alumnosService.generals(this.alumnosService);
-
-    this.generals.getAlumno(this.alumnoId).subscribe(
+    this.alumnosService.alumnoSelectedObserver$.subscribe(
       {
-        next: (response: Alumno) => {
+        next: (response: Alumno|null) => {
           this.alumno = <Alumno>response;
 
           console.log('Alumno en perfil:', this.alumno);
@@ -31,11 +31,14 @@ export class PerfilAlumnoComponent implements OnInit {
         , error: (error: any) => {
           console.error('Error al obtener alumno:', error);
           this.alumno = alumnoTest1;
+          console.log(this.alumno.getHeader());
           console.log('Alumno en perfil:', this.alumno);
 
         }
+      }
+    );
+    this.alumnosService.cambiarId(this.alumnoId);
 
-      });
   }
 
   ngOnInit(): void {
@@ -47,6 +50,6 @@ export class PerfilAlumnoComponent implements OnInit {
     this.openConferAsisEvent.emit();
   }
   volver() {
-    this.volverEvent.emit();
+    this.alumnosService.toSearch();
   }
 }
