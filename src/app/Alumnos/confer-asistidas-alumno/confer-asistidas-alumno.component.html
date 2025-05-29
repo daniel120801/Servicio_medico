@@ -1,13 +1,13 @@
 <div class="container">
 
     <div class="student-info">
-        <h2>Nombre alumno</h2>
-        <p>Matrícula</p>
+        <h2 >{{alumno?.nombre}}</h2>
+        <p>{{alumno?.matricula}}</p>
     </div>
 
-    <div class="search-bar">
-        <input type="text" placeholder=" Buscar...">
-    </div>
+    <form [formGroup]="searchForm" class="search-bar">
+        <input type="text" formControlName="searchInput" placeholder=" Buscar...">
+    </form>
 
     <table>
         <thead>
@@ -17,14 +17,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><span class="icon">👥</span>Conferencia 1</td>
-                <td>xx/xxxx/xxxx xx:xx</td>
+            @for (item of filteredConferencias; track $index) {
+            <tr class="tr-item" (click)="onConferenceSelected(item)" >
+                <td><span class="icon">👥</span>{{ item.nombre }}</td>
+                <td>{{ item.fecha | date: 'dd/MM/yyyy' }}</td>
             </tr>
+            }
+            @empty {
             <tr>
-                <td><span class="icon">👥</span>Conferencia 2</td>
-                <td>xx/xxxx/xxxx xx:xx</td>
+                <td colspan="2" class="text-center">No hay conferencias asistidas</td>
             </tr>
+            }
+
+
+
         </tbody>
     </table>
 
@@ -36,8 +42,8 @@
 
         <div class="col">
             <div class="text-center">
-               <button type="button" class="btn btn-primary px-4" (click)="toConferences()">Ir a conferencias ➝
-            </button>
+                <button type="button" class="btn btn-primary px-4" (click)="toConferences()">Ir a conferencias ➝
+                </button>
             </div>
         </div>
     </div>

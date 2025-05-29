@@ -1,3 +1,4 @@
+import { Conferencia } from "../../core/Models/conferencia.model";
 
 export interface IAlumnoHeaders {
     id: number;
@@ -21,7 +22,7 @@ export interface IAlumnoGeneral {
     domicilio: string,
     //TODO: agregar los campos de conferencias asistidas 
     //TODO: Crear los modelos de conferencias
-    conferenciasAsistidas?: string[]
+    conferenciasAsistidas: Conferencia[]
 
 }
 export interface IAlumnoMedical {
@@ -45,27 +46,29 @@ export interface IAlumnoMedical {
 
 export class Alumno implements IAlumnoGeneral, IAlumnoMedical, IAlumnoHeaders {
 
-      public id: number = 0;
-  public nombre: string = '';
-  public matricula: string = '';
-  public telefono: string = '';
-  public correo: string = '';
-  public carrera: string = '';
-  public CURP: string = '';
-  public ciudad: string = '';
-  public domicilio: string = '';
-  public edad: number = 0;
-  public NSS: string = '';
-  public Afiliacion: string = '';
-  public RH: string = '';
-  public Donador: string = '';
-  public Peso: string = '';
-  public Talla: string = '';
-  public Alergias: string = '';
-  public Enfermedades: string = '';
-  public Tratamientos: string = '';
-  public discapacidad: string = '';
-  public EnCasoDeAccidente: string = '';
+    public id: number = 0;
+    public nombre: string = '';
+    public matricula: string = '';
+    public telefono: string = '';
+    public correo: string = '';
+    public carrera: string = '';
+    public CURP: string = '';
+    public ciudad: string = '';
+    public domicilio: string = '';
+    public edad: number = 0;
+    public NSS: string = '';
+    public Afiliacion: string = '';
+    public RH: string = '';
+    public Donador: string = '';
+    public Peso: string = '';
+    public Talla: string = '';
+    public Alergias: string = '';
+    public Enfermedades: string = '';
+    public Tratamientos: string = '';
+    public discapacidad: string = '';
+    public EnCasoDeAccidente: string = '';
+    public conferenciasAsistidas: Conferencia[] = [];
+    public vacunas: string[] = [];
 
     constructor(params: {
         general?: Partial<IAlumnoGeneral>;
@@ -77,13 +80,5 @@ export class Alumno implements IAlumnoGeneral, IAlumnoMedical, IAlumnoHeaders {
         if (params.headers) Object.assign(this, params.headers);
     }
 
-
-    /**
-     * getHeader
-     */
-    public getHeader(): IAlumnoHeaders {
-
-        return this;
-    }
 
 }

@@ -8,7 +8,9 @@ import { provideSharedFeature } from '../providers/alumnos.providers';
 import { Subscription } from 'rxjs';
 import { AlumnosService, ParentPages } from '../services/alumnos.service';
 import { Router } from '@angular/router';
-import { IAlumnoHeaders } from '../models/alumno.model';
+import { Alumno, IAlumnoHeaders } from '../models/alumno.model';
+import { alumnoTest1 } from '../../Tests/Alumno-tests';
+
 
 @Component({
   selector: 'app-parent-alumnos',
@@ -22,15 +24,30 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
 
 
   selectedIdAlumno: number = -1;
+  alumnoSelected: Alumno | null = null;
   selectedPage: ParentPages = ParentPages.BUSCADOR;
-  subscription: Subscription = new Subscription();
+  subscriptionRouteObserver: Subscription = new Subscription();
+  subscriptionAlumnoObserver: Subscription = new Subscription();
 
   constructor(private alumnosService: AlumnosService, private router: Router) { }
+
   ngOnInit(): void {
-    this.subscription = this.alumnosService.routesObserver$.subscribe(
+    this.subscriptionRouteObserver = this.alumnosService.routesObserver$.subscribe(
       nuevoValor => {
         this.selectedPage = nuevoValor;
         console.log('Nuevo valor recibido:', nuevoValor);
+      }
+    );
+    this.subscriptionAlumnoObserver = this.alumnosService.alumnoSelectedObserver$.subscribe(
+      {
+        next: alumno => {
+          this.alumnoSelected = alumno;
+          console.log('Alumno seleccionado actualizado:', this.alumnoSelected);
+        },
+        error: error => {
+          console.error('Error al obtener el alumno seleccionado:', error);
+          this.alumnoSelected = alumnoTest1; // Manejo de error, resetea el alumno seleccionado
+        }
       }
     );
   }
@@ -42,6 +59,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
   }
   onAlumnoSelected(alumno: IAlumnoHeaders) {
     this.selectedIdAlumno = alumno.id;
+    this.alumnosService.selectAlumno(this.selectedIdAlumno);
     this.selectedPage = ParentPages.PERFIL;
     console.log('Alumno seleccionado en Parent:', this.selectedIdAlumno);
   }
@@ -69,12 +87,11 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     console.log('Redirigiendo a conferencias generales');
 
   }
-
   toGeneralServices() {
-     this.router.navigate(['/servicios']);
+    this.router.navigate(['/servicios']);
     console.log('Redirigiendo a servicios generales');
   }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptionRouteObserver.unsubscribe();
   }
 }

@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AlumnosService } from '../services/alumnos.service';
 import { Alumno } from '../models/alumno.model';
-import { alumnoTest1 } from '../../Tests/Alumno-tests';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,39 +9,26 @@ import { CommonModule } from '@angular/common';
   templateUrl: './seg-medico-alumno.component.html',
   styleUrl: './seg-medico-alumno.component.css'
 })
-export class SegMedicoAlumnoComponent {
+export class SegMedicoAlumnoComponent implements OnInit {
   @Output() toServicesEvent: EventEmitter<void> = new EventEmitter<void>();
-  @Input() alumnoId: number = -1;
-  alumno: Alumno | null = null;
+  @Input() alumno: Alumno | null = null;
   constructor(private alumnosService: AlumnosService) {
-    console.log('AlumnoId en SegMedicoAlumnoComponent:', this.alumnoId);
 
-    this.alumnosService.alumnoSelectedObserver$.subscribe(
-      {
-        next: (response: Alumno | null) => {
-          this.alumno = <Alumno>response;
 
-          console.log('Alumno en perfil:', this.alumno);
-        }
-        , error: (error: any) => {
-          console.error('Error al obtener alumno:', error);
-          this.alumno = alumnoTest1;
-          console.log('Alumno en perfil:', this.alumno);
-
-        }
-
-      });
+  }
+  ngOnInit(): void {
+    if (!this.alumno) {
+      this.volver();
+    }
+  }
+  volver() {
+    this.alumnosService.toPerfil();
   }
 
+  toServices() {
+    this.toServicesEvent.emit();
 
-volver() {
-  this.alumnosService.toPerfil();
-}
-
-toServices() {
-  this.toServicesEvent.emit();
-
-  console.log('Evento de volver a conferencias emitido desde ConferAsistidasAlumnoComponent');
-}
+    console.log('Evento de volver a conferencias emitido desde ConferAsistidasAlumnoComponent');
+  }
 
 }

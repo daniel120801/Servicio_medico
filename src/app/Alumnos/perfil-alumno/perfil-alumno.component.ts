@@ -15,33 +15,17 @@ export class PerfilAlumnoComponent implements OnInit {
   @Output() openSegMedicoEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() openConferAsisEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  @Input() alumnoId: number = -1;
-
+  @Input() alumno: Alumno | null = null;
   generals: any = null;
 
-  alumno: Alumno | null = null;
   constructor(private alumnosService: AlumnosService) {
-    this.alumnosService.alumnoSelectedObserver$.subscribe(
-      {
-        next: (response: Alumno|null) => {
-          this.alumno = <Alumno>response;
-
-          console.log('Alumno en perfil:', this.alumno);
-        }
-        , error: (error: any) => {
-          console.error('Error al obtener alumno:', error);
-          this.alumno = alumnoTest1;
-          console.log(this.alumno.getHeader());
-          console.log('Alumno en perfil:', this.alumno);
-
-        }
-      }
-    );
-    this.alumnosService.cambiarId(this.alumnoId);
-
+    
   }
 
   ngOnInit(): void {
+    if (!this.alumno) {
+      this.volver();
+    }
   }
   onOpenSegMedico() {
     this.openSegMedicoEvent.emit();
