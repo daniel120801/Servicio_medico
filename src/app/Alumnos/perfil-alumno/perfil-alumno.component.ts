@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Alumno } from '../../core/Models/alumno.model';
-import { AlumnosService } from '../alumnos.service';
+import { Alumno } from '../models/alumno.model';
+import { AlumnosService } from '../services/alumnos.service';
 import { alumnoTest1 } from '../../Tests/Alumno-tests';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-perfil-alumno',
+  imports: [CommonModule],
   templateUrl: './perfil-alumno.component.html',
   styleUrls: ['./perfil-alumno.component.css']
 })
@@ -13,32 +15,17 @@ export class PerfilAlumnoComponent implements OnInit {
   @Output() openSegMedicoEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() openConferAsisEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  @Input() alumnoId: number = -1;
-
+  @Input() alumno: Alumno | null = null;
   generals: any = null;
 
-  alumno: Alumno | null = null;
   constructor(private alumnosService: AlumnosService) {
-    this.generals = new this.alumnosService.generals(this.alumnosService);
-
-    this.generals.getAlumno(this.alumnoId).subscribe(
-      {
-        next: (response: Alumno) => {
-          this.alumno = <Alumno>response;
-
-          console.log('Alumno en perfil:', this.alumno);
-        }
-        , error: (error: any) => {
-          console.error('Error al obtener alumno:', error);
-          this.alumno = alumnoTest1;
-          console.log('Alumno en perfil:', this.alumno);
-
-        }
-
-      });
+    
   }
 
   ngOnInit(): void {
+    if (!this.alumno) {
+      this.volver();
+    }
   }
   onOpenSegMedico() {
     this.openSegMedicoEvent.emit();
@@ -47,6 +34,6 @@ export class PerfilAlumnoComponent implements OnInit {
     this.openConferAsisEvent.emit();
   }
   volver() {
-    this.volverEvent.emit();
+    this.alumnosService.toSearch();
   }
 }

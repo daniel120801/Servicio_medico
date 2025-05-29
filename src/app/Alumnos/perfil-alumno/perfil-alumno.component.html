@@ -1,25 +1,31 @@
 <div class="container my-3">
-    <button type="button" class="btn btn-outline-secondary" (click)="volver()"> ← Regresar
-        </button>
 
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
             <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-4">
+                <div class="card-body p-4" *ngIf="alumno">
 
-                    <div  class="text-center mb-4">
-                        <h2 id="name" class="fw-bold">{{alumno?.nombre}}</h2>
-                        <p id="matricula" class="mb-1">Matrícula: {{alumno?.matricula}}</p>
-                        <p id="age" class="mb-1">Edad: {{alumno?.edad}}</p>
-                        <p id="curp" class="mb-1">CURP:{{alumno?.CURP}}</p>
-                        <p id="city" class="mb-1">Ciudad:{{alumno?.ciudad}}</p>
-                        <p id="domicile" class="mb-1">Domicilio: {{alumno?.domicilio}}</p>
-                        <p id="email" class="mb-0">Correo: {{alumno?.correo}}</p>
+                    <div class="text-center mb-4" >
+                        <h2 id="name" class="fw-bold">{{alumno.nombre}}</h2>
+                        <p id="matricula" class="mb-1">Matrícula: {{alumno.matricula}}</p>
+                        <p id="age" class="mb-1">Edad: {{alumno.edad}}</p>
+                        <p id="curp" class="mb-1">CURP:{{alumno.CURP}}</p>
+                        <p id="city" class="mb-1">Ciudad:{{alumno.ciudad}}</p>
+                        <p id="domicile" class="mb-1">Domicilio: {{alumno.domicilio}}</p>
+                        <p id="email" class="mb-0">Correo: {{alumno.correo}}</p>
                     </div>
 
-                    <div class="d-flex justify-content-around">
-                        <button class="btn btn-primary px-4" id="segmed" (click)="onOpenSegMedico()" >Seguimiento Médico</button>
-                        <button class="btn btn-success px-4" id="conasi" (click)="onOpenConferAsistidas()" >Conferencias Asistidas</button>
+                    <div class="row justify-content-center">
+
+                        <div class="col-6 text-center"> <button class="btn btn-primary px-4"
+                                id="segmed" (click)="onOpenSegMedico()">Seguimiento
+                                Médico</button></div>
+                        <div class="col-6 text-center"><button class="btn btn-success px-4"
+                                id="conasi" (click)="onOpenConferAsistidas()">Conferencias
+                                Asistidas</button></div>
+                        <div class="col-6 align-self-center text-center mt-3 "> <button type="button"
+                                class="btn btn-outline-secondary px-4" (click)="volver()"> ← Regresar
+                            </button></div>
                     </div>
 
                 </div>

@@ -80,6 +80,9 @@ td {
     padding: 12px 15px;
     text-align: left;
 }
+.tr-item:hover{
+    background-color: #f1f1f1;
+}
 
 th {
     background-color: #eaf4f4;
@@ -94,21 +97,7 @@ td {
     margin-right: 8px;
 }
 
-.btn {
-    display: inline-block;
-    margin-top: 30px;
-    background: #52ab98;
-    color: white;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: 0.3s;
-}
 
-.btn:hover {
-    background: #2b6777;
-}
 
 .text-center {
     text-align: center;

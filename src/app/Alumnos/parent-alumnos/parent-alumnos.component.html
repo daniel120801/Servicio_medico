@@ -1,21 +1,21 @@
 <div [ngSwitch]="selectedPage">
-    <div *ngSwitchCase="'alumnos'">
-        <app-alumnos  (onSelectAlumnoEvent)="onAlumnoSelected($event)"></app-alumnos>
+    <div *ngSwitchCase="'buscador'">
+        <app-alumnos (onSelectAlumnoEvent)="onAlumnoSelected($event)"></app-alumnos>
 
     </div>
     <div *ngSwitchCase="'perfil'">
-        <app-perfil-alumno [alumnoId]="selectedIdAlumno"  *ngIf="selectedIdAlumno != -1" (volverEvent)="onClosePerfil()"
-        (openSegMedicoEvent)="onSegMedico()"
-        (openConferAsisEvent)="onConferAsistidas()"
-        ></app-perfil-alumno>
+        <app-perfil-alumno [alumno]="alumnoSelected" *ngIf="selectedIdAlumno != -1" (volverEvent)="onClosePerfil()"
+            (openSegMedicoEvent)="onSegMedico()" (openConferAsisEvent)="onConferAsistidas()"></app-perfil-alumno>
 
     </div>
     <div *ngSwitchCase="'confer_asistidas'">
-        <app-confer-asistidas-alumno></app-confer-asistidas-alumno>
+        <app-confer-asistidas-alumno [alumno]="alumnoSelected"
+            (toConferencesEvent)="toGeneralConferences()"></app-confer-asistidas-alumno>
 
     </div>
     <div *ngSwitchCase="'seg_medico'">
-        <app-seg-medico-alumno ></app-seg-medico-alumno>
+        <app-seg-medico-alumno [alumno]="alumnoSelected"
+            (toServicesEvent)="toGeneralServices()"></app-seg-medico-alumno>
 
     </div>
 </div>
