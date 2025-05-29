@@ -34,9 +34,11 @@
                         <p class="card-text"><strong>Expositor:</strong> {{ conferenciaSeleccionada.Presentador }}</p>
 
                         <div class="qrcodeImage">
-                            <qrcode [qrdata]="'https://github.com/Cordobo/angularx-qrcode'" [allowEmptyString]="true" [ariaLabel]="'QR Code image with the following content...'" [cssClass]="'center'" [colorDark]="'#000000ff'" [colorLight]="'#ffffffff'" [elementType]="'canvas'" [errorCorrectionLevel]="'M'"
-                                [imageSrc]="'./assets/angular-logo.png'" [imageHeight]="75" [imageWidth]="75" [margin]="4" [scale]="1" [title]="'A custom title attribute'" [width]="300"></qrcode>
+                            <qrcode [qrdata]="qrData || '/form-registro'" [allowEmptyString]="true" [ariaLabel]="'QR Code image with the following content...'" [cssClass]="'center'" [colorDark]="'#000000ff'" [colorLight]="'#ffffffff'" [elementType]="'canvas'" [errorCorrectionLevel]="'M'"
+                                [imageSrc]="'./assets/angular-logo.png'" [imageHeight]="75" [imageWidth]="75" [margin]="4" [scale]="1" [title]="'A custom title attribute'" [width]="300">
+                            </qrcode>
                         </div>
+
                     </ng-container>
                     <ng-template #selecciona>
                         <p class="card-text">Selecciona una conferencia para ver los detalles.</p>

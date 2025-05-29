@@ -1,22 +1,28 @@
-<h2 class="text-center">Nombre de Vacuna</h2>
+<button type="button" class="btn btn-outline-secondary" (click)="volver()"> ← Regresar
+        </button>
+
+<h2 class="text-center">{{ vacunaNombre || 'Nombre de Vacuna' }}</h2>
 <div class="container">
     <div class="sidebar">
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Buscar alumno..." oninput="filterList()">
+            <input type="text" placeholder="Buscar alumno..." [value]="filter" (input)="onFilterChange($event)">
         </div>
-        <div class="list" id="studentList">
-            <div class="list-item" onclick="selectItem(this)">Alumno 1</div>
-            <div class="list-item" onclick="selectItem(this)">Alumno 2</div>
-            <div class="list-item" onclick="selectItem(this)">Alumno 3</div>
+        <div class="list">
+            <div class="list-item" *ngFor="let student of filteredStudents; let i = index" [class.selected]="selectedIndex === i" (click)="selectItem(i)">
+                {{ student }}
+            </div>
         </div>
     </div>
 
     <div class="content">
         <h3>Vacunados</h3>
         <div class="list">
-            <div class="list-item">Alumno vacunado 1</div>
-            <div class="list-item">Alumno vacunado 2</div>
-            <div class="list-item">Alumno vacunado 3</div>
+            <div class="list-item" *ngFor="let vacunado of vacunados">
+                {{ vacunado }}
+            </div>
+            <div *ngIf="vacunados.length === 0" class="list-item text-muted">
+                No hay alumnos vacunados
+            </div>
         </div>
     </div>
 </div>

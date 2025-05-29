@@ -1,6 +1,7 @@
 <div *ngIf="showVacunas">
-    <app-vacunas></app-vacunas>
+    <app-vacunas [vacunaNombre]="selectedVacuna" (volverEvent)="volverDeVacunas()"></app-vacunas>
 </div>
+
 
 <div *ngIf="!showVacunas">
 
@@ -31,7 +32,6 @@
                     } @empty {
                     <li class="list-group-item ">No hay resultados</li>
                     }
-
                 </ul>
                 <button class="btn btn-success" (click)="mostrarFormularioVacunas()">Agregar</button>
             </div>
