@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { AlumnosService, ParentPages } from '../services/alumnos.service';
 import { Router } from '@angular/router';
 import { Alumno, IAlumnoHeaders } from '../models/alumno.model';
-import { alumnoTest1 } from '../../Tests/Alumno-tests';
+import { alumnoTest1, alumnoTest2 } from '../../Tests/Alumno-tests';
 
 
 @Component({
@@ -42,11 +42,10 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
       {
         next: alumno => {
           this.alumnoSelected = alumno;
-          console.log('Alumno seleccionado actualizado:', this.alumnoSelected);
         },
         error: error => {
           console.error('Error al obtener el alumno seleccionado:', error);
-          this.alumnoSelected = alumnoTest1; // Manejo de error, resetea el alumno seleccionado
+          this.alumnoSelected = alumnoTest2; 
         }
       }
     );
@@ -61,7 +60,6 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     this.selectedIdAlumno = alumno.id;
     this.alumnosService.selectAlumno(this.selectedIdAlumno);
     this.selectedPage = ParentPages.PERFIL;
-    console.log('Alumno seleccionado en Parent:', this.selectedIdAlumno);
   }
   onConferAsistidas() {
     if (this.selectedIdAlumno == -1) {
@@ -93,5 +91,6 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscriptionRouteObserver.unsubscribe();
+    this.subscriptionAlumnoObserver.unsubscribe();
   }
 }
