@@ -16,12 +16,17 @@ import { QRCodeComponent } from 'angularx-qrcode';
 })
 
 export class ConferenciasComponent implements OnInit {
+openRegistroModal() {
+throw new Error('Method not implemented.');
+}
   conferencias: Conferencia[] = [];
+  qrData: string = '';
 
   @ViewChild(FormConferModalComponent) modal!: FormConferModalComponent;
 
   conferenciaSeleccionada: Conferencia | null = null;
   constructor(private router: Router, public conferenciaService: ConferenciaServiceService) { }
+
 
   ngOnInit(): void {
     if (this.conferenciaService == null) {
@@ -60,11 +65,12 @@ export class ConferenciasComponent implements OnInit {
     )
   }
   selectConferencia(conferencia: any): void {
-
     this.conferenciaSeleccionada = conferencia;
+    // Cambia la URL del QR según la conferencia seleccionada
+    this.qrData = `/form-registro?conferenciaId=${conferencia.id}`;
     console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
-
   }
+
   navigateToForm(): void {
     this.router.navigate(['/formConfer'])
   }

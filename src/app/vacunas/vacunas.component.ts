@@ -1,21 +1,37 @@
-import { Component } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-vacunas',
-  imports: [],
   templateUrl: './vacunas.component.html',
-  styleUrl: './vacunas.component.css'
+  imports: [NgFor, NgIf],
+  styleUrl: './vacunas.component.css',
+  standalone: true
 })
 export class VacunasComponent {
 
+  @Output() volverEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Input() vacunaNombre: string | null = null;
+
   filter: string = '';
   students: string[] = [
-    // Example data, replace with your actual data
     'Juan Perez',
     'Maria Lopez',
     'Carlos Sanchez'
   ];
   selectedIndex: number | null = null;
+
+
+  vacunados: string[] = [];
+
+  selectItem(index: number): void {
+    this.selectedIndex = index;
+    const selectedStudent = this.filteredStudents[index];
+    
+    if (selectedStudent && !this.vacunados.includes(selectedStudent)) {
+      this.vacunados.push(selectedStudent);
+    }
+  }
 
   get filteredStudents(): string[] {
     return this.students.filter(student =>
@@ -28,7 +44,8 @@ export class VacunasComponent {
     this.filter = input.value;
   }
 
-  selectItem(index: number): void {
-    this.selectedIndex = index;
+   volver() {
+    this.volverEvent.emit();
   }
+
 }

@@ -29,9 +29,6 @@ onVacunaSeleccionada(vacuna: any) {
     console.log('Vacuna seleccionada:', this.selectedVacuna);
   this.showVacunas = true;
 }
-
-
-
   
   formularioConsultaVisible = false;
   formularioVacunasVisible = false;
@@ -52,4 +49,9 @@ onVacunaSeleccionada(vacuna: any) {
   cerrarFormularioVacunas() {
     this.formularioVacunasVisible = false;
   }
+
+  volverDeVacunas() {
+  this.showVacunas = false;
+  this.selectedVacuna = null;
+}
 }
