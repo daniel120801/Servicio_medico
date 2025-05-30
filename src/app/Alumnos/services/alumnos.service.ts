@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Alumno, IAlumnoHeaders } from '../models/alumno.model';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { Conferencia } from '../../core/Models/conferencia.model';
+import { alumnoTest1, alumnoTest2 } from '../../Tests/Alumno-tests';
 
 @Injectable()
 export class AlumnosService {
@@ -47,22 +48,8 @@ export class AlumnosService {
           console.error('Error al obtener alumnos:', error);
 
           //TODO: quitar los items de prueba una vez funcione el api
-          this.alumnosHeaders.push(new Alumno({
-            headers: {
-              id: 1,
-              nombre: 'Error 1',
-              matricula: '23005001',
-              carrera: 'Carrera 1'
-            }
-          }));
-          this.alumnosHeaders.push(new Alumno({
-            headers: {
-              id: 2,
-              nombre: 'Error 2',
-              matricula: '23005002',
-              carrera: 'Carrera 2'
-            }
-          }));
+          this.alumnosHeaders.push(alumnoTest1);
+          this.alumnosHeaders.push(alumnoTest2);
           //*-----------------------
         }
       }
