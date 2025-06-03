@@ -1,4 +1,5 @@
 import { Conferencia } from "../../core/Models/conferencia.model";
+import { Vacunas } from "../../core/Models/vacunas.model";
 
 export interface IAlumnoHeaders {
     id: number;
@@ -20,26 +21,22 @@ export interface IAlumnoGeneral {
     carrera: string,
     ciudad: string,
     domicilio: string,
-    //TODO: agregar los campos de conferencias asistidas 
-    //TODO: Crear los modelos de conferencias
     conferenciasAsistidas: Conferencia[]
 
 }
 export interface IAlumnoMedical {
     NSS: string,
-    Afiliacion: string
+    afiliacion: string
     RH: string,
-    Donador: string,
-    Peso: string,
-    Talla: string,
-    Alergias: string,
-    Enfermedades: string,
-    Tratamientos: string,
+    donador: string,
+    peso: string,
+    talla: string,
+    alergias: string,
+    enfermedades: string,
+    tratamientos: string,
     discapacidad: string,
-    EnCasoDeAccidente: string,
-    //TODO: agregar los campos de vacunas
-    //TODO: Crear los modelos de vacunas
-    vacunas?: string[],
+    enCasoDeAccidente: string,
+    vacunas?: Vacunas[],
 
 
 }
@@ -57,18 +54,18 @@ export class Alumno implements IAlumnoGeneral, IAlumnoMedical, IAlumnoHeaders {
     public domicilio: string = '';
     public edad: number = 0;
     public NSS: string = '';
-    public Afiliacion: string = '';
+    public afiliacion: string = '';
     public RH: string = '';
-    public Donador: string = '';
-    public Peso: string = '';
-    public Talla: string = '';
-    public Alergias: string = '';
-    public Enfermedades: string = '';
-    public Tratamientos: string = '';
+    public donador: string = '';
+    public peso: string = '';
+    public talla: string = '';
+    public alergias: string = '';
+    public enfermedades: string = '';
+    public tratamientos: string = '';
     public discapacidad: string = '';
-    public EnCasoDeAccidente: string = '';
+    public enCasoDeAccidente: string = '';
     public conferenciasAsistidas: Conferencia[] = [];
-    public vacunas: string[] = [];
+    public vacunas: Vacunas[] = [];
 
     constructor(params: {
         general?: Partial<IAlumnoGeneral>;

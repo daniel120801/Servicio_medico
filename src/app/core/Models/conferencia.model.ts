@@ -6,10 +6,9 @@ export interface IConferencia {
     fecha:  string;
     hora: string;
     descripcion?: string;
-    Presentador: string;
+    presentador: string;
+    
 }
-
-
 export class Conferencia implements IConferencia {
     constructor(
         public id: string | number = 0,
@@ -17,7 +16,7 @@ export class Conferencia implements IConferencia {
         public fecha: string = '',
         public hora: string = '',
         public descripcion: string = '',
-        public Presentador: string = ''
+        public presentador: string = ''
     ) { }
 }
 

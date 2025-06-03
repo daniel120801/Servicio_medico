@@ -24,6 +24,8 @@ export class PerfilAlumnoComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.alumno) {
+      console.log('No se ha recibido un alumno válido, usando alumno de prueba.');
+      
       this.volver();
     }
   }
