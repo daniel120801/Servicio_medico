@@ -28,7 +28,7 @@
 
                 <div class="vacunas">
                     <h3>Vacunas</h3>
-                    <ul>
+                    <ul style="overflow-y: scroll; height: 20vh;">
                         @for (item of alumno.vacunas; track $index) {
                             <li>{{item.nombre}} </li>
                         }
