@@ -64,14 +64,29 @@ throw new Error('Method not implemented.');
       }
     )
   }
+
   selectConferencia(conferencia: any): void {
     this.conferenciaSeleccionada = conferencia;
-    // Cambia la URL del QR según la conferencia seleccionada
-    this.qrData = `/form-registro?conferenciaId=${conferencia.id}`;
+    // Cambia la URL del QR según la conferencia seleccionada (URL absoluta recomendada)
+    this.qrData = `${window.location.origin}/form-registro?conferenciaId=${conferencia.id}`;
+    console.log('Datos del QR:', this.qrData);
+    
     console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
   }
 
   navigateToForm(): void {
     this.router.navigate(['/formConfer'])
+  }
+
+  descargarQR(qrCanvas: any): void {
+    const canvas: HTMLCanvasElement | null = qrCanvas?.el?.nativeElement?.querySelector('canvas');
+    if (canvas) {
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.download = `qr_conferencia_${this.conferenciaSeleccionada?.id || 'descarga'}.png`;
+      a.click();
+    } else {
+      alert('No se pudo encontrar el QR para descargar.');
+    }
   }
 }
