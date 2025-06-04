@@ -20,7 +20,7 @@ vacunas: string[] =[
   'Vacuna D'
 ];
 
-  selectedVacuna: string | null = null;
+selectedVacuna: string | null = null;
 
 showVacunas = false;
 
