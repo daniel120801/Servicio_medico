@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { AlumnosService } from '../alumnos/services/alumnos.service';
-import { IAlumnoHeaders } from '../alumnos/models/alumno.model';
+import { AlumnosService } from '../Alumnos/services/alumnos.service';
+import { IAlumnoHeaders } from '../Alumnos/models/alumno.model';
 
 @Component({
   selector: 'app-vacunas',
@@ -32,7 +32,7 @@ export class VacunasComponent implements OnInit {
   selectItem(index: number): void {
     this.selectedIndex = index;
     const selectedStudent = this.filteredStudents[index];
-    const nombre = selectedStudent?.general?.nombre || '';
+    const nombre = selectedStudent?.nombre || '';
     if (nombre && !this.vacunados.includes(nombre)) {
       this.vacunados.push(nombre);
     }
@@ -40,7 +40,7 @@ export class VacunasComponent implements OnInit {
 
   get filteredStudents(): IAlumnoHeaders[] {
     return this.students.filter(student =>
-      student.general?.nombre?.toLowerCase().includes(this.filter.toLowerCase())
+      student.nombre?.toLowerCase().includes(this.filter.toLowerCase())
     );
   }
 
