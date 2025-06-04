@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormConsultaModalComponent } from "../form-consulta-modal/form-consulta-modal.component";
 import { FormVacunasModalComponent } from "../form-vacunas-modal/form-vacunas-modal.component";
 import { VacunasComponent } from "../vacunas/vacunas.component";
-import { VacunasService, Vacuna } from '../core/services/vacunas.service';
+import { VacunasService } from '../core/services/vacunas.service';
+import { Vacunas } from '../core/Models/vacunas.model';
 
 @Component({
   selector: 'app-servicios',
@@ -11,9 +12,10 @@ import { VacunasService, Vacuna } from '../core/services/vacunas.service';
   styleUrls: ['./servicios.component.css'],
   standalone: true,
   imports: [CommonModule, FormConsultaModalComponent, FormVacunasModalComponent, VacunasComponent]
+  ,providers: [VacunasService]
 })
 export class ServiciosComponent implements OnInit {
-  vacunas: Vacuna[] = [];
+  vacunas: Vacunas[] = [];
   selectedVacuna: string | null = null;
   showVacunas = false;
   formularioConsultaVisible = false;
@@ -31,7 +33,7 @@ export class ServiciosComponent implements OnInit {
     });
   }
 
-  onVacunaSeleccionada(vacuna: Vacuna) {
+  onVacunaSeleccionada(vacuna: Vacunas) {
     this.selectedVacuna = vacuna.nombre;
     this.showVacunas = true;
   }
