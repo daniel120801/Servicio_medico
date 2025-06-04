@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { PerfilAlumnoComponent } from "../perfil-alumno/perfil-alumno.component";
 import { ConferAsistidasAlumnoComponent } from "../confer-asistidas-alumno/confer-asistidas-alumno.component";
 import { SegMedicoAlumnoComponent } from "../seg-medico-alumno/seg-medico-alumno.component";
-import { provideSharedFeature } from '../providers/alumnos.providers';
+import { provideSharedFeature } from '../../core/providers/alumnos.providers';
 import { Subscription } from 'rxjs';
-import { AlumnosService, ParentPages } from '../services/alumnos.service';
+import { AlumnosService, ParentPages } from '../../core/services/alumnos.service';
 import { Router } from '@angular/router';
-import { Alumno, IAlumnoHeaders } from '../models/alumno.model';
+import { Alumno, IAlumnoHeaders } from '../../core/Models/alumno.model';
 import { alumnoTest2 } from '../../Tests/Alumno-tests';
 
 

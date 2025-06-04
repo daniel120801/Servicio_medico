@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AlumnosService } from '../services/alumnos.service';
-import { Alumno } from '../models/alumno.model';
+import { AlumnosService } from '../../core/services/alumnos.service';
+import { Alumno } from '../../core/Models/alumno.model';
 import { CommonModule } from '@angular/common';
-import { filterConferenciasUtility as filterUtility } from '../Utilities/filterConferenciasUtility';
+import { filterConferenciasUtility as filterUtility } from '../../core/Utilities/filterConferenciasUtility';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { Conferencia } from '../../core/Models/conferencia.model';
 

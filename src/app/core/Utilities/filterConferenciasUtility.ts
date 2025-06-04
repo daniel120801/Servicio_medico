@@ -1,6 +1,6 @@
 
 import { Injectable } from "@angular/core";
-import { Conferencia } from "../../core/Models/conferencia.model";
+import { Conferencia } from "../Models/conferencia.model";
 
 @Injectable()
 export class filterConferenciasUtility {

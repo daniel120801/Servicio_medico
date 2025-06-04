@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Conferencia } from '../core/Models/conferencia.model';
 import { Router } from '@angular/router';
-import { ConferenciaServiceService } from '../core/servicesComponent/conferencia.service';
+import { ConferenciaServiceService } from '../core/services/conferencia.service';
 import { FormConferModalComponent } from '../form-confer-modal/form-confer-modal.component';
 import { CommonModule, NgIf } from '@angular/common';
 import { QRCodeComponent } from 'angularx-qrcode';

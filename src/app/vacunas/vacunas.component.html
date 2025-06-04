@@ -9,7 +9,7 @@
         </div>
         <div class="list">
             <div class="list-item" *ngFor="let student of filteredStudents; let i = index" [class.selected]="selectedIndex === i" (click)="selectItem(i)">
-                {{ student.general?.nombre }}
+                {{ student.nombre }}
             </div>
         </div>
     </div>

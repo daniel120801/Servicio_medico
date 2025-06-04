@@ -1,5 +1,5 @@
-import { Conferencia } from "../../core/Models/conferencia.model";
-import { Vacunas } from "../../core/Models/vacunas.model";
+import { Conferencia } from "./conferencia.model";
+import { Vacunas } from "./vacunas.model";
 
 export interface IAlumnoHeaders {
     id: number;

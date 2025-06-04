@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Conferencia } from '../core/Models/conferencia.model';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ConferenciaServiceService } from '../core/servicesComponent/conferencia.service';
+import { ConferenciaServiceService } from '../core/services/conferencia.service';
 @Component({
   selector: 'app-form-confer-modal',
   imports: [ReactiveFormsModule],

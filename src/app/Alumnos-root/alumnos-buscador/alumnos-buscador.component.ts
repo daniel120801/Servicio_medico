@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { AlumnosService, FilterMode } from '../services/alumnos.service';
-import { IAlumnoHeaders } from '../models/alumno.model';
-import { filterHeadersUtility } from '../Utilities/filterHeadersUtility';
+import { AlumnosService, FilterMode } from '../../core/services/alumnos.service';
+import { IAlumnoHeaders } from '../../core/Models/alumno.model';
+import { filterHeadersUtility } from '../../core/Utilities/filterHeadersUtility';
 
 
 @Component({

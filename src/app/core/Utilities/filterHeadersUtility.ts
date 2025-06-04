@@ -1,6 +1,6 @@
 
 import { Injectable } from "@angular/core";
-import { IAlumnoHeaders } from "../models/alumno.model";
+import { IAlumnoHeaders } from "../Models/alumno.model";
 import { FilterMode } from "../services/alumnos.service";
 
 @Injectable()

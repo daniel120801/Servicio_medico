@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AlumnosService } from '../services/alumnos.service';
-import { Alumno } from '../models/alumno.model';
+import { AlumnosService } from '../../core/services/alumnos.service';
+import { Alumno } from '../../core/Models/alumno.model';
 import { CommonModule } from '@angular/common';
 
 @Component({

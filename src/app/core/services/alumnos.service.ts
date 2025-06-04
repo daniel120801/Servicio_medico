@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Alumno, IAlumnoHeaders } from '../models/alumno.model';
+import { Alumno, IAlumnoHeaders } from '../Models/alumno.model';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Conferencia } from '../../core/Models/conferencia.model';
-import { alumnoTest1, alumnoTest2 } from '../../Tests/Alumno-tests';
-import { Vacunas } from '../../core/Models/vacunas.model';
+import { Conferencia } from '../Models/conferencia.model';
+import { Vacunas } from '../Models/vacunas.model';
 
 @Injectable()
 export class AlumnosService {
@@ -121,8 +120,6 @@ export class AlumnosService {
   }
   // Método para cambiar el id
   selectAlumno(nuevoId: number) {
-  
-
     this.idSubject.next(nuevoId); // Actualiza el id y dispara una nueva petición HTTP
   }
 
@@ -191,6 +188,7 @@ export enum FilterMode {
   MATRICULA,
   CARRERA
 }
+
 export enum ParentPages {
   BUSCADOR = 'buscador',
   PERFIL = 'perfil',
