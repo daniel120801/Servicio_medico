@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { API_VACUNAS } from '../Utilities/Api';
 
 
-
 @Injectable()
 export class VacunasService {
   constructor(private http: HttpClient) { }
