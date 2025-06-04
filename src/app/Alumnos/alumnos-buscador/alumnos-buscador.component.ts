@@ -28,17 +28,23 @@ export class AlumnosComponent implements OnInit, OnDestroy {
       searchInput: ['', Validators.required]
     });
   }
-  ngOnDestroy(): void {
 
-  }
   updateList(valor: string): void {
     console.log('Valor de searchInput:', valor);
 
     this.filteredAlumnos = this.filter.filterAlumnos(valor, this.filterMode)
   }
   ngOnInit(): void {
-    this.filteredAlumnos = this.alumnosService.getAlumnosHeaders();
-    this.filter.setAlumnos(this.filteredAlumnos);
+    this.alumnosService.getHeaders().subscribe(
+      (alumnos: IAlumnoHeaders[]) => {
+       
+        this.filteredAlumnos = alumnos;
+        this.filter.setAlumnos(this.filteredAlumnos);
+      },
+      error => {
+        console.error('Error al obtener los alumnos:', error);
+      }
+    )
     this.searchForm.get('filterSearch')?.valueChanges.subscribe(valor => {
 
       const value = (<string>valor);
@@ -54,9 +60,12 @@ export class AlumnosComponent implements OnInit, OnDestroy {
 
   }
   onSelectAlumno(alumno: IAlumnoHeaders) {
-    console.log('Alumno seleccionado:', alumno);
+  
 
     this.onSelectAlumnoEvent.emit(alumno);
+  }
+  ngOnDestroy(): void {
+
   }
 }
 

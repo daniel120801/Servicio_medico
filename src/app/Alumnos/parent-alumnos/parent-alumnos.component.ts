@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { AlumnosService, ParentPages } from '../services/alumnos.service';
 import { Router } from '@angular/router';
 import { Alumno, IAlumnoHeaders } from '../models/alumno.model';
-import { alumnoTest1, alumnoTest2 } from '../../Tests/Alumno-tests';
+import { alumnoTest2 } from '../../Tests/Alumno-tests';
 
 
 @Component({
@@ -21,7 +21,6 @@ import { alumnoTest1, alumnoTest2 } from '../../Tests/Alumno-tests';
 
 })
 export class ParentAlumnosComponent implements OnInit, OnDestroy {
-
 
   selectedIdAlumno: number = -1;
   alumnoSelected: Alumno | null = null;
@@ -35,59 +34,64 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     this.subscriptionRouteObserver = this.alumnosService.routesObserver$.subscribe(
       nuevoValor => {
         this.selectedPage = nuevoValor;
-        console.log('Nuevo valor recibido:', nuevoValor);
+        console.log('pagina actual: ',nuevoValor);
       }
     );
     this.subscriptionAlumnoObserver = this.alumnosService.alumnoSelectedObserver$.subscribe(
       {
         next: alumno => {
-          this.alumnoSelected = alumno;
+          if (!alumno) {
+            console.error('No se recibió un alumno válido');
+          } else {
+       
+            this.alumnoSelected = alumno;
+            this.alumnosService.toPerfil();
+          }
         },
         error: error => {
           console.error('Error al obtener el alumno seleccionado:', error);
-          this.alumnoSelected = alumnoTest2; 
+
         }
       }
     );
   }
+
   onClosePerfil() {
     this.selectedIdAlumno = -1;
-    this.selectedPage = ParentPages.BUSCADOR;
-    console.log('Evento de cerrar perfil recibido');
-    console.log('selectedAlumno después de cerrar perfil:', this.selectedIdAlumno);
+    this.alumnosService.toSearch();
   }
+
   onAlumnoSelected(alumno: IAlumnoHeaders) {
     this.selectedIdAlumno = alumno.id;
+  
+
     this.alumnosService.selectAlumno(this.selectedIdAlumno);
-    this.selectedPage = ParentPages.PERFIL;
+    //redirige desde el servicio de seleccion de alumnos
   }
+
   onConferAsistidas() {
     if (this.selectedIdAlumno == -1) {
       console.error('No hay un alumno seleccionado para mostrar conferencias asistidas.');
       return;
     }
-    this.selectedPage = ParentPages.CONFER_ASISTIDAS;
-    console.log('Evento de conferencias asistidas recibido');
+    this.alumnosService.toConferAsistidas();
   }
   onSegMedico() {
     if (this.selectedIdAlumno == -1) {
       console.error('No hay un alumno seleccionado para mostrar el seguro médico.');
       return;
     }
-    this.selectedPage = ParentPages.SEG_MEDICO;
-    console.log('Evento de seguro médico recibido');
+    this.alumnosService.toSegMedico();
   }
   get ParentPages() {
     return ParentPages;
   }
   toGeneralConferences() {
     this.router.navigate(['/confer']);
-    console.log('Redirigiendo a conferencias generales');
 
   }
   toGeneralServices() {
     this.router.navigate(['/servicios']);
-    console.log('Redirigiendo a servicios generales');
   }
   ngOnDestroy(): void {
     this.subscriptionRouteObserver.unsubscribe();

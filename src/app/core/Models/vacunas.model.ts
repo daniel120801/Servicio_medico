@@ -6,7 +6,6 @@ export interface IVacunas {
     fecha: string;
 }
 
-
 export class Vacunas implements IVacunas {
     constructor(
         public id: string | number = 0,

@@ -23,7 +23,6 @@ export class filterConferenciasUtility {
         console.log('Filtrando conferencias con el texto:', text);
         
         //TODO: arreglar filtro
-        // 1. Validación más explícita
         if (!this.conferencias || this.conferencias.length === 0) {
             console.warn('No hay conferencias para filtrar o texto de búsqueda vacío');
             return [];

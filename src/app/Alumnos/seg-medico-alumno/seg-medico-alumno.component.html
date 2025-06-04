@@ -8,12 +8,12 @@
             <div class="info-section">
 
                 <p><strong>NSS:</strong> {{alumno.NSS }}</p>
-                <p><strong>Afiliación:</strong> {{alumno.Afiliacion }}</p>
+                <p><strong>Afiliación:</strong> {{alumno.afiliacion === '' ? 'ninguna':alumno.afiliacion }}</p>
                 <p><strong>Grupo RH:</strong> {{alumno.RH }}</p>
-                <p><strong>Donador de sangre:</strong> {{alumno.Donador }}</p>
-                <p><strong>Peso:</strong>{{alumno.Peso }}</p>
-                <p><strong>Talla:</strong> {{alumno.Talla }}</p>
-                <p><strong>En caso de accidente:</strong> {{alumno.EnCasoDeAccidente }} </p>
+                <p><strong>Donador de sangre:</strong> {{alumno.donador }}</p>
+                <p><strong>Peso:</strong>{{alumno.peso }}</p>
+                <p><strong>Talla:</strong> {{alumno.talla }}</p>
+                <p><strong>En caso de accidente:</strong> {{alumno.enCasoDeAccidente }} </p>
             </div>
 
             <div class="info-section">
@@ -21,16 +21,20 @@
                 <p>
                 <p><strong>Matrícula:</strong> {{alumno.matricula }}
                 <p>
-                <p><strong>Enfermedades:</strong> {{alumno.Enfermedades }}</p>
-                <p><strong>Tratamientos:</strong> {{alumno.Tratamientos }}</p>
-                <p><strong>Alergias:</strong> {{alumno.Alergias }}</p>
+                <p><strong>Enfermedades:</strong> {{alumno.enfermedades === '' ? 'ninguna' : alumno.enfermedades }}</p>
+                <p><strong>Tratamientos:</strong> {{alumno.tratamientos }}</p>
+                <p><strong>Alergias:</strong> {{alumno.alergias }}</p>
                 <p><strong>Discapacidades:</strong> {{alumno.discapacidad }}</p>
 
                 <div class="vacunas">
                     <h3>Vacunas</h3>
                     <ul>
-                        <li>Vacuna 1</li>
-                        <li>Vacuna 2</li>
+                        @for (item of alumno.vacunas; track $index) {
+                            <li>{{item.nombre}} </li>
+                        }
+                        @empty {
+                            <li>Sin vacunas</li>
+                        }
                     </ul>
                 </div>
             </div>

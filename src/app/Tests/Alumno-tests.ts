@@ -20,7 +20,7 @@ export const alumnoTest1: Alumno = new Alumno({
         fecha: '2023-10-01',
         hora: '10:00',
         descripcion: 'Una conferencia sobre las últimas tendencias en tecnología.',
-        Presentador: 'Dr. Juan Pérez'
+        presentador: 'Dr. Juan Pérez'
       },
       {
         id: 2,
@@ -28,22 +28,22 @@ export const alumnoTest1: Alumno = new Alumno({
         fecha: '2023-10-15',
         hora: '11:00',
         descripcion: 'Aprende sobre las mejores prácticas en desarrollo web.',
-        Presentador: 'Ing. Ana Torres'
+        presentador: 'Ing. Ana Torres'
       }
     ]
   },
   medical: {
     NSS: '12345678901',
-    Afiliacion: 'IMSS',
+    afiliacion: 'IMSS',
     RH: 'A+',
-    Donador: 'Sí',
-    Peso: '65 kg',
-    Talla: '1.70 m',
-    Alergias: 'Penicilina, polen',
-    Enfermedades: 'Asma',
-    Tratamientos: 'Salbutamol cuando sea necesario',
+    donador: 'Sí',
+    peso: '65 kg',
+    talla: '1.70 m',
+    alergias: 'Penicilina, polen',
+    enfermedades: 'Asma',
+    tratamientos: 'Salbutamol cuando sea necesario',
     discapacidad: 'Ninguna',
-    EnCasoDeAccidente: 'Llamar a Juan Pérez (55 9876 5432)'
+    enCasoDeAccidente: 'Llamar a Juan Pérez (55 9876 5432)'
   }
 });
 
@@ -64,10 +64,10 @@ export const alumnoTest2: Alumno = new Alumno({
   },
   medical: {
     RH: 'O+',
-    Donador: 'No',
-    Peso: '70 kg',
-    Talla: '1.75 m',
-    Alergias: 'Ninguna',
-    EnCasoDeAccidente: 'Llamar a Ana Sánchez (33 1234 5678)'
+    donador: 'No',
+    peso: '70 kg',
+    talla: '1.75 m',
+    alergias: 'Ninguna',
+    enCasoDeAccidente: 'Llamar a Ana Sánchez (33 1234 5678)'
   }
 });
