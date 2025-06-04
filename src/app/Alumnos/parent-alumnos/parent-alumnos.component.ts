@@ -34,7 +34,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     this.subscriptionRouteObserver = this.alumnosService.routesObserver$.subscribe(
       nuevoValor => {
         this.selectedPage = nuevoValor;
-        console.log('Nuevo valor recibido:', nuevoValor);
+        console.log('pagina actual: ',nuevoValor);
       }
     );
     this.subscriptionAlumnoObserver = this.alumnosService.alumnoSelectedObserver$.subscribe(
@@ -43,7 +43,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
           if (!alumno) {
             console.error('No se recibió un alumno válido');
           } else {
-            console.log('Alumno recibido:', alumno);
+       
             this.alumnoSelected = alumno;
             this.alumnosService.toPerfil();
           }
@@ -59,13 +59,11 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
   onClosePerfil() {
     this.selectedIdAlumno = -1;
     this.alumnosService.toSearch();
-    console.log('Evento de cerrar perfil recibido');
-    console.log('selectedAlumno después de cerrar perfil:', this.selectedIdAlumno);
   }
 
   onAlumnoSelected(alumno: IAlumnoHeaders) {
     this.selectedIdAlumno = alumno.id;
-    console.log('Alumno seleccionado en parent:', alumno);
+  
 
     this.alumnosService.selectAlumno(this.selectedIdAlumno);
     //redirige desde el servicio de seleccion de alumnos
@@ -77,7 +75,6 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
       return;
     }
     this.alumnosService.toConferAsistidas();
-    console.log('Evento de conferencias asistidas recibido');
   }
   onSegMedico() {
     if (this.selectedIdAlumno == -1) {
@@ -85,19 +82,16 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
       return;
     }
     this.alumnosService.toSegMedico();
-    console.log('Evento de seguro médico recibido');
   }
   get ParentPages() {
     return ParentPages;
   }
   toGeneralConferences() {
     this.router.navigate(['/confer']);
-    console.log('Redirigiendo a conferencias generales');
 
   }
   toGeneralServices() {
     this.router.navigate(['/servicios']);
-    console.log('Redirigiendo a servicios generales');
   }
   ngOnDestroy(): void {
     this.subscriptionRouteObserver.unsubscribe();

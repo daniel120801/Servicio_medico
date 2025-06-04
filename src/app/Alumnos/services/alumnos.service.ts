@@ -26,7 +26,7 @@ export class AlumnosService {
           console.log('ID no válido, retornando null');
           return of(null);
         }
-        console.log(' ID recibido:', id);
+    
 
         return this.http.get<Alumno>(this.apiUrl + '?id=' + id).pipe(
 
@@ -62,7 +62,7 @@ export class AlumnosService {
 
             let vacunas: Vacunas[] = [];
             if (response.vacunas && Array.isArray(response.vacunas)) {
-              console.log('Conferencias obtenidas:', response.vacunas);
+             
               response.vacunas.forEach((item: any) => {
                 item.forEach((element: any) => {
                   vacunas.push(
@@ -121,7 +121,7 @@ export class AlumnosService {
   }
   // Método para cambiar el id
   selectAlumno(nuevoId: number) {
-    console.log('Nuevo id seleccionado:', nuevoId);
+  
 
     this.idSubject.next(nuevoId); // Actualiza el id y dispara una nueva petición HTTP
   }

@@ -37,7 +37,7 @@ export class AlumnosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.alumnosService.getHeaders().subscribe(
       (alumnos: IAlumnoHeaders[]) => {
-        console.log('Alumnos obtenidos:', alumnos);
+       
         this.filteredAlumnos = alumnos;
         this.filter.setAlumnos(this.filteredAlumnos);
       },
@@ -60,7 +60,7 @@ export class AlumnosComponent implements OnInit, OnDestroy {
 
   }
   onSelectAlumno(alumno: IAlumnoHeaders) {
-    console.log('Alumno seleccionado:', alumno);
+  
 
     this.onSelectAlumnoEvent.emit(alumno);
   }
