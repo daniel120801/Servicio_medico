@@ -5,10 +5,11 @@ import { ConferenciaServiceService } from '../core/services/conferencia.service'
 import { FormConferModalComponent } from '../form-confer-modal/form-confer-modal.component';
 import { CommonModule, NgIf } from '@angular/common';
 import { QRCodeComponent } from 'angularx-qrcode';
+import { SafeUrl } from '@angular/platform-browser';
 
 
 @Component({
-  selector: 'app-conferencias' ,
+  selector: 'app-conferencias',
   imports: [NgIf, QRCodeComponent],
   templateUrl: './conferencias.component.html',
   styleUrl: './conferencias.component.css',
@@ -16,11 +17,13 @@ import { QRCodeComponent } from 'angularx-qrcode';
 })
 
 export class ConferenciasComponent implements OnInit {
-openRegistroModal() {
-throw new Error('Method not implemented.');
-}
+
+  openRegistroModal() {
+    throw new Error('Method not implemented.');
+  }
   conferencias: Conferencia[] = [];
   qrData: string = '';
+  url: SafeUrl = '';
 
   @ViewChild(FormConferModalComponent) modal!: FormConferModalComponent;
 
@@ -70,7 +73,7 @@ throw new Error('Method not implemented.');
     // Cambia la URL del QR según la conferencia seleccionada (URL absoluta recomendada)
     this.qrData = `${window.location.origin}/form-registro?conferenciaId=${conferencia.id}`;
     console.log('Datos del QR:', this.qrData);
-    
+
     console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
   }
 
@@ -78,15 +81,10 @@ throw new Error('Method not implemented.');
     this.router.navigate(['/formConfer'])
   }
 
-  descargarQR(qrCanvas: any): void {
-    const canvas: HTMLCanvasElement | null = qrCanvas?.el?.nativeElement?.querySelector('canvas');
-    if (canvas) {
-      const url = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.download = `qr_conferencia_${this.conferenciaSeleccionada?.id || 'descarga'}.png`;
-      a.click();
-    } else {
-      alert('No se pudo encontrar el QR para descargar.');
-    }
+  onChangeURL($event: SafeUrl) {
+    this.url = $event;
+    console.log(this.url);
+    
   }
+
 }

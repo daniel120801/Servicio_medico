@@ -6,11 +6,12 @@
                 <div class="card-body">
                     <h4 class="card-title text-primary">Conferencias</h4>
                     <button (click)="navigateToForm()" class="btn btn-outline-primary w-100 mb-3">
-            Nueva
-          </button>
+                        Nueva
+                    </button>
                     <ul class="list-group">
                         @for (item of conferencias; track $index) {
-                        <li class="list-group-item conference-item" (click)="selectConferencia(item)" style="cursor: pointer;">
+                        <li class="list-group-item conference-item" (click)="selectConferencia(item)"
+                            style="cursor: pointer;">
                             <p class="mb-0 fw-semibold">{{ item.nombre }}</p>
                         </li>
                         } @empty {
@@ -18,6 +19,7 @@
                             No hay conferencias disponibles
                         </li>
                         }
+
                     </ul>
                 </div>
             </div>
@@ -42,12 +44,16 @@
 
                             <!-- Código QR -->
                             <div class="col-md-6 text-center">
-                                <qrcode #qrCanvas [qrdata]="qrData" [allowEmptyString]="true" [ariaLabel]="'Código QR'" [cssClass]="'center'" [colorDark]="'#000000ff'" [colorLight]="'#ffffffff'" [elementType]="'canvas'" [errorCorrectionLevel]="'M'" [imageSrc]="'./assets/angular-logo.png'"
-                                    [imageHeight]="75" [imageWidth]="75" [margin]="2" [scale]="1" [title]="'Código QR de conferencia'" [width]="200">
+                                <qrcode #qrCanvas [qrdata]="qrData" [allowEmptyString]="true" [ariaLabel]="'Código QR'"
+                                    [cssClass]="'center'" [colorDark]="'#000000ff'" [colorLight]="'#ffffffff'"
+                                    [elementType]="'img'" [errorCorrectionLevel]="'M'"
+                                   [imageHeight]="75" [imageWidth]="75"
+                                    [margin]="2" [scale]="1" [title]="'Código QR de conferencia'"
+                                    (qrCodeURL)="onChangeURL($event)" [width]="200">
                                 </qrcode>
-                                <button class="btn btn-outline-success mt-3" (click)="descargarQR(qrCanvas)">
-                  <i class="bi bi-download me-2"></i>Descargar QR
-                </button>
+                                <a class="btn btn-outline-success mt-3" [href]="url" download="qr">
+                                   Descargar QR
+                                </a>
                             </div>
                         </div>
                     </ng-container>
