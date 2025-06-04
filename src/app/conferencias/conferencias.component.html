@@ -31,7 +31,7 @@
                         <p class="card-text"><strong>Descripción:</strong> {{ conferenciaSeleccionada.descripcion }}</p>
                         <p class="card-text"><strong>Fecha:</strong> {{ conferenciaSeleccionada.fecha}}</p>
                         <p class="card-text"><strong>Hora:</strong> {{ conferenciaSeleccionada.hora }}</p>
-                        <p class="card-text"><strong>Expositor:</strong> {{ conferenciaSeleccionada.Presentador }}</p>
+                        <p class="card-text"><strong>Expositor:</strong> {{ conferenciaSeleccionada.presentador }}</p>
 
                         <div class="qrcodeImage">
                             <qrcode [qrdata]="qrData || '/form-registro'" [allowEmptyString]="true" [ariaLabel]="'QR Code image with the following content...'" [cssClass]="'center'" [colorDark]="'#000000ff'" [colorLight]="'#ffffffff'" [elementType]="'canvas'" [errorCorrectionLevel]="'M'"
