@@ -1,41 +1,46 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { AlumnosService } from '../alumnos/services/alumnos.service';
+import { IAlumnoHeaders } from '../alumnos/models/alumno.model';
 
 @Component({
   selector: 'app-vacunas',
   templateUrl: './vacunas.component.html',
   imports: [NgFor, NgIf],
   styleUrl: './vacunas.component.css',
-  standalone: true
+  standalone: true,
+  providers: [AlumnosService]
 })
-export class VacunasComponent {
+export class VacunasComponent implements OnInit {
 
   @Output() volverEvent: EventEmitter<void> = new EventEmitter<void>();
   @Input() vacunaNombre: string | null = null;
 
   filter: string = '';
-  students: string[] = [
-    'Juan Perez',
-    'Maria Lopez',
-    'Carlos Sanchez'
-  ];
+  students: IAlumnoHeaders[] = [];
   selectedIndex: number | null = null;
-
-
   vacunados: string[] = [];
+
+  constructor(private alumnosService: AlumnosService) {}
+
+  ngOnInit(): void {
+    this.alumnosService.getHeaders().subscribe(alumnos => {
+      this.students = alumnos;
+    });
+  }
 
   selectItem(index: number): void {
     this.selectedIndex = index;
     const selectedStudent = this.filteredStudents[index];
-    
-    if (selectedStudent && !this.vacunados.includes(selectedStudent)) {
-      this.vacunados.push(selectedStudent);
+    const nombre = selectedStudent?.general?.nombre || '';
+    if (nombre && !this.vacunados.includes(nombre)) {
+      this.vacunados.push(nombre);
     }
   }
 
-  get filteredStudents(): string[] {
+  get filteredStudents(): IAlumnoHeaders[] {
     return this.students.filter(student =>
-      student.toLowerCase().includes(this.filter.toLowerCase())
+      student.general?.nombre?.toLowerCase().includes(this.filter.toLowerCase())
     );
   }
 
@@ -44,8 +49,7 @@ export class VacunasComponent {
     this.filter = input.value;
   }
 
-   volver() {
+  volver() {
     this.volverEvent.emit();
   }
-
 }
