@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Alumno } from '../../core/Models/alumno.model';
 import { AlumnosService } from '../../core/services/alumnos.service';
-import { alumnoTest1 } from '../../Tests/Alumno-tests';
 import { CommonModule } from '@angular/common';
 
 @Component({

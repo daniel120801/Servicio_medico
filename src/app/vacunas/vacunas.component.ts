@@ -1,7 +1,8 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { AlumnosService } from '../Alumnos/services/alumnos.service';
-import { IAlumnoHeaders } from '../Alumnos/models/alumno.model';
+import { AlumnosService } from '../core/services/alumnos.service';
+import { IAlumnoHeaders } from '../core/Models/alumno.model';
+import { provideSharedFeature } from '../core/providers/alumnos.providers';
 
 @Component({
   selector: 'app-vacunas',
@@ -9,7 +10,7 @@ import { IAlumnoHeaders } from '../Alumnos/models/alumno.model';
   imports: [NgFor, NgIf],
   styleUrl: './vacunas.component.css',
   standalone: true,
-  providers: [AlumnosService]
+  providers: [provideSharedFeature]
 })
 export class VacunasComponent implements OnInit {
 

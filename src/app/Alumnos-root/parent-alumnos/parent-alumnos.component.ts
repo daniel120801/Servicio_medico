@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { AlumnosService, ParentPages } from '../../core/services/alumnos.service';
 import { Router } from '@angular/router';
 import { Alumno, IAlumnoHeaders } from '../../core/Models/alumno.model';
-import { alumnoTest2 } from '../../Tests/Alumno-tests';
 
 
 @Component({
