@@ -2,6 +2,7 @@ import { Conferencia } from "../../core/Models/conferencia.model";
 import { Vacunas } from "../../core/Models/vacunas.model";
 
 export interface IAlumnoHeaders {
+general: any;
     id: number;
     nombre: string;
     matricula: string,
