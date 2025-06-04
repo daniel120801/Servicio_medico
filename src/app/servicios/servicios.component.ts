@@ -1,40 +1,42 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // <-- Agrega esto
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormConsultaModalComponent } from "../form-consulta-modal/form-consulta-modal.component";
 import { FormVacunasModalComponent } from "../form-vacunas-modal/form-vacunas-modal.component";
 import { VacunasComponent } from "../vacunas/vacunas.component";
+import { VacunasService, Vacuna } from '../core/services/vacunas.service';
 
 @Component({
   selector: 'app-servicios',
   templateUrl: './servicios.component.html',
   styleUrls: ['./servicios.component.css'],
   standalone: true,
-  imports: [CommonModule, FormConsultaModalComponent, FormVacunasModalComponent, VacunasComponent] // <-- Agrega CommonModule aquí
- // <-- Agrega CommonModule aquí
+  imports: [CommonModule, FormConsultaModalComponent, FormVacunasModalComponent, VacunasComponent]
 })
-export class ServiciosComponent {
-vacunas: string[] =[
-  'Vacuna A',
-  'Vacuna B',
-  'Vacuna C',
-  'Vacuna D'
-];
-
-selectedVacuna: string | null = null;
-
-showVacunas = false;
-
-onVacunaSeleccionada(vacuna: any) {
-  this.selectedVacuna = vacuna;
-    console.log('Vacuna seleccionada:', this.selectedVacuna);
-  this.showVacunas = true;
-}
-  
+export class ServiciosComponent implements OnInit {
+  vacunas: Vacuna[] = [];
+  selectedVacuna: string | null = null;
+  showVacunas = false;
   formularioConsultaVisible = false;
   formularioVacunasVisible = false;
 
+  constructor(private vacunasService: VacunasService) {}
+
+  ngOnInit() {
+    this.cargarVacunas();
+  }
+
+  cargarVacunas() {
+    this.vacunasService.getVacunas().subscribe(data => {
+      this.vacunas = data;
+    });
+  }
+
+  onVacunaSeleccionada(vacuna: Vacuna) {
+    this.selectedVacuna = vacuna.nombre;
+    this.showVacunas = true;
+  }
+
   mostrarFormularioConsulta() {
-    console.log('Abriendo formulario de consulta');
     this.formularioConsultaVisible = true;
   }
 
@@ -48,10 +50,11 @@ onVacunaSeleccionada(vacuna: any) {
 
   cerrarFormularioVacunas() {
     this.formularioVacunasVisible = false;
+    this.cargarVacunas(); // Recarga la lista después de agregar
   }
 
   volverDeVacunas() {
-  this.showVacunas = false;
-  this.selectedVacuna = null;
-}
+    this.showVacunas = false;
+    this.selectedVacuna = null;
+  }
 }
