@@ -3,7 +3,7 @@ import { Conferencia } from '../core/Models/conferencia.model';
 import { Router } from '@angular/router';
 import { ConferenciaServiceService } from '../core/services/conferencia.service';
 import { FormConferModalComponent } from '../form-confer-modal/form-confer-modal.component';
-import { CommonModule, NgIf } from '@angular/common';
+import {  NgIf } from '@angular/common';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { SafeUrl } from '@angular/platform-browser';
 
@@ -18,9 +18,7 @@ import { SafeUrl } from '@angular/platform-browser';
 
 export class ConferenciasComponent implements OnInit {
 
-  openRegistroModal() {
-    throw new Error('Method not implemented.');
-  }
+ 
   conferencias: Conferencia[] = [];
   qrData: string = '';
   url: SafeUrl = '';
@@ -83,7 +81,6 @@ export class ConferenciasComponent implements OnInit {
 
   onChangeURL($event: SafeUrl) {
     this.url = $event;
-    console.log(this.url);
     
   }
 

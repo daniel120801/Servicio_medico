@@ -23,12 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (isset($_GET['allheaders'])) {
         $select = $con->select("alumnos", "id,nombre,matricula,carrera");
-
         header("Content-Type: application/json");
         $alumno = $select->execute();
         echo json_encode($alumno);
         exit;
-    }
+    }   
+
 
     else if (isset($_GET['id'])) {
         $id = intval($_GET['id']);

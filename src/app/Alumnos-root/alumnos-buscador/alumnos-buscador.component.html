@@ -23,6 +23,7 @@
                 <th>Carrera</th>
             </tr>
         </thead>
+        
         <tbody>
             @for (item of filteredAlumnos; track $index) {
             <tr (click)="onSelectAlumno(item)" style="cursor: pointer;">
