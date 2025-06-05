@@ -8,8 +8,10 @@ require "firebase-php-jwt/vendor/autoload.php";
 use Firebase\JWT\JWT;
 
 var_dump($_POST);
-
-return;
+$a = true;
+if ($a) {
+    return;
+}
 
 $nombre_usuario = $_POST["usuario"];
 $contrasena = $_POST["contrasena"];
