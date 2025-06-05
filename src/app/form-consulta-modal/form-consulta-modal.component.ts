@@ -17,8 +17,7 @@ export class FormConsultaModalComponent implements OnInit {
     this.formConsulta = this.fb.group({
       nombrePaciente: ['', Validators.required],
       fecha: ['', Validators.required],
-      generales: ['', Validators.required],
-      receta: ['', Validators.required]
+      diagnostico: ['', Validators.required]
     });
   }
 

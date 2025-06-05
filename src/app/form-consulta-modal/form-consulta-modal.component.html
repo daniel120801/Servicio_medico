@@ -2,8 +2,8 @@
     <form [formGroup]="formConsulta" (ngSubmit)="onSubmit()">
         <div class="row mb-3">
             <div class="col-md-8">
-                <label for="nombrePaciente" class="form-label">Nombre paciente</label>
-                <input type="text" class="form-control" id="nombrePaciente" placeholder="Nombre Paciente" formControlName="nombrePaciente">
+                <label for="nombrePaciente" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombrePaciente" placeholder="Nombre" formControlName="nombrePaciente">
             </div>
 
             <div class="col-md-4">
@@ -13,15 +13,11 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="generales" class="form-label">Generales</label>
-                <textarea class="form-control" id="generales" placeholder="Información general del paciente" formControlName="generales"></textarea>
+            <div class="col">
+                <label for="diagnostico" class="form-label">Diagnostico</label>
+                <textarea class="form-control" id="diagnostico" placeholder="Diagnostico" formControlName="diagnostico"></textarea>
             </div>
 
-            <div class="col-md-6">
-                <label for="receta" class="form-label">Receta</label>
-                <textarea class="form-control" id="receta" placeholder="Receta médica" formControlName="receta"></textarea>
-            </div>
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar</button>
