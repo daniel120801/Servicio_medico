@@ -1,8 +1,8 @@
 import { Conferencia } from "./conferencia.model";
+import { Documento } from "./Documento.model";
 import { Vacunas } from "./vacunas.model";
 
 export interface IAlumnoHeaders {
-    id: number;
     nombre: string;
     matricula: string,
     carrera: string;
@@ -11,7 +11,6 @@ export interface IAlumnoHeaders {
 }
 
 export interface IAlumnoGeneral {
-    id: number;
     nombre: string;
     matricula: string,
     telefono: string,
@@ -21,7 +20,8 @@ export interface IAlumnoGeneral {
     carrera: string,
     ciudad: string,
     domicilio: string,
-    conferenciasAsistidas: Conferencia[]
+    conferenciasAsistidas: Conferencia[],
+    documentos: Documento[];
 
 }
 export interface IAlumnoMedical {
@@ -42,8 +42,6 @@ export interface IAlumnoMedical {
 }
 
 export class Alumno implements IAlumnoGeneral, IAlumnoMedical, IAlumnoHeaders {
-
-    public id: number = 0;
     public nombre: string = '';
     public matricula: string = '';
     public telefono: string = '';
@@ -59,6 +57,7 @@ export class Alumno implements IAlumnoGeneral, IAlumnoMedical, IAlumnoHeaders {
     public donador: string = '';
     public peso: string = '';
     public talla: string = '';
+    public documentos: Documento[] = [];
     public alergias: string = '';
     public enfermedades: string = '';
     public tratamientos: string = '';
@@ -76,6 +75,5 @@ export class Alumno implements IAlumnoGeneral, IAlumnoMedical, IAlumnoHeaders {
         if (params.medical) Object.assign(this, params.medical);
         if (params.headers) Object.assign(this, params.headers);
     }
-
-
+    
 }

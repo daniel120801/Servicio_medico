@@ -4,7 +4,7 @@
 
     </div>
     <div *ngSwitchCase="'perfil'">
-        <app-perfil-alumno [alumno]="alumnoSelected" *ngIf="selectedIdAlumno != -1" (volverEvent)="onClosePerfil()"
+        <app-perfil-alumno [alumno]="alumnoSelected" *ngIf="selectedIdAlumno != ''" (volverEvent)="onClosePerfil()"
             (openSegMedicoEvent)="onSegMedico()" (openConferAsisEvent)="onConferAsistidas()"></app-perfil-alumno>
 
     </div>
@@ -18,4 +18,5 @@
             (toServicesEvent)="toGeneralServices()"></app-seg-medico-alumno>
 
     </div>
+
 </div>

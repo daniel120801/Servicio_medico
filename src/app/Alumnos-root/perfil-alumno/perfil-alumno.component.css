@@ -2,3 +2,34 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
 }
+
+
+.documento-container {
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+}
+
+.documento-container h3 {
+    font-size: 18px;
+    color: #2b6777;
+}
+.documento-container tr {
+    margin-top: 2px;
+}
+.documento-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.documento-container li {
+    background: #eaf4f4;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 6px;
+}
+.documento-item {
+    cursor: pointer;
+}
+.documento-item:hover {
+    background-color: #f8f9fa;
+}

@@ -21,7 +21,7 @@ import { Alumno, IAlumnoHeaders } from '../../core/Models/alumno.model';
 })
 export class ParentAlumnosComponent implements OnInit, OnDestroy {
 
-  selectedIdAlumno: number = -1;
+  selectedIdAlumno: string = '';
   alumnoSelected: Alumno | null = null;
   selectedPage: ParentPages = ParentPages.BUSCADOR;
   subscriptionRouteObserver: Subscription = new Subscription();
@@ -33,7 +33,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     this.subscriptionRouteObserver = this.alumnosService.routesObserver$.subscribe(
       nuevoValor => {
         this.selectedPage = nuevoValor;
-        console.log('pagina actual: ',nuevoValor);
+        console.log('pagina actual: ', nuevoValor);
       }
     );
     this.subscriptionAlumnoObserver = this.alumnosService.alumnoSelectedObserver$.subscribe(
@@ -42,7 +42,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
           if (!alumno) {
             console.error('No se recibió un alumno válido');
           } else {
-       
+
             this.alumnoSelected = alumno;
             this.alumnosService.toPerfil();
           }
@@ -53,30 +53,27 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
         }
       }
     );
-  }
-
+  } 
   onClosePerfil() {
-    this.selectedIdAlumno = -1;
+    this.selectedIdAlumno = '';
     this.alumnosService.toSearch();
   }
-
   onAlumnoSelected(alumno: IAlumnoHeaders) {
-    this.selectedIdAlumno = alumno.id;
-  
+    this.selectedIdAlumno = alumno.matricula;
+
 
     this.alumnosService.selectAlumno(this.selectedIdAlumno);
     //redirige desde el servicio de seleccion de alumnos
   }
-
   onConferAsistidas() {
-    if (this.selectedIdAlumno == -1) {
+    if (this.selectedIdAlumno == '') {
       console.error('No hay un alumno seleccionado para mostrar conferencias asistidas.');
       return;
     }
     this.alumnosService.toConferAsistidas();
   }
   onSegMedico() {
-    if (this.selectedIdAlumno == -1) {
+    if (this.selectedIdAlumno == '') {
       console.error('No hay un alumno seleccionado para mostrar el seguro médico.');
       return;
     }

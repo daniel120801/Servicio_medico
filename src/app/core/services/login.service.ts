@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_LOGIN } from '../Utilities/Api';
+import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable()
 export class LoginService {
     constructor(private http: HttpClient) { }
 
-    login(form: any) {
+    login(username: string, password: string):Observable<any> {
 
-        this.http.post(API_LOGIN, form).subscribe({
-            next: (response) => {
-                console.log('a');
-                
-                console.log(response);
-            },
-            error: (error) => {
-                console.error(error);
-            }
-        })
+
+        const body = new FormData();
+        body.append('username', username);
+        body.append('password', password);
+
+
+        console.log(body);
+
+         return this.http.post<any>(API_LOGIN, body);
 
     }
 
