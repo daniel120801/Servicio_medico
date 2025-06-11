@@ -409,7 +409,7 @@ class Insert extends Conexion
      * @param string $pattern Servirá para maquetar el puntero del valor a insertar
      * @return void Añadidura de VALUE
      */
-    function value($val, $pattern = "{val}")
+    function value($val, $pattern = "{val}"): void
     {
         $values = $this->values;
         $binds_values = $this->binds_values;
@@ -441,7 +441,7 @@ class Insert extends Conexion
      *
      * @return int Numero de filas afectadas
      */
-    function execute()
+    function execute(): mixed
     {
         $sql = $this->sql;
         $binds_values = $this->binds_values;
