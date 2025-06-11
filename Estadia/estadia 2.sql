@@ -10,7 +10,8 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS */;
+SET FOREIGN_KEY_CHECKS=0;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
@@ -76,6 +77,21 @@ CREATE TABLE IF NOT EXISTS `alumnos` (
 INSERT INTO `alumnos` (`nombre`, `matricula`, `telefono`, `correo`, `carrera`, `CURP`, `ciudad`, `domicilio`, `edad`, `NSS`, `afiliacion`, `RH`, `donador`, `peso`, `talla`, `alergias`, `enfermedades`, `tratamientos`, `discapacidad`, `enCasoDeAccidente`) VALUES
 	('Juan Pérez', 23005012, '555-123-4567', 'juan.perez@example.com', 'Ingeniería en Sistemas', 'PEPJ900101HDFRRN09', 'Ciudad de México', 'Av. Reforma #123', 25, '12345678901', 'IMSS', 'O+', 'Sí', '70kg', '1.75m', 'Ninguna', 'Asma', 'Inhaladores', 'Ninguna', 'Llamar a María Pérez 555-765-4321'),
 	('Ana López', 23005048, '555-987-6543', 'ana.lopez@example.com', 'Medicina', 'LOPA980202MDFRZN07', 'Guadalajara', 'Calle Juárez #456', 22, '98765432109', 'ISSSTE', 'A-', 'No', '60kg', '1.65m', 'Penicilina', 'Ninguna', 'Ninguno', 'Auditiva', 'Llamar a José López 555-321-7654');
+
+-- Volcando estructura para tabla estadia.vacunas
+CREATE TABLE IF NOT EXISTS `vacunas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `fecha` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla estadia.vacunas: ~4 rows (aproximadamente)
+INSERT INTO `vacunas` (`id`, `nombre`, `fecha`) VALUES
+	(1, 'alguna', '2025-06-02'),
+	(2, 'covid', '2025-06-04'),
+	(3, 'influenza', '2025-06-05'),
+	(4, 'sarampion', '2025-06-06');
 
 -- Volcando estructura para tabla estadia.alumnovacuna
 CREATE TABLE IF NOT EXISTS `alumnovacuna` (
@@ -162,20 +178,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 INSERT INTO `usuarios` (`nombre`, `id`, `pwd`) VALUES
 	('Admin', 1, '12345');
 
--- Volcando estructura para tabla estadia.vacunas
-CREATE TABLE IF NOT EXISTS `vacunas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `fecha` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla estadia.vacunas: ~4 rows (aproximadamente)
-INSERT INTO `vacunas` (`id`, `nombre`, `fecha`) VALUES
-	(1, 'alguna', '2025-06-02'),
-	(2, 'covid', '2025-06-04'),
-	(3, 'influenza', '2025-06-05'),
-	(4, 'sarampion', '2025-06-06');
 
 -- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `all_alumno`;
@@ -245,7 +248,8 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `all_alumno` AS SELECT
 ;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+SET FOREIGN_KEY_CHECKS=1;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

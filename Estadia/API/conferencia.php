@@ -21,7 +21,7 @@ $con = new Conexion([
 // GET: Obtener conferencia
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['todo'])) {
-        $select = $con->select('conferencia', "id, nombre, fecha, hora, presentador, descripcion");
+        $select = $con->select('conferencia', "id, nombre, fecha, hora, presentador,descripcion");
         $conferencia = $select->execute();
         header("Content-Type: application/json");
         echo json_encode($conferencia);
@@ -44,14 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($data['accion']) && $data['accion'] === 'registrarConferencia') {
-        if (
-            !isset($data['nombre']) ||
-            !isset($data['fecha']) ||
-            !isset($data['hora']) || 
-            !isset($data['presentador']) ||
-            !isset($data['descripcion'])
-           
-        ) {
+        if (!isset($data['nombre']) || !isset($data['fecha']) || !isset($data['hora']) || !isset($data['presentador']) ||
+            !isset($data['descripcion']) ) {
             http_response_code(400);
             echo json_encode(['error' => 'Faltan datos para registrar conferencia']);
             exit;
