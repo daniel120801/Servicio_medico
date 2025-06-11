@@ -19,8 +19,8 @@ export class FormConferModalComponent {
       nombre: ['',Validators.required],
       fecha: ['',Validators.required],
       hora: ['',Validators.required],
+      presentador: ['',Validators.required],
       descripcion: ['',Validators.required],
-      presentador: ['',Validators.required]
     });
   }
   // Método para cerrar el modal
@@ -37,12 +37,12 @@ export class FormConferModalComponent {
       return;
     }
     this.conferencia = new Conferencia(
+      '',
       this.formConfer.value.nombre,
       this.formConfer.value.fecha,
       this.formConfer.value.hora,
-      this.formConfer.value.descripcion,
       this.formConfer.value.presentador,
-      ''
+      this.formConfer.value.descripcion,
     );
     console.log('Conferencia guardada:', this.formConfer.value);
 

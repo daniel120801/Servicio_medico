@@ -1,5 +1,5 @@
 <div *ngIf="showVacunas">
-    <app-vacunas [vacunaNombre]="selectedVacuna" (volverEvent)="volverDeVacunas()"></app-vacunas>
+    <app-vacunas [vacunaId]="vacunaSeleccionada.id" (volverEvent)="volverDeVacunas()"></app-vacunas>
 </div>
 
 <div *ngIf="!showVacunas">
@@ -37,21 +37,15 @@
                             <app-form-vacunas-modal (cerrar)="cerrarFormularioVacunas()"></app-form-vacunas-modal>
                         </div><br>
 
-                        <ul class="list-group mb-3">
-                            @for (item of vacunas; track $index) {
-                            <li class="list-group-item list-group-item-action" (click)="onVacunaSeleccionada(item)" style="cursor: pointer;">
-                                <div class="fw-bold">{{ item }}</div>
+                        <ul class="list-group mb-3" style="overflow-y: scroll; height: 30vh;">
+                            <li *ngFor="let item of vacunas; let i = index; trackBy: trackByIndex" class="list-group-item list-group-item-action" (click)="onVacunaSeleccionada(item)" style="cursor: pointer;">
+                                <div class="fw-bold">{{ item.nombre }}</div>
                             </li>
-                            } @empty {
-                            <li class="list-group-item text-muted">No hay resultados</li>
-                            }
+                            <li *ngIf="!vacunas || vacunas.length === 0" class="list-group-item text-muted">No hay resultados</li>
                         </ul>
-
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

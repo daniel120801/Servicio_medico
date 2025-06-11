@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormConsultaModalComponent } from "../form-consulta-modal/form-consulta-modal.component";
 import { FormVacunasModalComponent } from "../form-vacunas-modal/form-vacunas-modal.component";
@@ -20,6 +20,8 @@ export class ServiciosComponent implements OnInit {
   showVacunas = false;
   formularioConsultaVisible = false;
   formularioVacunasVisible = false;
+vacunaSeleccionada: any;
+trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index;
 
   constructor(private vacunasService: VacunasService) {}
 
@@ -32,11 +34,11 @@ export class ServiciosComponent implements OnInit {
       this.vacunas = data;
     });
   }
-
-  onVacunaSeleccionada(vacuna: Vacunas) {
-    this.selectedVacuna = vacuna.nombre;
-    this.showVacunas = true;
-  }
+  
+ onVacunaSeleccionada(item: any) {
+  this.vacunaSeleccionada = item;
+  this.showVacunas = true;
+}
 
   mostrarFormularioConsulta() {
     this.formularioConsultaVisible = true;
