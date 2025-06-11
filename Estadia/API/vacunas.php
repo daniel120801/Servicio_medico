@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } 
     elseif (isset($_GET['accion']) && $_GET['accion'] === 'alumnosVacunados' && isset($_GET['vacuna_id'])) {
         $vacuna_id = intval($_GET['vacuna_id']);
-        $select = $con->select('alumnovacuna a JOIN alumnos al ON a.estudiante_id = al.id', 'al.nombre');
+        $select = $con->select('alumnovacuna a JOIN alumnos al ON a.alumno_mtr = al.id', 'al.nombre');
         $select->where('a.vacuna_id', '=', $vacuna_id);
         $result = $select->execute();
         $nombres = array_map(fn($row) => $row['nombre'], $result);
@@ -48,7 +48,7 @@ elseif (
         $vacuna_id = intval($_GET['vacuna_id']);
 
         $select = $con->select('alumnovacuna', "COUNT(*) as total");
-        $select->where('estudiante_id', '=', $estudiante_id);
+        $select->where('alumno_mtr', '=', $estudiante_id);
         $select->where_and('vacuna_id', '=', $vacuna_id); // <-- CAMBIO AQUÍ
         $result = $select->execute();
 
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $insert = $con->insert('alumnovacuna', "estudiante_id, vacuna_id");
+        $insert = $con->insert('alumnovacuna', "alumno_mtr, vacuna_id");
         $insert->value($data['estudiante_id']);
         $insert->value($data['vacuna_id']);
         $resultado = $insert->execute();

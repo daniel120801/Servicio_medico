@@ -46,7 +46,7 @@ export class VacunasComponent implements OnInit {
     this.selectedIndex = index;
     const selectedStudent = this.filteredStudents[index];
     const nombre = selectedStudent?.nombre || '';
-    const estudiante_id = selectedStudent?.id;
+    const estudiante_id = selectedStudent?.matricula;
     if (this.vacunaId && estudiante_id) {
       this.vacunasService.estaAlumnoVacunado(estudiante_id, this.vacunaId).subscribe({
         next: (yaVacunado: boolean) => {

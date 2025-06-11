@@ -45,6 +45,7 @@ export class LoginComponent {
         },
         error: error => {
           console.log('error:', error);
+          
           if(error.name === "HttpErrorResponse"){
 
             this.message = 'error de red';
