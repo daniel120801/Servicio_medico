@@ -1,43 +1,39 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 require_once '../conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Handle preflight request
     http_response_code(204);
     exit;
 }
 
-$con = new Conexion(array(
+$con = new Conexion([
     "tipo" => "mysql",
     "servidor" => "127.0.0.1",
     "bd" => "estadia",
     "usuario" => "root",
     "contrasena" => ""
-));
-
-
+]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-
     if (isset($_GET['all'])) {
-        $select = $con->select("vacunas", "id,nombre,fecha");
-
-        header("Content-Type: application/json");
+        $select = $con->select('vacunas', "id, nombre, fecha");
         $vacunas = $select->execute();
+        header("Content-Type: application/json");
         echo json_encode($vacunas);
         exit;
     } 
-    else if (isset($_GET["registrar"])) {
-        $insert = $con->insert('vacunas', "nombre, fecha");
-        $insert->value($nombre);
-        $insert->value($fecha);
-        $registrar = $insert->execute();
-        
-        echo ($registrar);
+    elseif (isset($_GET['accion']) && $_GET['accion'] === 'alumnosVacunados' && isset($_GET['vacuna_id'])) {
+        $vacuna_id = intval($_GET['vacuna_id']);
+        $select = $con->select('alumnovacuna a JOIN alumnos al ON a.estudiante_id = al.id', 'al.nombre');
+        $select->where('a.vacuna_id', '=', $vacuna_id);
+        $result = $select->execute();
+        $nombres = array_map(fn($row) => $row['nombre'], $result);
+        header("Content-Type: application/json");
+        echo json_encode($nombres);
         exit;
     }
 // ...existing code...
@@ -74,13 +70,17 @@ elseif (
 // ...existing code...
  else {
         http_response_code(400);
-        echo json_encode(['error' => 'Método no permitido']);
+        echo json_encode(['error' => 'Parámetros inválidos para GET']);
         exit;
     }
 }
-else {
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!$data) {
         http_response_code(400);
-        echo json_encode(['error' => 'esta mal el metodo']);
+        echo json_encode(['error' => 'Datos JSON inválidos']);
         exit;
     }
 
