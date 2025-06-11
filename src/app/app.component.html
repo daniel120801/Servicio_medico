@@ -3,7 +3,7 @@
 
 </header>
 
-<nav>
+<nav *ngIf="hasSession">
     <button class="transparent_button" (click)="navigateMain()">Inicio</button>
     <button class="transparent_button" (click)="navigateServices()">servicios</button>
     <button class="transparent_button" (click)="navigateConfer()">Conferencias</button>
