@@ -23,10 +23,10 @@ export class FormConsultaModalComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formConsulta.valid) {
-      console.log('Consulta registrada:', this.formConsulta.value);
+      
       this.formConsulta.reset();
     } else {
-      console.log('Formulario inválido');
+      
       this.formConsulta.markAllAsTouched(); 
     }
   }

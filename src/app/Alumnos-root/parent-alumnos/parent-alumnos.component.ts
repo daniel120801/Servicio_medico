@@ -33,7 +33,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     this.subscriptionRouteObserver = this.alumnosService.routesObserver$.subscribe(
       nuevoValor => {
         this.selectedPage = nuevoValor;
-        console.log('pagina actual: ', nuevoValor);
+        
       }
     );
     this.subscriptionAlumnoObserver = this.alumnosService.alumnoSelectedObserver$.subscribe(

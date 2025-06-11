@@ -15,7 +15,7 @@ export class LoginService {
         body.append('password', password);
 
 
-        console.log(body);
+        
 
          return this.http.post<any>(API_LOGIN, body);
 

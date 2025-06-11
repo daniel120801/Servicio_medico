@@ -28,7 +28,7 @@ export class SegMedicoAlumnoComponent implements OnInit {
   toServices() {
     this.toServicesEvent.emit();
 
-    console.log('Evento de volver a conferencias emitido desde ConferAsistidasAlumnoComponent');
+    
   }
 
 }

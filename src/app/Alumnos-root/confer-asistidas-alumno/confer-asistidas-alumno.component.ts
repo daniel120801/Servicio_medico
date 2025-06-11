@@ -47,11 +47,11 @@ export class ConferAsistidasAlumnoComponent implements OnInit {
     this.alumnosService.toPerfil();
   }
   onConferenceSelected(conferencia: Conferencia) {
-    console.log('Conferencia seleccionada');
+    
   }
   toConferences() {
     this.toConferencesEvent.emit();
-    console.log('Evento de volver a conferencias emitido desde ConferAsistidasAlumnoComponent');
+    
 
   }
 

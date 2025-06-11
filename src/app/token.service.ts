@@ -1,25 +1,27 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, interval, map, Observable, of, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, of, interval } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { API_TOKEN } from './core/Utilities/Api';
+
+export enum TokenState {
+  VALID = 'valid',
+  EXPIRED = 'expired',
+  NOASSIGNED = 'no assigned'
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  checkInterval = 300000;
-
+  private readonly checkInterval = 1 * (1000 * 60);
   private _tokenObserver = new BehaviorSubject<TokenState>(TokenState.NOASSIGNED);
-  public tokenObserver$ = this._tokenObserver.asObservable();
-
-
+  public tokenStateObserver$ = this._tokenObserver.asObservable();
 
   constructor(private httpClient: HttpClient) {}
 
-
-  setToken(token: string) {
-    console.log('token setted');
-
+  setToken(token: string): void {
     sessionStorage.setItem('token', token);
     this._tokenObserver.next(TokenState.VALID);
   }
@@ -27,23 +29,29 @@ export class AuthService {
   verifyTokenIsValid(): Observable<boolean> {
     const token = sessionStorage.getItem('token');
     if (!token) {
+      this._tokenObserver.next(TokenState.NOASSIGNED);
       return of(false);
     }
-    const headers = { Authorization: `Bearer ${token}` };
-
-    return this.httpClient.get(API_TOKEN, { headers }).pipe(
-      map((response: any) => {
-      if (response === null || response === undefined || response.status === undefined || response.status === 'failed') {
-        console.log('response is corrupted');
+    return this.httpClient.get<any>(API_TOKEN, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).pipe(
+      map(response => {
+        const isValid = response?.status === 'success';
+        if (!isValid) {
+          this._tokenObserver.next(TokenState.EXPIRED);
+          sessionStorage.removeItem('token');
+        }
+        console.log(response.expires_in);
         
-        return false;
-      }
-      return response.status === 'success';
+        return isValid;
       }),
-      catchError(() => of(false))
+      catchError(() => {
+        this._tokenObserver.next(TokenState.EXPIRED);
+        sessionStorage.removeItem('token');
+        return of(false);
+      })
     );
   }
-
 
   verifyTokenPeriodically(): Observable<boolean> {
     return interval(this.checkInterval).pipe(
@@ -53,10 +61,3 @@ export class AuthService {
     );
   }
 }
-
-export enum TokenState {
-  VALID = 'valid',
-  INVALID = 'invalid',
-  EXPIRED = 'expired',
-  NOASSIGNED = 'no assigned'
-} 

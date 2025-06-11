@@ -25,13 +25,13 @@ export class AlumnosService {
     this.alumnoSelectedObserver$ = this.idSubject.pipe(
       switchMap(mtr => {
         if (!mtr || mtr === null) {
-          console.log('mtr is empty');
+          
           
           return of(null);
         }
         return this.http.get<Alumno>(`${API_ALUMNOS}?mtr=${mtr}`).pipe(
           map((response: any) => {
-            console.log('response of alumno', response);
+            
             
             if (!response?.matricula) return null;
 
@@ -73,7 +73,7 @@ export class AlumnosService {
       formD.append('mtr',mtr + '')
       formD.append('fileName',fileName + '')
 
-      console.log(formD);
+      
       
     return this.http.post(`${API_ALUMNOS}?gFile=true`,formD, { responseType: 'blob' }).pipe(
       catchError(error => {
@@ -142,7 +142,7 @@ export class AlumnosService {
         vacunas: vacunas
       }
     });
-    console.log('datos del alumno:', alumno);
+    
 
     return alumno;
   }

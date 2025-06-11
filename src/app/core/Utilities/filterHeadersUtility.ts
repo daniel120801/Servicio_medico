@@ -49,7 +49,7 @@ export class filterHeadersUtility {
                 default: // FilterMode.NOMBRE por defecto
                     fieldToSearch = alumno.nombre?.toLowerCase() || '';
             }
-            console.log("state filter: " + fieldToSearch.includes(searchText));
+            
 
             return fieldToSearch.includes(searchText);
         });

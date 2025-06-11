@@ -24,10 +24,10 @@ export class FormVacunasModalComponent implements OnInit {
 
   onSubmit(): void {
     if (this.vacunaForm.valid) {
-      console.log('Datos del formulario:', this.vacunaForm.value);
+      
       this.vacunaForm.reset();
     } else {
-      console.log('Formulario inválido');
+      
     }
   }
    @Output() cerrar = new EventEmitter<void>();

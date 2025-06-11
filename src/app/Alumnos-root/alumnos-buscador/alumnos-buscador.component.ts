@@ -30,7 +30,7 @@ export class AlumnosComponent implements OnInit, OnDestroy {
   }
 
   updateList(valor: string): void {
-    console.log('Valor de searchInput:', valor);
+    
 
     this.filteredAlumnos = this.filter.filterAlumnos(valor, this.filterMode)
   }
@@ -48,10 +48,10 @@ export class AlumnosComponent implements OnInit, OnDestroy {
     this.searchForm.get('filterSearch')?.valueChanges.subscribe(valor => {
 
       const value = (<string>valor);
-      console.log('Valor de filterSearch:', value);
+      
       const newFilterMode = FilterMode[value.toUpperCase() as keyof typeof FilterMode];
       this.filterMode = newFilterMode;
-      console.log('filter mode: ' + this.filterMode);
+      
     });
 
     this.searchForm.get('searchInput')?.valueChanges.subscribe(valor => {

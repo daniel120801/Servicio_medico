@@ -29,7 +29,7 @@ export class PerfilAlumnoComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.alumno) {
-      console.log('No se ha recibido un alumno válido.');
+      
       this.volver();
     }
   }
@@ -46,10 +46,10 @@ export class PerfilAlumnoComponent implements OnInit {
 
     if (!this.alumno) return;
 
-    console.log('Mostrar documento del alumno', fileName);
+    
     this.alumnosService.getFile(fileName, this.alumno.matricula).subscribe({
       next: (fileContent) => {
-        console.log('Archivo obtenido correctamente:', fileContent);
+        
 
         const blob = new Blob([fileContent], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
@@ -75,7 +75,7 @@ export class PerfilAlumnoComponent implements OnInit {
           this.alumno.documentos.push(new Documento(-1,response.fileName))
         }
 
-        console.log('Archivo subido correctamente:', response);
+        
 
       },
       error: (error) => {

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { MainComponent } from './main/main.component';
-import { AlumnosComponent } from './Alumnos-root/alumnos-buscador/alumnos-buscador.component';
 import { ConferenciasComponent } from './conferencias/conferencias.component';
 import { ServiciosComponent } from './servicios/servicios.component';
 import { FormConferModalComponent } from './form-confer-modal/form-confer-modal.component';

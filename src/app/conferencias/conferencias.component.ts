@@ -31,14 +31,14 @@ export class ConferenciasComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.conferenciaService == null) {
-      console.log('Error: conferenciaService is null');
+      
       return;
     }
     this.conferenciaService.getConferencias().subscribe(
       {
         next: (response: Conferencia[]) => {
           this.conferencias = response;
-          console.log('Conferencias obtenidas:', this.conferencias);
+          
         },
         error: (error) => {
           console.error('Error al obtener conferencias:', error);
@@ -70,9 +70,9 @@ export class ConferenciasComponent implements OnInit {
     this.conferenciaSeleccionada = conferencia;
     // Cambia la URL del QR según la conferencia seleccionada (URL absoluta recomendada)
     this.qrData = `${window.location.origin}/form-registro?conferenciaId=${conferencia.id}`;
-    console.log('Datos del QR:', this.qrData);
+    
 
-    console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
+    
   }
 
   navigateToForm(): void {

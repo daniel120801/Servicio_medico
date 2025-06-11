@@ -32,7 +32,7 @@ export class FormConferModalComponent {
   save(): void {
     this.formConfer.markAllAsTouched();
     if (this.formConfer.invalid) {
-       console.log('Formulario invalido');
+       
        
       return;
     }
@@ -44,11 +44,11 @@ export class FormConferModalComponent {
       this.formConfer.value.presentador,
       ''
     );
-    console.log('Conferencia guardada:', this.formConfer.value);
+    
 
     this.conferenciaService.addConferencia(this.conferencia).subscribe({
       next: (response) => {
-        console.log('Conferencia guardada:', response);
+        
       },
       error: (error) => {
         console.error('Error al guardar la conferencia:', error);
