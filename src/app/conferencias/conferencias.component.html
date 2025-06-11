@@ -10,8 +10,7 @@
                     </button>
                     <ul class="list-group">
                         @for (item of conferencias; track $index) {
-                        <li class="list-group-item conference-item" (click)="selectConferencia(item)"
-                            style="cursor: pointer;">
+                        <li class="list-group-item conference-item" (click)="selectConferencia(item)" style="cursor: pointer;">
                             <p class="mb-0 fw-semibold">{{ item.nombre }}</p>
                         </li>
                         } @empty {
@@ -44,12 +43,8 @@
 
                             <!-- Código QR -->
                             <div class="col-md-6 text-center">
-                                <qrcode #qrCanvas [qrdata]="qrData" [allowEmptyString]="true" [ariaLabel]="'Código QR'"
-                                    [cssClass]="'center'" [colorDark]="'#000000ff'" [colorLight]="'#ffffffff'"
-                                    [elementType]="'img'" [errorCorrectionLevel]="'M'"
-                                   [imageHeight]="75" [imageWidth]="75"
-                                    [margin]="2" [scale]="1" [title]="'Código QR de conferencia'"
-                                    (qrCodeURL)="onChangeURL($event)" [width]="200">
+                                <qrcode #qrCanvas [qrdata]="qrData" [allowEmptyString]="true" [ariaLabel]="'Código QR'" [cssClass]="'center'" [colorDark]="'#000000ff'" [colorLight]="'#ffffffff'" [elementType]="'img'" [errorCorrectionLevel]="'M'" [imageHeight]="75" [imageWidth]="75"
+                                    [margin]="2" [scale]="1" [title]="'Código QR de conferencia'" (qrCodeURL)="onChangeURL($event)" [width]="200">
                                 </qrcode>
                                 <a class="btn btn-outline-success mt-3" [href]="url" download="qr">
                                    Descargar QR

@@ -1,17 +1,20 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // <-- Agregado ReactiveFormsModule
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
+const API_VACUNAS = 'http://localhost/Estadia/API/vacunas.php';
 
 @Component({
   selector: 'app-form-consulta-modal',
   templateUrl: './form-consulta-modal.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule], // <-- Ahora funcionará correctamente
+  imports: [ReactiveFormsModule],
   styleUrls: ['./form-consulta-modal.component.css']
 })
 export class FormConsultaModalComponent implements OnInit {
   formConsulta!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.formConsulta = this.fb.group({
@@ -21,16 +24,30 @@ export class FormConsultaModalComponent implements OnInit {
     });
   }
 
+  @Output() cerrar = new EventEmitter<void>();
+
   onSubmit(): void {
     if (this.formConsulta.valid) {
-      
-      this.formConsulta.reset();
+      const datos = {
+        accion: 'insertarConsulta',
+        nombre: this.formConsulta.value.nombrePaciente,
+        fecha: this.formConsulta.value.fecha,
+        diagnostico: this.formConsulta.value.diagnostico
+      };
+      this.http.post(API_VACUNAS, datos).subscribe({
+        next: () => {
+          this.formConsulta.reset();
+          this.cerrar.emit();
+        },
+        error: err => {
+          alert('Error al guardar consulta');
+          console.error(err);
+        }
+      });
     } else {
-      
-      this.formConsulta.markAllAsTouched(); 
+      this.formConsulta.markAllAsTouched();
     }
   }
-   @Output() cerrar = new EventEmitter<void>();
 
   cerrarModal() {
     this.cerrar.emit();
