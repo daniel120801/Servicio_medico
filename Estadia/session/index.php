@@ -1,46 +1,76 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Allow: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+
+header('Content-Type: application/json');
+
 require "firebase-php-jwt/vendor/autoload.php";
-
 use Firebase\JWT\JWT;
+require_once '../conexion.php';
+// Manejar preflight (opcional, pero recomendado)
+if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
+    http_response_code(200);
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'preflight request handled'
+    ]);
+    exit();
+}
+if (!isset($_POST["username"]) || !isset($_POST["password"])) {
 
-var_dump($_POST);
-$a = true;
-if ($a) {
-    return;
+    http_response_code(400);
+    echo json_encode([
+        'status' => 'failed',
+        'message' => 'Parametros faltantes',
+        'valores recibidos' => $_POST,
+    ]);
+    exit;
 }
 
-$nombre_usuario = $_POST["usuario"];
-$contrasena = $_POST["contrasena"];
+$nombre_usuario = $_POST["username"];
+$contrasena = $_POST["password"];
+
+
+$con = new Conexion(array(
+    "tipo" => "mysql",
+    "servidor" => "127.0.0.1",
+    "bd" => "estadia",
+    "usuario" => "root",
+    "contrasena" => ""
+));
 
 $select = $con->select("usuarios");
-$select->where("Nombre_Usuario", "=", $nombre_usuario);
-$select->where_and("Contrasena", "=", $contrasena);
+$select->where("nombre", "=", $nombre_usuario);
+$select->where_and("pwd", "=", $contrasena);
 
 $usuarios = $select->execute();
 
-if (count($usuarios)) {
+
+if (count($usuarios) > 0) {
     $usuario = $usuarios[0];
 
-    $token_tipo = $usuario["Token_Tipo"];
-    $token_stat = $usuario["Token_STAT"];
 
-    if ($token_tipo == "c" && $token_stat == 1) {
-        echo "Revisa tu correo para poder iniciar sesión.";
-        exit;
-    }
 
     $payload = [
         "iat" => time(),
-        "exp" => time() + (60 * 3),
-        "sub" => $usuario["Id_Usuario"] . "/" . $usuario["Tipo_Usuario"]
+        "exp" => time() + (60 * 10),
+        "sub" => $usuario["id"]
     ];
 
-    $jwt = JWT::encode($payload, "Test12345", "HS256");
-    echo "correcto";
-    echo $jwt;
+    $jwt = JWT::encode($payload, "Estadia_2025", "HS256");
+
+    http_response_code(200);
+    echo json_encode([
+        'status' => 'success',
+        'token' => $jwt
+    ]);
+} else {
+    http_response_code(200);
+    echo json_encode([
+        'status' => 'failed',
+        'message' => 'usuario no encontrado' 
+    ]);
 }
 
