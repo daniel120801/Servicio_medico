@@ -1,5 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { EventType, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { AuthService, TokenState } from './token.service';
 import { NgIf } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
@@ -40,7 +40,18 @@ export class AppComponent implements OnInit, OnDestroy {
         this.startTimer();
       }
     });
-    
+
+
+    this.router.events.subscribe((event) => {
+
+
+      console.log(event);
+      if (event.type === EventType.NavigationStart)
+        if (!this.hasSession && event.url !== '/') {
+          this.router.navigate(['/']);
+        }
+    })
+
   }
 
 
@@ -51,6 +62,10 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log(this.tiempoActual);
 
       if (this.tiempoActual <= 0) {
+
+        this.authService.refreshToken()
+
+
         this.hasSession = false;
         this.router.navigate(['/']);
 

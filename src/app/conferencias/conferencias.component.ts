@@ -34,6 +34,8 @@ export class ConferenciasComponent implements OnInit {
   cargarConferencias(): void {
     this.conferenciaService.getConferencias().subscribe({
       next: (response: Conferencia[]) => {
+        console.log(response);
+        
         this.conferencias = response;
         console.log('Conferencias obtenidas:', this.conferencias);
       },
