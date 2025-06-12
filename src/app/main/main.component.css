@@ -1,6 +1,12 @@
     .icon {
-      font-size: 60px;
-      color: #00b69e;
-      margin-bottom: 20px;
+        font-size: 60px;
+        color: #00b69e;
+        margin-bottom: 20px;
     }
-
+    
+    .container {
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+    }

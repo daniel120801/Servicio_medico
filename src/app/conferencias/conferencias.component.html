@@ -33,12 +33,12 @@
                     <ng-container *ngIf="conferenciaSeleccionada; else selecciona">
                         <div class="row align-items-center">
                             <!-- Detalles -->
-                            <div class="col-md-6 text-center">
-                                <p> {{ conferenciaSeleccionada.nombre }}</p>
-                                <p> {{ conferenciaSeleccionada.fecha }}</p>
-                                <p> {{ conferenciaSeleccionada.hora }}</p>
-                                <p> {{ conferenciaSeleccionada.presentador }}</p>
-                                <p> {{ conferenciaSeleccionada.descripcion }}</p>
+                            <div class="col-md-6 text-start">
+                                <p><strong>Nombre:</strong> {{ conferenciaSeleccionada.nombre }}</p>
+                                <p><strong>Fecha:</strong> {{ conferenciaSeleccionada.fecha }}</p>
+                                <p><strong>Hora:</strong> {{ conferenciaSeleccionada.hora }}</p>
+                                <p><strong>Presentador:</strong> {{ conferenciaSeleccionada.presentador }}</p>
+                                <p><strong>Descripción:</strong> {{ conferenciaSeleccionada.descripcion }}</p>
                             </div>
 
                             <!-- Código QR -->
