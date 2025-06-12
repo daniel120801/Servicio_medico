@@ -14,7 +14,7 @@ export class ConsultasService {
   // Obtener todas las consultas
   getConsultas(): Observable<Consulta[]> {
     // Puedes crear un endpoint específico o usar un parámetro de acción
-    return this.http.get<Consulta[]>(`${API_CONSULTAS}?accion=consultas`);
+    return this.http.get<Consulta[]>(API_CONSULTAS + '?all_consulta');
   }
 
   // Agregar una nueva consulta
@@ -23,5 +23,5 @@ export class ConsultasService {
       accion: 'insertarConsulta',
       ...consulta
     });
-  }
+  } 
 }
