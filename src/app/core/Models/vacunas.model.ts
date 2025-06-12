@@ -7,6 +7,7 @@ export interface IVacunas {
 }
 
 export class Vacunas implements IVacunas {
+diagnostico: any;
     constructor(
         public id: string | number = 0,
         public nombre: string = '',

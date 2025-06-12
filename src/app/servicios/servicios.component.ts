@@ -5,6 +5,8 @@ import { FormVacunasModalComponent } from "../form-vacunas-modal/form-vacunas-mo
 import { VacunasComponent } from "../vacunas/vacunas.component";
 import { VacunasService } from '../core/services/vacunas.service';
 import { Vacunas } from '../core/Models/vacunas.model';
+import { Consulta } from '../core/Models/consultas.model';
+import { ConsultasService } from '../core/services/consultas.service';
 
 @Component({
   selector: 'app-servicios',
@@ -12,10 +14,12 @@ import { Vacunas } from '../core/Models/vacunas.model';
   styleUrls: ['./servicios.component.css'],
   standalone: true,
   imports: [CommonModule, FormConsultaModalComponent, FormVacunasModalComponent, VacunasComponent]
-  ,providers: [VacunasService]
+  ,providers: [VacunasService, ConsultasService]
 })
 export class ServiciosComponent implements OnInit {
   vacunas: Vacunas[] = [];
+  consultas: Consulta[] = [];
+
   selectedVacuna: string | null = null;
   showVacunas = false;
   formularioConsultaVisible = false;
@@ -23,10 +27,18 @@ export class ServiciosComponent implements OnInit {
 vacunaSeleccionada: any;
 trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index;
 
-  constructor(private vacunasService: VacunasService) {}
+  constructor(private vacunasService: VacunasService, private ConsultasService: ConsultasService) {}
 
   ngOnInit() {
     this.cargarVacunas();
+    this.cargarConsultas();
+
+  }
+
+   cargarConsultas() {
+    this.ConsultasService.getConsultas().subscribe((data: Consulta[]) => {
+      this.consultas = data;
+    });
   }
 
   cargarVacunas() {
@@ -46,6 +58,7 @@ trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index
 
   cerrarFormularioConsulta() {
     this.formularioConsultaVisible = false;
+    this.cargarConsultas();
   }
 
   mostrarFormularioVacunas() {
@@ -54,11 +67,13 @@ trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index
 
   cerrarFormularioVacunas() {
     this.formularioVacunasVisible = false;
-    this.cargarVacunas(); // Recarga la lista después de agregar
+    this.cargarVacunas(); 
   }
 
   volverDeVacunas() {
     this.showVacunas = false;
     this.selectedVacuna = null;
   }
+
+
 }
