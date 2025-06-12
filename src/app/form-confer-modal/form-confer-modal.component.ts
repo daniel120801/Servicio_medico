@@ -46,14 +46,14 @@ export class FormConferModalComponent {
     );
     
 
+
     this.conferenciaService.addConferencia(this.conferencia).subscribe({
       next: (response) => {
-        
+        this.volver(); 
       },
       error: (error) => {
         console.error('Error al guardar la conferencia:', error);
       }
-    }
-    );
+    });
   }
 }

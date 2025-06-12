@@ -16,13 +16,14 @@ export class FormConsultaModalComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
-  ngOnInit(): void {
-    this.formConsulta = this.fb.group({
-      nombrePaciente: ['', Validators.required],
-      fecha: ['', Validators.required],
-      diagnostico: ['', Validators.required]
-    });
-  }
+ngOnInit(): void {
+  const hoy = new Date().toISOString().substring(0, 10); // Formato 'YYYY-MM-DD'
+  this.formConsulta = this.fb.group({
+    nombrePaciente: ['', Validators.required],
+    fecha: [hoy, Validators.required],
+    diagnostico: ['', Validators.required]
+  });
+}
 
   @Output() cerrar = new EventEmitter<void>();
 

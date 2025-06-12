@@ -1,7 +1,16 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+
+file_put_contents('php://stderr', print_r([
+    'method' => $_SERVER['REQUEST_METHOD'],
+    'get' => $_GET,
+    'post' => $_POST,
+    'input' => file_get_contents("php://input")
+], true));
+
 
 require_once '../conexion.php';
 
@@ -25,10 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         header("Content-Type: application/json");
         echo json_encode($vacunas);
         exit;
-    } 
+    } elseif (isset($_GET['all_consulta'])) {
+        $select = $con->select('consultas', "id, nombre, fecha, diagnostico");
+        $consultas = $select->execute();
+        header("Content-Type: application/json");
+        echo json_encode($consultas);
+        exit;
+    }
     elseif (isset($_GET['accion']) && $_GET['accion'] === 'alumnosVacunados' && isset($_GET['vacuna_id'])) {
         $vacuna_id = intval($_GET['vacuna_id']);
-        $select = $con->select('alumnovacuna a JOIN alumnos al ON a.alumno_mtr = al.id', 'al.nombre');
+        $select = $con->select('alumnovacuna a JOIN alumnos al ON a.alumno_mtr = al.matricula', 'al.nombre');
         $select->where('a.vacuna_id', '=', $vacuna_id);
         $result = $select->execute();
         $nombres = array_map(fn($row) => $row['nombre'], $result);
@@ -130,9 +145,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['resultado' => $resultado]);
         exit;
 
-    } else {
+    }else {
         http_response_code(400);
         echo json_encode(['error' => 'Acción no reconocida']);
+        exit;
+    }
+
+    
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (
+        isset($data['accion']) && $data['accion'] === 'eliminarVacunaAlumno' &&
+        isset($data['estudiante_id']) && isset($data['vacuna_id'])
+    ) {
+        $delete = $con->delete('alumnovacuna');
+        $delete->where('alumno_mtr', '=', $data['estudiante_id']);
+        $delete->where_and('vacuna_id', '=', $data['vacuna_id']);
+        $resultado = $delete->execute();
+
+        echo json_encode(['resultado' => $resultado]);
+        exit;
+    } else {
+        http_response_code(400);
+        echo json_encode(['error' => 'Parámetros inválidos para eliminar vacunación']);
         exit;
     }
 }

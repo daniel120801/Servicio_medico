@@ -19,7 +19,7 @@ export class VacunasService {
  // ...existing code...
   asociarAlumnoVacuna(estudiante_id: number | string, vacuna_id: number | string) {
     return this.http.post(API_VACUNAS, {
-      accion: 'registrarVacunaAlumno', // <-- Cambia aquí
+      accion: 'registrarVacunaAlumno', 
       estudiante_id,
       vacuna_id
     });
@@ -34,5 +34,15 @@ export class VacunasService {
     return this.http.get<boolean>(
       `${API_VACUNAS}?accion=verificarVacunado&estudiante_id=${estudiante_id}&vacuna_id=${vacuna_id}`
     );
+  }
+
+  eliminarVacunaAlumno(estudiante_id: number | string, vacuna_id: number | string) {
+    return this.http.request('DELETE', API_VACUNAS, {
+      body: {
+        accion: 'eliminarVacunaAlumno',
+        estudiante_id,
+        vacuna_id
+      }
+    });
   }
 }
