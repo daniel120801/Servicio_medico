@@ -48,18 +48,16 @@ selectConferencia(conferencia: IConferencia) {
   this.conferenciaSeleccionada = new Conferencia(
     conferencia.id,
     conferencia.nombre,
-    conferencia.descripcion ?? '',
     conferencia.fecha,
-    conferencia.presentador
+    conferencia.hora,
+    conferencia.presentador,
+    conferencia.descripcion ?? ''
   );
-  // Cambia la URL según tu entorno/localhost o dominio real
   this.qrData = `http://localhost/Estadia/form-registro.html?conferencia_id=${conferencia.id}`;
-
-  
-    console.log('Datos del QR:', this.qrData);
-    console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
-  // Si usas otro host, reemplaza la URL base
+  console.log('Datos del QR:', this.qrData);
+  console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
 }
+
   navigateToForm(): void {
     this.router.navigate(['/formConfer']);
   }
