@@ -4,7 +4,7 @@ import { AlumnosService } from '../core/services/alumnos.service';
 import { IAlumnoHeaders } from '../core/Models/alumno.model';
 import { provideSharedFeature } from '../core/providers/alumnos.providers';
 import { VacunasService } from '../core/services/vacunas.service';
-
+ 
 @Component({
   selector: 'app-vacunas',
   templateUrl: './vacunas.component.html',
@@ -70,6 +70,23 @@ export class VacunasComponent implements OnInit {
         }
       });
     }
+  }
+
+ 
+  quitarVacunado(nombre: string) {
+    const alumno = this.students.find(s => s.nombre === nombre);
+    if (!alumno || !this.vacunaId) return;
+
+    this.vacunasService.eliminarVacunaAlumno(alumno.matricula, this.vacunaId).subscribe({
+      next: () => {
+        this.vacunasService.obtenerVacunadosPorVacuna(this.vacunaId!).subscribe(nombres => {
+          this.vacunados = nombres;
+        });
+      },
+      error: () => {
+        alert('Error al quitar la vacuna al alumno');
+      }
+    });
   }
 
   get filteredStudents(): IAlumnoHeaders[] {

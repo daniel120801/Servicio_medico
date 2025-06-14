@@ -1,14 +1,11 @@
 <div *ngIf="showVacunas">
-    <app-vacunas [vacunaId]="vacunaSeleccionada.id" (volverEvent)="volverDeVacunas()"></app-vacunas>
+    <app-vacunas [vacunaNombre]="vacunaSeleccionada.nombre" [vacunaId]="vacunaSeleccionada.id" (volverEvent)="volverDeVacunas()"></app-vacunas>
 </div>
 
 <div *ngIf="!showVacunas">
     <div class="container mt-4">
         <div class="row g-4">
 
-            <!-- Sección Consulta -->
-            <!-- ...existing code... -->
-            <!-- Sección Consulta -->
             <div class="col-md-6">
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
@@ -22,7 +19,6 @@
                             <app-form-consulta-modal (cerrar)="cerrarFormularioConsulta()"></app-form-consulta-modal> <br>
                         </div>
 
-                        <!-- Lista de consultas -->
                         <ul class="list-group mb-3" style="overflow-y: scroll; height: 30vh;">
                             <li *ngFor="let consulta of consultas; let i = index; trackBy: trackByIndex" class="list-group-item">
                                 <div class="fw-bold">{{ consulta.nombre }}</div>
@@ -33,9 +29,8 @@
                     </div>
                 </div>
             </div>
-            <!-- ...existing code... -->
 
-            <!-- Sección Vacunas -->
+
             <div class="col-md-6">
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
