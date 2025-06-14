@@ -27,33 +27,24 @@ export class AuthService {
 
 
 
-
   login(username: string, password: string): Observable<any> {
-
-
     const body = new FormData();
     body.append('username', username);
     body.append('password', password);
 
-
-
-
     return this.http.post<any>(API_LOGIN, body).pipe(
       tap({
         next: (response) => {
-
           if (response.status === 'success') {
             this.setToken(TokenState.VALID);
           }
         },
-      }
-      )
+      })
     );
-
   }
 
   logout(): Observable<any> {
-    this.setToken(TokenState.NOASSIGNED)
+    this.setToken(TokenState.EXPIRED)
     return this.http.get<any>(API_LOGIN + "?logout=", {});
 
   }
