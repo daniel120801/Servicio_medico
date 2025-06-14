@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { EventType, NavigationStart, Router, RouterOutlet } from '@angular/router';
-import { AuthService, TokenState } from './token.service';
+import { AuthService, TokenState } from './core/services/token.service';
 import { NgIf } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   temporizador!: Subscription; // timer
-  maxTiempo = 5 * (1000 * 60);
+  maxTiempo = 15 * (1000 * 60);
   delayInterval = 1 * (1000 * 60);
   tiempoActual = 0;
   constructor(private router: Router, private authService: AuthService) { }
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if (state === TokenState.VALID && this.lastState === TokenState.VALID) return;
 
       if (state === TokenState.EXPIRED) {
+        this.stopTimer();
         // TODO: agregar mensaje visual al usuario cuando la sesion expira
       }
 
@@ -45,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((event) => {
 
 
-      console.log(event);
+     // console.log(event);
       if (event.type === EventType.NavigationStart)
         if (!this.hasSession && event.url !== '/') {
           this.router.navigate(['/']);
@@ -63,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
       if (this.tiempoActual <= 0) {
 
-        this.authService.refreshToken()
+        this.authService.logout()
 
 
         this.hasSession = false;
@@ -72,15 +73,18 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
+  stopTimer(){
 
+    this.temporizador.unsubscribe();
+  }
   @HostListener('document:mousemove', ['$event'])
   onGlobalMouseMove(event: MouseEvent) {
-    console.log('temporizador reiniciado por mouse');
+   // console.log('temporizador reiniciado por mouse');
     this.tiempoActual = this.maxTiempo;
   }
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    console.log('temporizador reiniciado por teclado');
+   // console.log('temporizador reiniciado por teclado');
     this.tiempoActual = this.maxTiempo;
   }
   navigate(path: string) {
@@ -88,6 +92,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.temporizador.unsubscribe();
+    this.stopTimer();
   }
 }
