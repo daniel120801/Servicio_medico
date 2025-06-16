@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LoginService } from '../core/services/login.service';
-import { AuthService } from '../token.service';
+import { AuthService } from '../core/services/token.service';
 
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
-  providers: [LoginService]
+  providers: []
 })
 export class LoginComponent {
 
@@ -16,7 +15,6 @@ export class LoginComponent {
   loginForm: FormGroup;
   message = '';
   constructor(private fb: FormBuilder,
-    private loginService: LoginService,
     private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
@@ -33,20 +31,17 @@ export class LoginComponent {
 
     const username = this.loginForm.get('username')?.value;
     const password = this.loginForm.get('password')?.value;
-    this.loginService.login(username, password).subscribe(
+    this.authService.login(username, password).subscribe(
       {
         next: response => {
           if (!response || !response.token) {
             this.message = 'usuario o contraseña incorrecta';
           }
-          if (response.status === 'success') {
-            this.authService.setToken(response.token);
-          }
         },
         error: error => {
           console.log('error:', error);
-          
-          if(error.name === "HttpErrorResponse"){
+
+          if (error.name === "HttpErrorResponse") {
 
             this.message = 'error de red';
           }
