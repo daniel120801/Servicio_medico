@@ -48,6 +48,7 @@ body {
     border-bottom: 1px solid #eee;
     cursor: pointer;
     border-radius: 6px;
+    user-select: none;
     transition: background 0.3s;
 }
 
