@@ -55,7 +55,7 @@ selectConferencia(conferencia: IConferencia) {
     conferencia.presentador,
     conferencia.descripcion ?? ''
   );
-  this.qrData = `http://localhost/Estadia/form-registro.php?conferencia_id=${conferencia.id}`;
+  this.qrData = `http://dandi1333.great-site.net/Estadias/form-registro.php?conferencia_id=${conferencia.id}`;
   console.log('Datos del QR:', this.qrData);
   console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
 }
