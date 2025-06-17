@@ -1,15 +1,31 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET, POST,OPTIONS");
 
 require_once '../conexion.php';
+require_once '../session/TokenUtility.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     // Handle preflight request
     http_response_code(204);
     exit;
 }
+
+if (!Token::verifyCookieValid()) {
+
+    http_response_code(401);
+    echo json_encode(['error' => 'token invalido']);
+    exit;
+}
+
+
+
+
+
+
 $con = new Conexion(array(
     "tipo" => "mysql",
     "servidor" => "127.0.0.1",
@@ -116,21 +132,20 @@ if (isset($_GET['allheaders'])) {
     $insert = $con->insert('documento', 'nombre,alumno_mtr');
     $insert->value($archivo['name']);
     $insert->value($_POST['mtr']);
-    if ($insert->execute()){
-     header('Content-Type: application/json');
-    http_response_code(200);
-    echo json_encode([
-        'status' => 'success',
-        'message' => 'Archivo subido correctamente',
-        'fileName' =>  $archivo['name']
-    ]);
-    }
-    else{
-         header('Content-Type: application/json');
+    if ($insert->execute()) {
+        header('Content-Type: application/json');
+        http_response_code(200);
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Archivo subido correctamente',
+            'fileName' => $archivo['name']
+        ]);
+    } else {
+        header('Content-Type: application/json');
         http_response_code(400);
         echo json_encode(['error' => 'Algo fallo al subir el archivo']);
     }
-   
+
 
 } else {
     http_response_code(403);

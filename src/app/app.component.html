@@ -13,11 +13,11 @@
 </nav>
 <div  *ngIf="sessionExpired" class="modal"> 
 <div class="card mx-auto" style="max-width: 400px; margin-top: 2rem;">
-    <div class="card-body text-center">
+    <form class="card-body text-center" (submit)="onAcceptSessionExpired()">
         <h2 class="card-title mb-3">Sesión expirada</h2>
         <p class="card-text">Tu sesión ha expirado. Por favor, inicia sesión nuevamente.</p>
-        <button class="btn btn-primary mt-3" (click)="onAcceptSessionExpired()">Aceptar</button>
-    </div>
+        <button class="btn btn-primary mt-3" type="submit">Aceptar</button>
+    </form>
 </div>
 
 </div>

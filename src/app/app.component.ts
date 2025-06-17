@@ -2,38 +2,38 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { EventType, Router, RouterOutlet } from '@angular/router';
 import { AuthService, TokenState } from './core/services/token.service';
 import { NgIf } from '@angular/common';
-import { interval, Subscription } from 'rxjs';
+import { Timer } from './core/Utilities/Timer';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css','../styles.css'],
+  styleUrls: ['./app.component.css', '../styles.css'],
   standalone: true,
   imports: [RouterOutlet, NgIf]
 
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-
+//#region variables
   title = 'Servicio_medico';
   hasSession = false;
   private lastState = TokenState.NOASSIGNED;
-
   sessionExpired: boolean = false;
-  temporizador!: Subscription;
-  maxTiempo = 1 * (1000 * 60);
-  delayInterval = 1 * (1000 * 60);
-  tiempoActual = 0;
-  constructor(private router: Router, private authService: AuthService) { }
-
-
+  timer: Timer;
+//#endregion
+  constructor(private router: Router, private authService: AuthService) {
+    this.timer = new Timer(15, 1);
+    this.timer.setOnEndListener(() => {
+      this.authService.logout()
+    })
+  }
   ngOnInit(): void {
     this.authService.tokenStateObserver$.subscribe(state => {
       if (state === TokenState.VALID && this.lastState === TokenState.VALID) return;
 
       switch (state) {
         case TokenState.EXPIRED:
-          // TODO: agregar mensaje visual al usuario cuando la sesion expira
+         
           this.sessionExpired = true;
           console.log('token expirado');
 
@@ -45,14 +45,11 @@ export class AppComponent implements OnInit, OnDestroy {
         case TokenState.VALID:
           this.hasSession = true;
           this.router.navigate(['/main']);
-          this.startTimer();
+          this.timer.startTimer();
           break;
       }
       this.lastState = state;
     });
-
-
-
     this.router.events.subscribe((event) => {
 
 
@@ -69,39 +66,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.sessionExpired = false;
   }
   handleLogout() {
-    this.stopTimer();
+    this.timer.stopTimer();
     this.hasSession = false;
     this.router.navigate(['/']);
-  }
-  startTimer() {
-    this.tiempoActual = this.maxTiempo;
-    this.temporizador = interval(this.delayInterval).subscribe(() => {
-      this.tiempoActual -= this.delayInterval;
-      console.log(this.tiempoActual);
-
-      if (this.tiempoActual <= 0)
-        this.authService.logout()
-    });
-  }
-  stopTimer() {
-
-    this.temporizador.unsubscribe();
   }
   @HostListener('document:mousemove', ['$event'])
   onGlobalMouseMove(event: MouseEvent) {
     // console.log('temporizador reiniciado por mouse');
-    this.tiempoActual = this.maxTiempo;
+    this.timer.restart();
   }
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     // console.log('temporizador reiniciado por teclado');
-    this.tiempoActual = this.maxTiempo;
+    this.timer.restart();
   }
   navigate(path: string) {
     this.router.navigate([path]);
   }
-
   ngOnDestroy(): void {
-    this.stopTimer();
+    this.timer.stopTimer();
   }
 }
