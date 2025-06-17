@@ -17,69 +17,67 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-body">
                         <h3 class="card-title text-center mb-4">Registro de Asistente</h3>
-                        <form action="form-registro.php" method="post">
-                            <div class="mb-3">
-                                <label for="matricula" class="form-label">Matrícula</label>
-                                <input type="number" class="form-control" id="matricula" name="matricula" maxlength="8" required placeholder="Ej: 12345678 " />
-                                <div class="form-number ">Máximo 8 caracteres, solo números.</div>
-                            </div>
-                            <button type="submit " class="btn btn-primary w-100 ">Registrar</button>
-                        </form>
+                        <form id="registroForm" action="form-registro.php" method="post">
+                       <div class="mb-3">
+                        <label for="matricula" class="form-label">Matrícula</label>
+                        <input type="number" class="form-control" id="matricula" name="matricula" maxlength="8" required placeholder="Ej: 12345678" />
+                        <div class="form-text">Máximo 8 caracteres, solo números.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        const LAT_PERMITIDA = 28.572440; // Latitud 
-        const LNG_PERMITIDA = -100.615361; // Longitud 
-        const RADIO_METROS = 300; // Rango permitido en metros
+   <script>
+    const ubicacionPermitida = {
+        lat: 28.571749877871614,
+        lng: -100.61571255493632,
+        radio: 200 // metros
+    };
 
-        function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
-            const R = 6371000; // Radio de la tierra en metros
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c;
-        }
+    function calcularDistancia(lat1, lon1, lat2, lon2) {
+        const R = 6371e3;
+        const φ1 = lat1 * Math.PI / 180;
+        const φ2 = lat2 * Math.PI / 180;
+        const Δφ = (lat2 - lat1) * Math.PI / 180;
+        const Δλ = (lon2 - lon1) * Math.PI / 180;
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
-            let ubicacionValida = false;
+        const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                  Math.cos(φ1) * Math.cos(φ2) *
+                  Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    const distancia = getDistanceFromLatLonInMeters(lat, lng, LAT_PERMITIDA, LNG_PERMITIDA);
-                    if (distancia <= RADIO_METROS) {
-                        ubicacionValida = true;
-                    } else {
-                        alert('Debes estar en las instalaciones de la UTNC para registrarte.');
-                        form.querySelector('button[type="submit"]').disabled = true;
-                    }
-                }, function(error) {
-                    alert('No se pudo obtener tu ubicación. No puedes registrarte.');
-                    form.querySelector('button[type="submit"]').disabled = true;
-                });
-            } else {
-                alert('Tu navegador no soporta geolocalización.');
-                form.querySelector('button[type="submit"]').disabled = true;
-            }
+        return R * c;
+    }
 
-            form.addEventListener('submit', function(e) {
-                if (!ubicacionValida) {
-                    e.preventDefault();
-                    alert('No puedes registrarte fuera de la UTNC.');
+    document.getElementById('registroForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Previene envío inmediato
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const distancia = calcularDistancia(
+                    position.coords.latitude,
+                    position.coords.longitude,
+                    ubicacionPermitida.lat,
+                    ubicacionPermitida.lng
+                );
+                if (distancia <= ubicacionPermitida.radio) {
+                    alert("Registro permitido.");
+                    event.target.submit(); // Enviar formulario manualmente
+                } else {
+                    alert("No estás en la ubicación permitida para registrarte.");
                 }
+            }, function(error) {
+                alert("No se pudo obtener la ubicación.");
             });
-        });
-    </script>
+        } else {
+            alert("La geolocalización no es soportada por este navegador.");
+        }
+    });
+</script>
 
 
     <!-- Bootstrap JS -->
