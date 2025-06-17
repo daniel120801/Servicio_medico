@@ -2,7 +2,6 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { EventType, Router, RouterOutlet } from '@angular/router';
 import { AuthService, TokenState } from './core/services/token.service';
 import { NgIf } from '@angular/common';
-import { interval, Subscription } from 'rxjs';
 import { Timer } from './core/Utilities/Timer';
 
 @Component({
@@ -15,21 +14,19 @@ import { Timer } from './core/Utilities/Timer';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-
+//#region variables
   title = 'Servicio_medico';
   hasSession = false;
   private lastState = TokenState.NOASSIGNED;
-
   sessionExpired: boolean = false;
   timer: Timer;
+//#endregion
   constructor(private router: Router, private authService: AuthService) {
     this.timer = new Timer(15, 1);
     this.timer.setOnEndListener(() => {
       this.authService.logout()
     })
   }
-
-
   ngOnInit(): void {
     this.authService.tokenStateObserver$.subscribe(state => {
       if (state === TokenState.VALID && this.lastState === TokenState.VALID) return;
@@ -73,8 +70,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.hasSession = false;
     this.router.navigate(['/']);
   }
-
-
   @HostListener('document:mousemove', ['$event'])
   onGlobalMouseMove(event: MouseEvent) {
     // console.log('temporizador reiniciado por mouse');
@@ -88,7 +83,6 @@ export class AppComponent implements OnInit, OnDestroy {
   navigate(path: string) {
     this.router.navigate([path]);
   }
-
   ngOnDestroy(): void {
     this.timer.stopTimer();
   }

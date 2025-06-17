@@ -9,10 +9,10 @@ require_once '../session/TokenUtility.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Handle preflight request
     http_response_code(204);
     exit;
 }
+
 if (!Token::verifyCookieValid()) {
 
     http_response_code(401);
@@ -39,39 +39,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $vacunas = $select->execute();
         echo json_encode($vacunas);
         exit;
-    } 
-    else if (isset($_GET["registrar"])) {
+    } else if (isset($_GET["registrar"])) {
         $insert = $con->insert('vacunas', "nombre, fecha");
         $insert->value($nombre);
         $insert->value($fecha);
         $registrar = $insert->execute();
-        
+
         echo ($registrar);
         exit;
-        } 
-
-        else if (isset($_GET["insertar"])) {
+    } else if (isset($_GET["insertar"])) {
         $insert = $con->insert('consultas', "nombre, fecha, diagnostico");
         $insert->value($nombre);
         $insert->value($fecha);
         $insert->value($diagnostico);
         $consultas = $insert->execute();
-        
+
         echo ($consultas);
         exit;
-        } 
-
-    else {
+    } else {
         http_response_code(400);
         echo json_encode(['error' => 'Método no permitido']);
         exit;
     }
+} else {
+    http_response_code(400);
+    echo json_encode(['error' => 'esta mal el metodo']);
+    exit;
 }
-else {
-        http_response_code(400);
-        echo json_encode(['error' => 'esta mal el metodo']);
-        exit;
-    }
 
 
 

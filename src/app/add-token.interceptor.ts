@@ -4,7 +4,7 @@ import { tap } from 'rxjs';
 import { AuthService, TokenState } from './core/services/token.service';
 
 export const addTokenInterceptor: HttpInterceptorFn = (req, next) => {
-  console.log(req);
+  
   const authService = inject(AuthService); // 👈 funciona igual
 
   req = req.clone({
@@ -14,10 +14,7 @@ export const addTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     tap({
-      next: (event) => {
-        console.log('✅ Respuesta recibida:', event);
-        // Aquí puedes manejar respuestas exitosas
-      },
+
       error: (err) => {
         console.error('❌ Error en la respuesta:', err);
         // Aquí puedes manejar errores HTTP

@@ -35,6 +35,8 @@ export class FormAlumnosAddDocumentComponent {
   onSubmit() {
 
     if (!this.addFile.valid) {
+      console.log('is not vlaid');
+      
       return;
     }
 
