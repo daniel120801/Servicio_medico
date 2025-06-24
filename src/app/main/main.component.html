@@ -1,9 +1,15 @@
 <div id="inicio" class="container text-center">
-
     <i class="mt-5 fa-solid fa-heart-pulse icon "></i>
-    <h2>Bienvenido</h2>
-    <p>El servicio médico que la Universidad ofrece a los estudiantes está relacionado con: la Atención Médica, Medicina Preventiva, Salud Sexual y Reproductiva, además de afiliar a los alumnos al seguro facultativo del IMSS.</p>
-    <br>
-    <p>La meta es la prevención, promoción, protección y mantenimiento de la salud de nuestra comunidad universitaria.
-    </p>
+
+    <div class="stat-card">
+        <h3>Total de consultas realizadas hoy</h3>
+        <ng-container *ngIf="consultasHoy.length > 0; else noResultados">
+            <div class="fs-4 fw-bold text-success">
+                {{ consultasHoy.length }}
+            </div>
+        </ng-container>
+        <ng-template #noResultados>
+            <div class="fs-5 text-muted">No hay consultas registradas hoy</div>
+        </ng-template>
+    </div>
 </div>

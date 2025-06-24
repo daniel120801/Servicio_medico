@@ -7,16 +7,13 @@
       text-align: center;
   }
   
-  .left-panel {
-      border-right: 1px solid #ccc;
+  .modal {
+      background-color: rgba(0, 0, 0, 0.5);
   }
   
-  .conference-detail {
-      border: 1px solid black;
+  .modal-content {
+      background: white;
       padding: 20px;
-  }
-  
-  .conference-item:hover {
-      cursor: pointer;
-      background-color: #f8f9fa;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }

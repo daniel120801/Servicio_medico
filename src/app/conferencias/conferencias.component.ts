@@ -6,6 +6,7 @@ import { FormConferModalComponent } from '../form-confer-modal/form-confer-modal
 import { NgIf } from '@angular/common';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { SafeUrl } from '@angular/platform-browser';
+import { EstadisticasService } from '../core/services/estadisticas.service';
 
 @Component({
   selector: 'app-conferencias',
@@ -17,6 +18,7 @@ import { SafeUrl } from '@angular/platform-browser';
 export class ConferenciasComponent implements OnInit {
 
   conferencias: Conferencia[] = [];
+ asistentesConferencia: number = 0;
   qrData: string = '';
   url: SafeUrl = '';
   @ViewChild(FormConferModalComponent) modal!: FormConferModalComponent;
@@ -24,11 +26,13 @@ export class ConferenciasComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public conferenciaService: ConferenciaServiceService
+    public conferenciaService: ConferenciaServiceService,
+    private estadisticasService: EstadisticasService
   ) { }
 
   ngOnInit(): void {
     this.cargarConferencias();
+    
   }
 
   cargarConferencias(): void {
@@ -56,6 +60,11 @@ selectConferencia(conferencia: IConferencia) {
     conferencia.descripcion ?? ''
   );
   this.qrData = `http://dandi1333.great-site.net/Estadias/form-registro.php?conferencia_id=${conferencia.id}`;
+// ...existing code...
+this.estadisticasService.getAsistentesPorConferencia(Number(conferencia.id)).subscribe(
+  response => this.asistentesConferencia = response.total // <-- Cambia aquí
+);
+// ...existing code...
   console.log('Datos del QR:', this.qrData);
   console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
 }

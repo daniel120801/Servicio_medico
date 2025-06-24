@@ -1,26 +1,43 @@
-<div class="container">
-    <form [formGroup]="formConsulta" (ngSubmit)="onSubmit()">
-        <div class="row mb-3">
-            <div class="col-md-8">
-                <label for="nombrePaciente" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombrePaciente" placeholder="Nombre" formControlName="nombrePaciente">
-            </div>
+<div class="modal">
 
-            <div class="col-md-4">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" formControlName="fecha">
-            </div>
+    <div class="card">
+        <div class="card-header">
+            Agregar Consulta
         </div>
+        <div class="card-body">
+            <form [formGroup]="formConsulta" class="modal-content" (ngSubmit)="onSubmit()">
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label for="nombrePaciente" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombrePaciente" placeholder="Nombre" formControlName="nombrePaciente">
+                    </div>
 
-        <div class="row mb-3">
-            <div class="col">
-                <label for="diagnostico" class="form-label">Diagnostico</label>
-                <textarea class="form-control" id="diagnostico" placeholder="Diagnostico" formControlName="diagnostico"></textarea>
-            </div>
+                    <div class="col-md-4">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" formControlName="fecha">
+                    </div>
+                </div>
 
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="diagnostico" class="form-label">Diagnostico</label>
+                        <textarea class="form-control" id="diagnostico" placeholder="Diagnostico" formControlName="diagnostico"></textarea>
+                    </div>
+
+                </div>
+                <div class="row justify-content-center align-items-center g-2">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col">
+                        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+                    </div>
+                </div>
+
+            </form>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <button type="button" class="btn btn-primary" (click)="cerrarModal()">Cerrar</button>
-    </form>
+
 </div>
