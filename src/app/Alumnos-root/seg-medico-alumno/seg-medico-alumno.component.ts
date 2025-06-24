@@ -10,7 +10,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './seg-medico-alumno.component.css'
 })
 export class SegMedicoAlumnoComponent implements OnInit {
+
   @Output() toServicesEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() toFormEditEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() toPerfilEvent: EventEmitter<void> = new EventEmitter<void>();
   @Input() alumno: Alumno | null = null;
   constructor(private alumnosService: AlumnosService) {
 
@@ -22,13 +25,15 @@ export class SegMedicoAlumnoComponent implements OnInit {
     }
   }
   volver() {
-    this.alumnosService.toPerfil();
+    this.toPerfilEvent.emit();
   }
-
+  toFormEdit() {
+    this.toFormEditEvent.emit();
+  }
   toServices() {
     this.toServicesEvent.emit();
 
-    
+
   }
 
 }

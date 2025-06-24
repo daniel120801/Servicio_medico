@@ -65,6 +65,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.handleLogout()
     this.sessionExpired = false;
   }
+  logout(){
+    this.authService.logout();
+    this.handleLogout();
+  }
   handleLogout() {
     this.timer.stopTimer();
     this.hasSession = false;

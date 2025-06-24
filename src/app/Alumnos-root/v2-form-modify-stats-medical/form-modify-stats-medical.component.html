@@ -1,0 +1,78 @@
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm h-100">
+                <h4 class="card-title mt-2  text-center text-primary mb-4">Actualizar registro médico</h4>
+
+                <div class="card-body">
+
+                <form [formGroup]="medicalForm" (ngSubmit)="onSubmit()">
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="nss">NSS:</label>
+                        <input type="text" id="nss" class="form-control" formControlName="NSS" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('NSS')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="afiliacion">Afiliación:</label>
+                        <input type="text" id="afiliacion" class="form-control" formControlName="afiliacion" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('afiliacion')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="rh">RH:</label>
+                        <input type="text" id="rh" formControlName="RH" class="form-control" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('RH')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="donador">Donador:</label>
+                        <input type="text" id="donador" formControlName="donador" class="form-control" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('donador')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="peso">Peso:</label>
+                        <input type="text" id="peso" formControlName="peso" class="form-control" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('peso')">Aplicar</button>
+                    </div> 
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="talla">Talla:</label>
+                        <input type="text" id="talla" formControlName="talla" class="form-control" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('talla')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="alergias">Alergias:</label>
+                        <input type="text" id="alergias" formControlName="alergias" class="form-control" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('alergias')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="enfermedades">Enfermedades:</label>
+                        <input type="text" id="enfermedades" formControlName="enfermedades" class="form-control" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('enfermedades')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="tratamientos">Tratamientos:</label>
+                        <input type="text" id="tratamientos" formControlName="tratamientos" class="form-control" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('tratamientos')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="discapacidad">Discapacidad:</label>
+                        <input type="text" id="discapacidad" formControlName="discapacidad" class="form-control" required>
+                        <button type="button" class="btn btn-success" (click)="applyField('discapacidad')">Aplicar</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label w-100" for="enCasoDeAccidente">En caso de accidente:</label>
+                        <textarea type="text" id="enCasoDeAccidente" formControlName="enCasoDeAccidente"
+                            class="form-control" cols="2" required style="resize: none;"></textarea>
+                        <button type="button" class="btn btn-success" (click)="applyField('enCasoDeAccidente')">Aplicar</button>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3">
+                        <button type="button" class="btn btn-outline-secondary" (click)="volver()">
+                            ← Regresar
+                        </button>
+                        <button class="btn btn-success" type="submit">Aplicar todo</button>
+                    </div>
+                </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

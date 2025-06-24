@@ -40,7 +40,7 @@ export class PerfilAlumnoComponent implements OnInit {
     this.openConferAsisEvent.emit();
   }
   volver() {
-    this.alumnosService.toSearch();
+    this.volverEvent.emit()
   }
   showDocument(fileName: string) {
 
