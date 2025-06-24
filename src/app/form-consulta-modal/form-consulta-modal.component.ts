@@ -9,7 +9,7 @@ const API_VACUNAS = 'http://localhost/Estadia/API/vacunas.php';
   templateUrl: './form-consulta-modal.component.html',
   standalone: true,
   imports: [ReactiveFormsModule],
-  styleUrls: ['./form-consulta-modal.component.css']
+  styleUrls: ['./form-consulta-modal.component.css', '../../styles.css'],
 })
 export class FormConsultaModalComponent implements OnInit {
   formConsulta!: FormGroup;

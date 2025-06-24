@@ -1,22 +1,35 @@
-<div class="container border p-4 mt-4" style="max-width: 500px;">
-    <form [formGroup]="vacunaForm" (ngSubmit)="onSubmit()">
-        <div class="row mb-3">
-            <div class="col-8">
-                <label for="vacuna" class="form-label">Vacuna</label>
-                <input type="text" id="vacuna" class="form-control form-control-lg" placeholder="Agregar texto" formControlName="vacuna" />
-            </div>
+<div class="modal">
 
-            <div class="col-4">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" id="fecha" class="form-control" formControlName="fecha" />
-            </div>
+    <div class="card">
+        <div class="card-header">
+            Agregar Vacuna
         </div>
+        <div class="card-body">
+            <form [formGroup]="vacunaForm" class="modal-content" (ngSubmit)="onSubmit()">
+                <div class="row mb-3">
+                    <div class="col-8">
+                        <label for="vacuna" class="form-label">Vacuna</label>
+                        <input type="text" id="vacuna" class="form-control form-control-lg" placeholder="Agregar texto" formControlName="vacuna" />
+                    </div>
 
-        <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <button type="button" class="btn btn-primary" (click)="cerrarModal()">Cerrar</button>
+                    <div class="col-4">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" id="fecha" class="form-control" formControlName="fecha" />
+                    </div>
+                </div>
+
+                <div class="row justify-content-center align-items-center g-2">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col">
+                        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+                    </div>
+                </div>
+
+            </form>
 
         </div>
-
-    </form>
+    </div>
 </div>

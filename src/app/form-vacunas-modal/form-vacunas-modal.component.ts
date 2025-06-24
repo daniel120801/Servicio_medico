@@ -7,7 +7,7 @@ import { VacunasService } from '../core/services/vacunas.service'; // <-- Import
   templateUrl: './form-vacunas-modal.component.html',
   imports: [ReactiveFormsModule],
   standalone: true,
-  styleUrls: ['./form-vacunas-modal.component.css'],
+  styleUrls: ['./form-vacunas-modal.component.css', '../../styles.css'],
   providers: [VacunasService] // <-- Asegúrate de proveer el servicio
 })
 export class FormVacunasModalComponent implements OnInit {
