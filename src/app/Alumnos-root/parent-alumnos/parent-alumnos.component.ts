@@ -9,17 +9,19 @@ import { Subscription } from 'rxjs';
 import { AlumnosService, ParentPages } from '../../core/services/alumnos.service';
 import { Router } from '@angular/router';
 import { Alumno, IAlumnoHeaders } from '../../core/Models/alumno.model';
+import { FormModifyStatsMedicalComponent } from "../v2-form-modify-stats-medical/form-modify-stats-medical.component";
 
 
 @Component({
   selector: 'app-parent-alumnos',
-  imports: [AlumnosComponent, PerfilAlumnoComponent, CommonModule, ConferAsistidasAlumnoComponent, SegMedicoAlumnoComponent],
+  imports: [AlumnosComponent, PerfilAlumnoComponent, CommonModule, ConferAsistidasAlumnoComponent, SegMedicoAlumnoComponent, FormModifyStatsMedicalComponent],
   templateUrl: './parent-alumnos.component.html',
   styleUrl: './parent-alumnos.component.css',
   providers: [provideSharedFeature]
 
 })
 export class ParentAlumnosComponent implements OnInit, OnDestroy {
+
 
   selectedIdAlumno: string = '';
   alumnoSelected: Alumno | null = null;
@@ -33,7 +35,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     this.subscriptionRouteObserver = this.alumnosService.routesObserver$.subscribe(
       nuevoValor => {
         this.selectedPage = nuevoValor;
-        
+
       }
     );
     this.subscriptionAlumnoObserver = this.alumnosService.alumnoSelectedObserver$.subscribe(
@@ -44,7 +46,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
           } else {
 
             this.alumnoSelected = alumno;
-            this.alumnosService.toPerfil();
+            this.selectedPage = ParentPages.PERFIL;
           }
         },
         error: error => {
@@ -53,10 +55,14 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
         }
       }
     );
-  } 
+  }
+
+  onPerfil() {
+    this.selectedPage = ParentPages.PERFIL;
+  }
   onClosePerfil() {
     this.selectedIdAlumno = '';
-    this.alumnosService.toSearch();
+    this.selectedPage = ParentPages.BUSCADOR;
   }
   onAlumnoSelected(alumno: IAlumnoHeaders) {
     this.selectedIdAlumno = alumno.matricula;
@@ -65,20 +71,28 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     this.alumnosService.selectAlumno(this.selectedIdAlumno);
     //redirige desde el servicio de seleccion de alumnos
   }
+  toFormEditSegMed() {
+    if (this.selectedIdAlumno == '') {
+      console.error('No hay un alumno seleccionado para mostrar conferencias asistidas.');
+      return;
+    }
+    this.selectedPage = ParentPages.FORM_SEG_MED;
+  }
   onConferAsistidas() {
     if (this.selectedIdAlumno == '') {
       console.error('No hay un alumno seleccionado para mostrar conferencias asistidas.');
       return;
     }
-    this.alumnosService.toConferAsistidas();
+    this.selectedPage = ParentPages.CONFER_ASISTIDAS;
   }
   onSegMedico() {
     if (this.selectedIdAlumno == '') {
       console.error('No hay un alumno seleccionado para mostrar el seguro médico.');
       return;
     }
-    this.alumnosService.toSegMedico();
+    this.selectedPage = ParentPages.SEG_MEDICO
   }
+
   get ParentPages() {
     return ParentPages;
   }

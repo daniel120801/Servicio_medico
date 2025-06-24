@@ -38,7 +38,7 @@ export class filterHeadersUtility {
 
             switch (filterMode) {
                 case FilterMode.MATRICULA:
-                    fieldToSearch = alumno.matricula?.toLowerCase() || '';
+                    fieldToSearch = alumno.matricula + '' || '';
                     break;
                 case FilterMode.CARRERA:
                     fieldToSearch = alumno.carrera?.toLowerCase() || '';

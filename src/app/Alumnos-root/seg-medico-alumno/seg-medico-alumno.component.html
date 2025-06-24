@@ -30,10 +30,10 @@
                     <h3>Vacunas</h3>
                     <ul style="overflow-y: scroll; height: 20vh;">
                         @for (item of alumno.vacunas; track $index) {
-                            <li>{{item.nombre}} </li>
+                        <li>{{item.nombre}} </li>
                         }
                         @empty {
-                            <li>Sin vacunas</li>
+                        <li>Sin vacunas</li>
                         }
                     </ul>
                 </div>
@@ -41,9 +41,12 @@
         </div>
     </div>
     <div class="row justify-content-center align-items-center g-2">
-        <div class="col-6"><button type="button" class="btn btn-outline-secondary px-4" (click)="volver()"> ← Regresar
+        <div class="col-4"><button type="button" class="btn btn-outline-secondary px-4" (click)="volver()"> ← Regresar
             </button></div>
-        <div class="col-6 text-end">
+        <div class="col-4 text-center">
+            <button type="button" class="btn btn-outline-secondary px-4" (click)="toFormEdit()"> Editar Formulario
+            </button></div>
+        <div class="col-4 text-end">
             <button href="#" class="btn btn-primary " (click)="toServices()">Ir a Servicios médicos ➝</button>
         </div>
     </div>

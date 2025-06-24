@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    this.setToken(TokenState.EXPIRED)
+    this.setToken(TokenState.NOASSIGNED)
     return this.http.get<any>(API_LOGIN + "?logout=", {});
 
   }

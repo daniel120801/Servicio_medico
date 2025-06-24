@@ -25,14 +25,14 @@ export class AlumnosService {
     this.alumnoSelectedObserver$ = this.idSubject.pipe(
       switchMap(mtr => {
         if (!mtr || mtr === null) {
-          
-          
+
+
           return of(null);
         }
         return this.http.get<Alumno>(`${API_ALUMNOS}?mtr=${mtr}`).pipe(
           map((response: any) => {
-            
-            
+
+
             if (!response?.matricula) return null;
 
             return this.buildAlumno(response);
@@ -54,7 +54,7 @@ export class AlumnosService {
       map(objects => {
         if (!Array.isArray(objects)) return [];
         return objects
-          .filter(obj =>  obj?.nombre && obj?.matricula && obj?.carrera)
+          .filter(obj => obj?.nombre && obj?.matricula && obj?.carrera)
           .map(obj => new Alumno({
             general: {
               nombre: obj.nombre,
@@ -67,22 +67,21 @@ export class AlumnosService {
       catchError(() => of([]))
     );
   }
-  getFile(fileName: string,mtr:string): Observable<any> {
+  getFile(fileName: string, mtr: string): Observable<any> {
 
-    const formD:FormData = new FormData();
-      formD.append('mtr',mtr + '')
-      formD.append('fileName',fileName + '')
+    const formD: FormData = new FormData();
+    formD.append('mtr', mtr + '')
+    formD.append('fileName', fileName + '')
 
-      
-      
-    return this.http.post(`${API_ALUMNOS}?gFile=true`,formD, { responseType: 'blob' }).pipe(
+
+
+    return this.http.post(`${API_ALUMNOS}?gFile=true`, formD, { responseType: 'blob' }).pipe(
       catchError(error => {
         console.error('Error al descargar el archivo:', error);
         return of(null);
       })
     );
   }
-
   /**
  * send a document to server 
  *
@@ -142,17 +141,40 @@ export class AlumnosService {
         vacunas: vacunas
       }
     });
-    
+
 
     return alumno;
   }
 
-  //#region Navigation Methods
-  toSearch() { this._routesObserver.next(ParentPages.BUSCADOR); }
-  toPerfil() { this._routesObserver.next(ParentPages.PERFIL); }
-  toConferAsistidas() { this._routesObserver.next(ParentPages.CONFER_ASISTIDAS); }
-  toSegMedico() { this._routesObserver.next(ParentPages.SEG_MEDICO); }
-  //#endregion
+  modifyStat(mtr:string,field: string, newValue: string): Observable<boolean> {
+
+    const body = new FormData();
+    body.append('field',field);
+    body.append('mtr',mtr);
+    body.append('value',newValue);
+    return this.http.post<any>(API_ALUMNOS + '?modStat=', body).pipe(
+      map(response => {
+        if (! response || response.status !== 'success') {
+          return false;
+        }
+        else {
+
+          return true;
+        }
+      }),
+      catchError(error => {
+        console.error('Error al modificar el stat:', error);
+        return of(false);
+      }
+      )
+    )
+  }
+  modifyAllStats(body: FormData) {
+
+  }
+
+
+
 }
 export enum FilterMode {
   NOMBRE,
@@ -163,5 +185,6 @@ export enum ParentPages {
   BUSCADOR = 'buscador',
   PERFIL = 'perfil',
   CONFER_ASISTIDAS = 'confer_asistidas',
-  SEG_MEDICO = 'seg_medico'
+  SEG_MEDICO = 'seg_medico',
+  FORM_SEG_MED = 'form_seg_med'
 }

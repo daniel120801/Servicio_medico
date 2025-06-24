@@ -1,5 +1,8 @@
-<header>
-    <h1><i class="fa-solid fa-stethoscope"></i> Servicios Médicos</h1>
+<header class="row">
+    <div class="col-3"></div>
+    <h1 class="col-6"><i class="fa-solid fa-stethoscope"></i> Servicios Médicos</h1>
+    <div class="col-3 text-end " *ngIf="hasSession"> <button type="button" class="btn btn-danger mx-auto " (click)="logout()">
+        cerrar sesión <i class="fa-solid fa-right-to-bracket"></i></button></div>
 
 </header>
 
@@ -11,14 +14,14 @@
 
 
 </nav>
-<div  *ngIf="sessionExpired" class="modal"> 
-<div class="card mx-auto" style="max-width: 400px; margin-top: 2rem;">
-    <form class="card-body text-center" (submit)="onAcceptSessionExpired()">
-        <h2 class="card-title mb-3">Sesión expirada</h2>
-        <p class="card-text">Tu sesión ha expirado. Por favor, inicia sesión nuevamente.</p>
-        <button class="btn btn-primary mt-3" type="submit">Aceptar</button>
-    </form>
-</div>
+<div *ngIf="sessionExpired" class="modal">
+    <div class="card mx-auto" style="max-width: 400px; margin-top: 2rem;">
+        <form class="card-body text-center" (submit)="onAcceptSessionExpired()">
+            <h2 class="card-title mb-3">Sesión expirada</h2>
+            <p class="card-text">Tu sesión ha expirado. Por favor, inicia sesión nuevamente.</p>
+            <button class="btn btn-primary mt-3" type="submit">Aceptar</button>
+        </form>
+    </div>
 
 </div>
 <router-outlet class="container"></router-outlet>

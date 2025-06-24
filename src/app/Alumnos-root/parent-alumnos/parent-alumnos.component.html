@@ -1,3 +1,4 @@
+
 <div [ngSwitch]="selectedPage">
     <div *ngSwitchCase="'buscador'">
         <app-alumnos (onSelectAlumnoEvent)="onAlumnoSelected($event)"></app-alumnos>
@@ -10,13 +11,16 @@
     </div>
     <div *ngSwitchCase="'confer_asistidas'">
         <app-confer-asistidas-alumno [alumno]="alumnoSelected"
-            (toConferencesEvent)="toGeneralConferences()"></app-confer-asistidas-alumno>
+            (toConferencesEvent)="toGeneralConferences()" (toPerfilEvent)="onPerfil()"></app-confer-asistidas-alumno>
 
     </div>
     <div *ngSwitchCase="'seg_medico'">
-        <app-seg-medico-alumno [alumno]="alumnoSelected"
-            (toServicesEvent)="toGeneralServices()"></app-seg-medico-alumno>
+        <app-seg-medico-alumno [alumno]="alumnoSelected" (toFormEditEvent)="toFormEditSegMed()"
+            (toServicesEvent)="toGeneralServices()" (toPerfilEvent)="onPerfil()"></app-seg-medico-alumno>
 
     </div>
+    <div *ngSwitchCase="'form_seg_med'">
+        <app-form-modify-stats-medical (toSegMedEvent)="onSegMedico()"   [alumno]="alumnoSelected"></app-form-modify-stats-medical>
 
+    </div>
 </div>

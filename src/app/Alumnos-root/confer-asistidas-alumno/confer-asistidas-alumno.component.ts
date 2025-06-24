@@ -16,6 +16,7 @@ export class ConferAsistidasAlumnoComponent implements OnInit {
 
 
   @Output() toConferencesEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() toPerfilEvent: EventEmitter<void> = new EventEmitter<void>();
   @Input() alumno: Alumno | null = null
   filter: filterUtility = new filterUtility();
   searchForm: FormGroup;
@@ -44,7 +45,7 @@ export class ConferAsistidasAlumnoComponent implements OnInit {
   }
 
   volver() {
-    this.alumnosService.toPerfil();
+    this.toPerfilEvent.emit();
   }
   onConferenceSelected(conferencia: Conferencia) {
     
