@@ -35,11 +35,20 @@ trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index
 
   }
 
-   cargarConsultas() {
-    this.ConsultasService.getConsultas().subscribe((data: Consulta[]) => {
-      this.consultas = data;
+cargarConsultas() {
+  this.ConsultasService.getConsultas().subscribe((data: Consulta[]) => {
+    const hoy = new Date();
+    const mesActual = hoy.getMonth();
+    const anioActual = hoy.getFullYear();
+    this.consultas = data.filter(consulta => {
+      const fechaConsulta = new Date(consulta.fecha);
+      return (
+        fechaConsulta.getMonth() === mesActual &&
+        fechaConsulta.getFullYear() === anioActual
+      );
     });
-  }
+  });
+}
 
   cargarVacunas() {
     this.vacunasService.getVacunas().subscribe(data => {

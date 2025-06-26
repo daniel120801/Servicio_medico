@@ -15,14 +15,14 @@
     </div>
 
     <div class="content">
-        <h3>Vacunados</h3>
+        <h3>Asistentes</h3>
         <div class="list">
 
             <div class="list-item" *ngFor="let vacunado of vacunados" (dblclick)="quitarVacunado(vacunado)">
                 {{ vacunado }}
             </div>
             <div *ngIf="vacunados.length === 0" class="list-item text-muted">
-                No hay alumnos vacunados
+                Sin asistencia
             </div>
         </div>
     </div>
