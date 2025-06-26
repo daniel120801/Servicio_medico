@@ -1,7 +1,4 @@
 <div class="container">
-
-
-
     <div *ngIf="alumno">
         <h2 class="text-center">Datos Medicos</h2>
         <div class="info-wrapper">
@@ -12,7 +9,7 @@
                 <p><strong>Grupo RH:</strong> {{alumno.RH }}</p>
                 <p><strong>Donador de sangre:</strong> {{alumno.donador }}</p>
                 <p><strong>Peso:</strong>{{alumno.peso }}</p>
-                <p><strong>Talla:</strong> {{alumno.talla }}</p>
+                <p><strong>Estatura:</strong> {{alumno.talla }}</p>
                 <p><strong>En caso de accidente:</strong> {{alumno.enCasoDeAccidente }} </p>
             </div>
 
@@ -45,7 +42,8 @@
             </button></div>
         <div class="col-4 text-center">
             <button type="button" class="btn btn-outline-secondary px-4" (click)="toFormEdit()"> Editar Formulario
-            </button></div>
+            </button>
+        </div>
         <div class="col-4 text-end">
             <button href="#" class="btn btn-primary " (click)="toServices()">Ir a Servicios médicos ➝</button>
         </div>

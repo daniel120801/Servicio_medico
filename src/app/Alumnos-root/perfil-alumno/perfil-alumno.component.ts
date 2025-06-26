@@ -70,9 +70,11 @@ export class PerfilAlumnoComponent implements OnInit {
     this.alumnosService.uploadDocument(form).subscribe({
       next: (response) => {
         this.onChangeVisibilityModal(false);
+        console.log(response);
+        
         //TODO:agregar que cuando el documento se sube, actualize la lista de documentos para mostrar los nuevos valores
         if(this.alumno){
-          this.alumno.documentos.push(new Documento(-1,response.fileName))
+          this.alumno.documentos.push(new Documento(-1,response.data['fileName']))
         }
 
         

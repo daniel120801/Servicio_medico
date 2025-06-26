@@ -30,43 +30,43 @@ export class AlumnosComponent implements OnInit, OnDestroy {
   }
 
   updateList(valor: string): void {
-    
-
     this.filteredAlumnos = this.filter.filterAlumnos(valor, this.filterMode)
   }
   ngOnInit(): void {
-    this.alumnosService.getHeaders().subscribe(
-      (alumnos: IAlumnoHeaders[]) => {
-       
+    this.alumnosService.getHeaders().subscribe({
+      next: (alumnos) => {
+
         this.filteredAlumnos = alumnos;
         this.filter.setAlumnos(this.filteredAlumnos);
       },
-      error => {
-        console.error('Error al obtener los alumnos:', error);
-      }
-    )
+      error:any => {
+      console.error('Error al obtener los alumnos:', any);
+    }
+     }
+    );
+    
     this.searchForm.get('filterSearch')?.valueChanges.subscribe(valor => {
 
       const value = (<string>valor);
-      
+
       const newFilterMode = FilterMode[value.toUpperCase() as keyof typeof FilterMode];
       this.filterMode = newFilterMode;
-      
+
     });
 
-    this.searchForm.get('searchInput')?.valueChanges.subscribe(valor => {
-      this.updateList(valor);
-    });
+this.searchForm.get('searchInput')?.valueChanges.subscribe(valor => {
+  this.updateList(valor);
+});
 
   }
-  onSelectAlumno(alumno: IAlumnoHeaders) {
-  
+onSelectAlumno(alumno: IAlumnoHeaders) {
 
-    this.onSelectAlumnoEvent.emit(alumno);
-  }
-  ngOnDestroy(): void {
 
-  }
+  this.onSelectAlumnoEvent.emit(alumno);
+}
+ngOnDestroy(): void {
+
+}
 }
 
 

@@ -14,6 +14,7 @@ export class FormModifyStatsMedicalComponent implements OnInit {
 
   medicalForm: FormGroup;
   @Output() toSegMedEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onModifyAlumno: EventEmitter<{ key: string, value: any }[]> = new EventEmitter<{ key: string, value: any }[]>();
   @Input() alumno: Alumno | null = null;
 
   constructor(private alumnosService: AlumnosService, private fb: FormBuilder) {
@@ -30,6 +31,12 @@ export class FormModifyStatsMedicalComponent implements OnInit {
       discapacidad: ['', Validators.required],
       enCasoDeAccidente: ['', Validators.required]
     });
+
+    const b = {
+      x:'hi'
+    }
+    console.log(b);
+    
   }
 
   ngOnInit(): void {
@@ -61,12 +68,23 @@ export class FormModifyStatsMedicalComponent implements OnInit {
     if (control && this.alumno) {
       let alumnoValue = (this.alumno as any)[arg0];
       console.log(alumnoValue);
-      
+
       if (control.value !== alumnoValue) {
         this.alumnosService.modifyStat(this.alumno.matricula, arg0, control.value).subscribe({
           next: x => {
-            if (x)
+            if (x) {
+
+
               console.log('campo editado con exito');
+                const values: { key: string; value: any; }[] | undefined = []
+              Object.keys(this.medicalForm.controls).forEach(key => {
+                values.push({
+                  key: key,
+                  value: this.medicalForm.get(key)?.value
+                });
+                this.onModifyAlumno.emit(values);
+              });
+            }
             else {
               console.log('fallo la edicion');
               (this.alumno as any)[arg0] = control.value;
@@ -83,8 +101,30 @@ export class FormModifyStatsMedicalComponent implements OnInit {
     }
   }
   onSubmit() {
-    console.log('submit');
+    if (!this.alumno) return;
+    const body = new FormData();
+    Object.keys(this.medicalForm.controls).forEach(key => {
+      body.append(key, this.medicalForm.get(key)?.value);
+    });
 
+    this.alumnosService.modifyAllStats(this.alumno.matricula, body).subscribe({
+      next: x => {
+        console.log(x);
+        
+        if (x && x.status === 'success')
+          console.log('campos editados con exito: ', x.data);
+        else {
+          console.log('algo fallo');
+          
+        }
+      }
+    }
+      //TODO:dar aviso  visual al momento de actualizar el campo
+
+
+    )
   }
 
 }
+
+

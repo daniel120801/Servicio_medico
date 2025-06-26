@@ -9,6 +9,13 @@ import { Vacunas } from '../Models/vacunas.model';
 import { API_ALUMNOS } from '../Utilities/Api';
 import { Documento } from '../Models/Documento.model';
 
+export class Response {
+  public status: string = '';
+  public message: string = '';
+  public data: [] = [];
+
+}
+
 @Injectable()
 export class AlumnosService {
 
@@ -118,6 +125,7 @@ export class AlumnosService {
         matricula: response.matricula,
         telefono: response.telefono,
         correo: response.correo,
+        genero: response.genero,
         CURP: response.CURP,
         edad: response.edad,
         carrera: response.carrera,
@@ -146,15 +154,15 @@ export class AlumnosService {
     return alumno;
   }
 
-  modifyStat(mtr:string,field: string, newValue: string): Observable<boolean> {
+  modifyStat(mtr: string, field: string, newValue: string): Observable<boolean> {
 
     const body = new FormData();
-    body.append('field',field);
-    body.append('mtr',mtr);
-    body.append('value',newValue);
+    body.append('field', field);
+    body.append('mtr', mtr);
+    body.append('value', newValue);
     return this.http.post<any>(API_ALUMNOS + '?modStat=', body).pipe(
       map(response => {
-        if (! response || response.status !== 'success') {
+        if (!response || response.status !== 'success') {
           return false;
         }
         else {
@@ -169,8 +177,14 @@ export class AlumnosService {
       )
     )
   }
-  modifyAllStats(body: FormData) {
-
+  modifyAllStats(mtr: string, body: FormData): Observable<Response> {
+    body.append('mtr', mtr);
+    return this.http.post<Response>(API_ALUMNOS + '?modAllStats', body).pipe(
+      catchError(error => {
+        console.error('Error al modificar el stat:', error);
+        return of(new Response());
+      })
+    );
   }
 
 

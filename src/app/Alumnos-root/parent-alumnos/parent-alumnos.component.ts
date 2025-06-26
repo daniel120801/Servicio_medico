@@ -23,6 +23,7 @@ import { FormModifyStatsMedicalComponent } from "../v2-form-modify-stats-medical
 export class ParentAlumnosComponent implements OnInit, OnDestroy {
 
 
+
   selectedIdAlumno: string = '';
   alumnoSelected: Alumno | null = null;
   selectedPage: ParentPages = ParentPages.BUSCADOR;
@@ -92,7 +93,16 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     }
     this.selectedPage = ParentPages.SEG_MEDICO
   }
+  modifyAlumno($event: { key: string, value: any }[]) {
 
+    $event.forEach( value =>{
+      (this.alumnoSelected as any)[value.key] = value.value;
+    })
+
+    console.log('nuevo alumno: ', this.alumnoSelected);
+    
+
+  }
   get ParentPages() {
     return ParentPages;
   }
