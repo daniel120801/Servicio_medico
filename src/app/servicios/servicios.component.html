@@ -19,7 +19,7 @@
                             <app-form-consulta-modal (cerrar)="cerrarFormularioConsulta()"></app-form-consulta-modal> <br>
                         </div>
 
-                        <ul class="list-group mb-3" style="overflow-y: scroll; height: 30vh;">
+                        <ul class="list-group mb-3" style="overflow-y: scroll; height: 80vh;">
                             <li *ngFor="let consulta of consultas; let i = index; trackBy: trackByIndex" class="list-group-item">
                                 <div class="fw-bold">{{ consulta.nombre }}</div>
                                 <div class="text-muted small">{{ consulta.fecha }} - {{ consulta.diagnostico }}</div>
@@ -35,7 +35,7 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
                         <h5 class="card-title mb-3">
-                            <i class="bi bi-shield-plus me-2"></i>Vacunas
+                            <i class="bi bi-shield-plus me-2"></i>Brigadas
                         </h5>
 
                         <button class="btn btn-success mb-3" (click)="mostrarFormularioVacunas()">Agregar</button>

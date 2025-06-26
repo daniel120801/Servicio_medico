@@ -11,10 +11,7 @@ getConsultas() {
 }
 
 
-
-
 getAsistentesPorConferencia(id: number) {
   return this.http.get<{ total: number }>(API_CONFERENCIAS + `?accion=asistentesConferencia&id=${id}`);
 }
-// ...existing code...
 }
