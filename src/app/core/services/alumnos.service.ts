@@ -186,9 +186,6 @@ export class AlumnosService {
       })
     );
   }
-
-
-
 }
 export enum FilterMode {
   NOMBRE,
