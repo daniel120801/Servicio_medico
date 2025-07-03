@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlumnosService } from '../../core/services/alumnos.service';
 import { Alumno } from '../../core/Models/alumno.model';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-form-modify-stats-medical',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIf],
   templateUrl: './form-modify-stats-medical.component.html',
   styleUrl: './form-modify-stats-medical.component.css'
 })
@@ -16,6 +17,7 @@ export class FormModifyStatsMedicalComponent implements OnInit {
   @Output() toSegMedEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() onModifyAlumno: EventEmitter<{ key: string, value: any }[]> = new EventEmitter<{ key: string, value: any }[]>();
   @Input() alumno: Alumno | null = null;
+  fieldUpdatingList: string[] = [];
 
   constructor(private alumnosService: AlumnosService, private fb: FormBuilder) {
     this.medicalForm = this.fb.group({
@@ -33,10 +35,10 @@ export class FormModifyStatsMedicalComponent implements OnInit {
     });
 
     const b = {
-      x:'hi'
+      x: 'hi'
     }
     console.log(b);
-    
+
   }
 
   ngOnInit(): void {
@@ -63,59 +65,51 @@ export class FormModifyStatsMedicalComponent implements OnInit {
   volver() {
     this.toSegMedEvent.emit();
   }
-  applyField(arg0: string) {
-    const control = this.medicalForm.get(arg0);
-    if (control && this.alumno) {
-      let alumnoValue = (this.alumno as any)[arg0];
-      console.log(alumnoValue);
+  applyField(field: string) {
+    const control = this.medicalForm.get(field);
+    if (!control || !this.alumno) return;
 
-      if (control.value !== alumnoValue) {
-        this.alumnosService.modifyStat(this.alumno.matricula, arg0, control.value).subscribe({
-          next: x => {
-            if (x) {
+    if (control.value === (this.alumno as any)[field]) return;
 
+    this.fieldUpdatingList.push(field);
 
-              console.log('campo editado con exito');
-                const values: { key: string; value: any; }[] | undefined = []
-              Object.keys(this.medicalForm.controls).forEach(key => {
-                values.push({
-                  key: key,
-                  value: this.medicalForm.get(key)?.value
-                });
-                this.onModifyAlumno.emit(values);
-              });
-            }
-            else {
-              console.log('fallo la edicion');
-              (this.alumno as any)[arg0] = control.value;
-            }
-            console.log('new value NSS: ', this.alumno?.NSS);
-          }
+    this.alumnosService.modifyStat(this.alumno.matricula, field, control.value).subscribe({
+      next: res => {
+        this.fieldUpdatingList = this.fieldUpdatingList.filter(f => f !== field);
+        if (res) {
+          this.onModifyAlumno.emit(
+            Object.keys(this.medicalForm.controls).map(key => ({
+              key,
+              value: this.medicalForm.get(key)?.value
+            }))
+          );
+        } else {
+           //TODO:agregar algun efecto visual de los cambios
+          console.log('fallo la edicion');
         }
-          //TODO:dar aviso  visual al momento de actualizar el campo
-
-
-        )
+      }, error: (error) => {
+        //TODO:agregar algun efecto visual de los cambios
       }
-      console.log(arg0, 'form value:', control.value, '|alumno value:', alumnoValue);
-    }
+    });
   }
+
   onSubmit() {
     if (!this.alumno) return;
     const body = new FormData();
     Object.keys(this.medicalForm.controls).forEach(key => {
       body.append(key, this.medicalForm.get(key)?.value);
     });
-
+    this.fieldUpdatingList.push('all')
     this.alumnosService.modifyAllStats(this.alumno.matricula, body).subscribe({
       next: x => {
         console.log(x);
-        
+        this.fieldUpdatingList = this.fieldUpdatingList.filter(field => field !== 'all');
+
         if (x && x.status === 'success')
           console.log('campos editados con exito: ', x.data);
         else {
           console.log('algo fallo');
-          
+
         }
       }
     }

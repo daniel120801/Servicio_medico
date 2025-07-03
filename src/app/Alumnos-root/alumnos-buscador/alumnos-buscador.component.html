@@ -23,22 +23,46 @@
                 <th>Carrera</th>
             </tr>
         </thead>
-        
+
         <tbody>
-            @for (item of filteredAlumnos; track $index) {
-            <tr (click)="onSelectAlumno(item)" style="cursor: pointer;">
-                <td>
-                    {{ item.nombre }}
-                </td>
-                <td>
-                    {{ item.matricula }}
-                </td>
-                <td>
-                    {{ item.carrera }}
-                </td>
-            </tr>
-            } @empty {
-            <li class="list-group-item ">No hay resultados</li>
+            @if (searching) {
+                <tr>
+                    <td colspan="3" class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                        </div>
+                    </td>
+                </tr>
             }
+            @else {
+                @for (item of filteredAlumnos; track $index) {
+                <tr (click)="onSelectAlumno(item)" style="cursor: pointer;">
+                    <td>
+                        {{ item.nombre }}
+                    </td>
+                    <td>
+                        {{ item.matricula }}
+                    </td>
+                    <td>
+                        {{ item.carrera }}
+                    </td>
+                </tr>
+                } @empty {
+                <li class="list-group-item ">No hay resultados</li>
+                }
+            }
+
         </tbody>
     </table>
+
+    <div class="text-center">
+        <div class="btn-group" role="group" aria-label="Button group name">
+            <button *ngIf="searcher.getPage() != 0 " type="button" class="btn btn-primary" (click)="onPrevPag()">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <button *ngIf="hasMorePages() " type="button" class="btn btn-primary" (click)="onNextPag()">
+                <i class="fa fa-arrow-right"></i>
+            </button>
+        </div>
+
+    </div>
+</div>

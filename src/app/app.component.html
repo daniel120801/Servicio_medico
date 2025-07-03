@@ -11,8 +11,6 @@
     <button class="transparent_button" (click)="navigate('/servicios')">servicios</button>
     <button class="transparent_button" (click)="navigate('/confer')">Conferencias</button>
     <button class="transparent_button" (click)="navigate('/alumnos')">Alumnos</button>
-
-
 </nav>
 <div *ngIf="sessionExpired" class="modal">
     <div class="card mx-auto" style="max-width: 400px; margin-top: 2rem;">
@@ -22,7 +20,6 @@
             <button class="btn btn-primary mt-3" type="submit">Aceptar</button>
         </form>
     </div>
-
 </div>
 <router-outlet class="container"></router-outlet>
 
