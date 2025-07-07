@@ -1,0 +1,29 @@
+@if (loading) {
+  <div class="d-flex align-items-center ms-1 me-1">
+    <div class="spinner-border text-success" role="status" style="width: 1.5rem; height: 1.5rem;">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+}
+@if (error) {
+  <div class="d-flex align-items-center ms-1 me-1">
+    <span class="text-danger">
+      <i class="fa fa-exclamation-circle"></i>
+    </span>
+  </div>
+}
+@if (success) {
+  <div class="d-flex align-items-center ms-1 me-1">
+    <span class="text-success">
+      <i class="fa fa-check-circle"></i>
+    </span>
+  </div>
+}
+@if (warning) {
+  <div class="d-flex align-items-center ms-1 me-1">
+    <span class="text-warning">
+      <i class="fa fa-exclamation-triangle"></i>
+      <span class="ms-2">{{ warningMessage }}</span>
+    </span>
+  </div>
+}

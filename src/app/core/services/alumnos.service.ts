@@ -8,6 +8,14 @@ import { Conferencia } from '../Models/conferencia.model';
 import { Vacunas } from '../Models/vacunas.model';
 import { API_ALUMNOS } from '../Utilities/Api';
 import { Documento } from '../Models/Documento.model';
+import { Searcher } from '../Utilities/Searcher';
+
+export class Response {
+  public status: string = '';
+  public message: string = '';
+  public data: [] = [];
+
+}
 
 @Injectable()
 export class AlumnosService {
@@ -19,7 +27,6 @@ export class AlumnosService {
 
   private idSubject = new BehaviorSubject<string>('');
   public alumnoSelectedObserver$: Observable<Alumno | null>;
-  alumnosHeaders: IAlumnoHeaders[] = [];
   //#endregion
   constructor(private http: HttpClient) {
     this.alumnoSelectedObserver$ = this.idSubject.pipe(
@@ -47,9 +54,7 @@ export class AlumnosService {
     this.idSubject.next(nuevoId);
   }
   getHeaders(): Observable<IAlumnoHeaders[]> {
-    if (this.alumnosHeaders.length > 0) {
-      return of(this.alumnosHeaders);
-    }
+ 
     return this.http.get<any[]>(`${API_ALUMNOS}?allheaders=`).pipe(
       map(objects => {
         if (!Array.isArray(objects)) return [];
@@ -63,10 +68,18 @@ export class AlumnosService {
             }
           }));
       }),
-      tap(headers => { this.alumnosHeaders = headers; }),
       catchError(() => of([]))
     );
   }
+  getSearcher() {
+    return new Searcher(this.http);
+  }
+
+
+
+
+
+
   getFile(fileName: string, mtr: string): Observable<any> {
 
     const formD: FormData = new FormData();
@@ -83,12 +96,12 @@ export class AlumnosService {
     );
   }
   /**
- * send a document to server 
- *
- * @param form the formData with the name, document as blob and matricula of student
- *
- * @return An `Observable` of the response, with the response body as an `json`.
- */
+  * send a document to server 
+  *
+  * @param form the formData with the name, document as blob and matricula of student
+  *
+  * @return An `Observable` of the response, with the response body as an `json`.
+  */
   uploadDocument(form: FormData): Observable<any> {
     return this.http.post(`${API_ALUMNOS}?uploadFile=true`, form);
   }
@@ -118,6 +131,7 @@ export class AlumnosService {
         matricula: response.matricula,
         telefono: response.telefono,
         correo: response.correo,
+        genero: response.genero,
         CURP: response.CURP,
         edad: response.edad,
         carrera: response.carrera,
@@ -146,15 +160,15 @@ export class AlumnosService {
     return alumno;
   }
 
-  modifyStat(mtr:string,field: string, newValue: string): Observable<boolean> {
+  modifyStat(mtr: string, field: string, newValue: string): Observable<boolean> {
 
     const body = new FormData();
-    body.append('field',field);
-    body.append('mtr',mtr);
-    body.append('value',newValue);
+    body.append('field', field);
+    body.append('mtr', mtr);
+    body.append('value', newValue);
     return this.http.post<any>(API_ALUMNOS + '?modStat=', body).pipe(
       map(response => {
-        if (! response || response.status !== 'success') {
+        if (!response || response.status !== 'success') {
           return false;
         }
         else {
@@ -169,18 +183,17 @@ export class AlumnosService {
       )
     )
   }
-  modifyAllStats(body: FormData) {
-
+  modifyAllStats(mtr: string, body: FormData): Observable<Response> {
+    body.append('mtr', mtr);
+    return this.http.post<Response>(API_ALUMNOS + '?modAllStats', body).pipe(
+      catchError(error => {
+        console.error('Error al modificar el stat:', error);
+        return of(new Response());
+      })
+    );
   }
-
-
-
 }
-export enum FilterMode {
-  NOMBRE,
-  MATRICULA,
-  CARRERA
-}
+
 export enum ParentPages {
   BUSCADOR = 'buscador',
   PERFIL = 'perfil',

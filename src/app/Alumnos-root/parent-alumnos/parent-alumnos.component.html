@@ -20,7 +20,7 @@
 
     </div>
     <div *ngSwitchCase="'form_seg_med'">
-        <app-form-modify-stats-medical (toSegMedEvent)="onSegMedico()"   [alumno]="alumnoSelected"></app-form-modify-stats-medical>
+        <app-form-modify-stats-medical (toSegMedEvent)="onSegMedico()" (onModifyAlumno)="modifyAlumno($event)"   [alumno]="alumnoSelected"></app-form-modify-stats-medical>
 
     </div>
 </div>

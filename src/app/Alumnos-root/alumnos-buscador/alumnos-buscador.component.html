@@ -23,8 +23,17 @@
                 <th>Carrera</th>
             </tr>
         </thead>
-        
+
         <tbody>
+            @if (searching) {
+            <tr>
+                <td colspan="3" class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                    </div>
+                </td>
+            </tr>
+            }
+            @else {
             @for (item of filteredAlumnos; track $index) {
             <tr (click)="onSelectAlumno(item)" style="cursor: pointer;">
                 <td>
@@ -40,5 +49,24 @@
             } @empty {
             <li class="list-group-item ">No hay resultados</li>
             }
+            }
+
         </tbody>
     </table>
+
+    <div class="text-center">
+        <div class="btn-group" role="group" aria-label="Button group name">
+            @if (getPage() != 0) {
+            <button type="button" class="btn btn-primary" (click)="onPrevPag()">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            }
+            @if (hasMorePages()) {
+            <button type="button" class="btn btn-primary" (click)="onNextPag()">
+                <i class="fa fa-arrow-right"></i>
+            </button>
+            }
+        </div>
+
+    </div>
+</div>

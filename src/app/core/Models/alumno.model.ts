@@ -8,6 +8,7 @@ export interface IAlumnoHeaders {
     carrera: string;
 
 
+
 }
 
 export interface IAlumnoGeneral {
@@ -17,6 +18,7 @@ export interface IAlumnoGeneral {
     correo: string,
     CURP: string,
     edad: number,
+    genero: string,
     carrera: string,
     ciudad: string,
     domicilio: string,
@@ -50,6 +52,7 @@ export class Alumno implements IAlumnoGeneral, IAlumnoMedical, IAlumnoHeaders {
     public CURP: string = '';
     public ciudad: string = '';
     public domicilio: string = '';
+    public genero: string = '';
     public edad: number = 0;
     public NSS: string = '';
     public afiliacion: string = '';
@@ -75,5 +78,5 @@ export class Alumno implements IAlumnoGeneral, IAlumnoMedical, IAlumnoHeaders {
         if (params.medical) Object.assign(this, params.medical);
         if (params.headers) Object.assign(this, params.headers);
     }
-    
+
 }
