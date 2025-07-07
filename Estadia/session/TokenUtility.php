@@ -33,7 +33,7 @@ class Token
         if (!isset($_COOKIE['access_token'])) {
             
 
-            return 'cookie no encontrada';
+            return 'token no encontrado';
         }
 
         try {

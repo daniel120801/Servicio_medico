@@ -1,5 +1,5 @@
 <div class="container my-4">
-  
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm h-100">
@@ -9,34 +9,24 @@
 
                     <form [formGroup]="medicalForm" (ngSubmit)="onSubmit()">
                         <div class="input-group mb-3">
-
                             <label class="form-label w-100" for="nss">NSS:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1" *ngIf="fieldUpdatingList.includes('NSS')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
-
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('NSS')"
+                                [success]="fieldSuccessList.includes('NSS')" [error]="fieldErrorList.includes('NSS')"
+                                [warning]="fieldWarningList.includes('NSS')"
+                                [warningMessage]="getWarningMessage('NSS')">
+                            </app-field-status-indicator>
                             <input type="text" id="nss" class="form-control" formControlName="NSS" required>
                             <button type="button" class="btn btn-success" (click)="applyField('NSS')">Aplicar
                             </button>
-
-
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="afiliacion">Afiliación:</label>
-
-
-                            <div class="d-flex align-items-center ms-1 me-1"
-                                *ngIf="fieldUpdatingList.includes('afiliacion')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
-
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('afiliacion')"
+                                [success]="fieldSuccessList.includes('afiliacion')"
+                                [error]="fieldErrorList.includes('afiliacion')"
+                                [warning]="fieldWarningList.includes('afiliacion')"
+                                [warningMessage]="getWarningMessage('afiliacion')">
+                            </app-field-status-indicator>
                             <input type="text" id="afiliacion" class="form-control" formControlName="afiliacion"
                                 required>
                             <button type="button" class="btn btn-success"
@@ -44,79 +34,67 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="rh">RH:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1" *ngIf="fieldUpdatingList.includes('RH')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('RH')"
+                                [success]="fieldSuccessList.includes('RH')" [error]="fieldErrorList.includes('RH')"
+                                [warning]="fieldWarningList.includes('RH')"
+                                [warningMessage]="getWarningMessage('RH')">
+                            </app-field-status-indicator>
                             <input type="text" id="rh" formControlName="RH" class="form-control" required>
                             <button type="button" class="btn btn-success" (click)="applyField('RH')">Aplicar</button>
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="donador">Donador:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1"
-                                *ngIf="fieldUpdatingList.includes('donador')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('donador')"
+                                [success]="fieldSuccessList.includes('donador')"
+                                [error]="fieldErrorList.includes('donador')"
+                                [warning]="fieldWarningList.includes('donador')"
+                                [warningMessage]="getWarningMessage('donador')">
+                            </app-field-status-indicator>
                             <input type="text" id="donador" formControlName="donador" class="form-control" required>
                             <button type="button" class="btn btn-success"
                                 (click)="applyField('donador')">Aplicar</button>
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="peso">Peso:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1" *ngIf="fieldUpdatingList.includes('peso')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('peso')"
+                                [success]="fieldSuccessList.includes('peso')" [error]="fieldErrorList.includes('peso')"
+                                [warning]="fieldWarningList.includes('peso')"
+                                [warningMessage]="getWarningMessage('peso')">
+                            </app-field-status-indicator>
                             <input type="text" id="peso" formControlName="peso" class="form-control" required>
                             <button type="button" class="btn btn-success" (click)="applyField('peso')">Aplicar</button>
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="talla">Estatura:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1"
-                                *ngIf="fieldUpdatingList.includes('talla')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('talla')"
+                                [success]="fieldSuccessList.includes('talla')"
+                                [error]="fieldErrorList.includes('talla')"
+                                [warning]="fieldWarningList.includes('talla')"
+                                [warningMessage]="getWarningMessage('talla')">
+                            </app-field-status-indicator>
                             <input type="text" id="talla" formControlName="talla" class="form-control" required>
                             <button type="button" class="btn btn-success" (click)="applyField('talla')">Aplicar</button>
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="alergias">Alergias:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1"
-                                *ngIf="fieldUpdatingList.includes('alergias')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('alergias')"
+                                [success]="fieldSuccessList.includes('alergias')"
+                                [error]="fieldErrorList.includes('alergias')"
+                                [warning]="fieldWarningList.includes('alergias')"
+                                [warningMessage]="getWarningMessage('alergias')">
+                            </app-field-status-indicator>
                             <input type="text" id="alergias" formControlName="alergias" class="form-control" required>
                             <button type="button" class="btn btn-success"
                                 (click)="applyField('alergias')">Aplicar</button>
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="enfermedades">Enfermedades:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1"
-                                *ngIf="fieldUpdatingList.includes('enfermedades')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('enfermedades')"
+                                [success]="fieldSuccessList.includes('enfermedades')"
+                                [error]="fieldErrorList.includes('enfermedades')"
+                                [warning]="fieldWarningList.includes('enfermedades')"
+                                [warningMessage]="getWarningMessage('enfermedades')">
+                            </app-field-status-indicator>
                             <input type="text" id="enfermedades" formControlName="enfermedades" class="form-control"
                                 required>
                             <button type="button" class="btn btn-success"
@@ -124,14 +102,12 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="tratamientos">Tratamientos:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1"
-                                *ngIf="fieldUpdatingList.includes('tratamientos')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('tratamientos')"
+                                [success]="fieldSuccessList.includes('tratamientos')"
+                                [error]="fieldErrorList.includes('tratamientos')"
+                                [warning]="fieldWarningList.includes('tratamientos')"
+                                [warningMessage]="getWarningMessage('tratamientos')">
+                            </app-field-status-indicator>
                             <input type="text" id="tratamientos" formControlName="tratamientos" class="form-control"
                                 required>
                             <button type="button" class="btn btn-success"
@@ -139,14 +115,12 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="discapacidad">Discapacidad:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1"
-                                *ngIf="fieldUpdatingList.includes('discapacidad')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('discapacidad')"
+                                [success]="fieldSuccessList.includes('discapacidad')"
+                                [error]="fieldErrorList.includes('discapacidad')"
+                                [warning]="fieldWarningList.includes('discapacidad')"
+                                [warningMessage]="getWarningMessage('discapacidad')">
+                            </app-field-status-indicator>
                             <input type="text" id="discapacidad" formControlName="discapacidad" class="form-control"
                                 required>
                             <button type="button" class="btn btn-success"
@@ -154,14 +128,12 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="form-label w-100" for="enCasoDeAccidente">En caso de accidente:</label>
-
-                            <div class="d-flex align-items-center ms-1 me-1"
-                                *ngIf="fieldUpdatingList.includes('enCasoDeAccidente')">
-                                <div class="spinner-border text-success" role="status"
-                                    style="width: 1.5rem; height: 1.5rem;">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                            </div>
+                            <app-field-status-indicator [loading]="fieldUpdatingList.includes('enCasoDeAccidente')"
+                                [success]="fieldSuccessList.includes('enCasoDeAccidente')"
+                                [error]="fieldErrorList.includes('enCasoDeAccidente')"
+                                [warning]="fieldWarningList.includes('enCasoDeAccidente')"
+                                [warningMessage]="getWarningMessage('enCasoDeAccidente')">
+                            </app-field-status-indicator>
                             <textarea type="text" id="enCasoDeAccidente" formControlName="enCasoDeAccidente"
                                 class="form-control" cols="2" required style="resize: none;"></textarea>
                             <button type="button" class="btn btn-success"
@@ -172,12 +144,12 @@
                                 ← Regresar
                             </button>
                             <div class="d-flex align-items-center">
-                                <div class="d-flex align-items-center ms-1 me-1" *ngIf="fieldUpdatingList.includes('all')">
-                                    <div class="spinner-border text-success" role="status"
-                                        style="width: 1.5rem; height: 1.5rem;">
-                                        <span class="visually-hidden">Cargando...</span>
-                                    </div>
-                                </div>
+                                <app-field-status-indicator [loading]="fieldUpdatingList.includes('all')"
+                                    [success]="fieldSuccessList.includes('all')"
+                                    [error]="fieldErrorList.includes('all')"
+                                    [warning]="fieldWarningList.includes('all')"
+                                    [warningMessage]="getWarningMessage('all')">
+                                </app-field-status-indicator>
                                 <button class="btn btn-success ms-2" type="submit">Aplicar todo</button>
                             </div>
                         </div>

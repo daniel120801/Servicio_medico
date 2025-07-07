@@ -552,7 +552,12 @@ class Select extends Conexion
         $joins .= "INNER JOIN $com\n";
         $this->joins = $joins;
     }
-
+    function crossjoin($com)
+    {
+        $joins = $this->joins;
+        $joins .= "CROSS JOIN $com\n";
+        $this->joins = $joins;
+    }
     /**
      * Construcción de clausula GROUP BY
      *

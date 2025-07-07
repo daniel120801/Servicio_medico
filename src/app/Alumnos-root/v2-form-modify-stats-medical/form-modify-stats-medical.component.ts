@@ -1,44 +1,35 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AlumnosService } from '../../core/services/alumnos.service';
 import { Alumno } from '../../core/Models/alumno.model';
-import { NgIf } from '@angular/common';
+import { FieldStatusIndicatorComponent } from '../../shared/field-status-indicator/field-status-indicator.component';
 
 @Component({
   selector: 'app-form-modify-stats-medical',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, FieldStatusIndicatorComponent],
   templateUrl: './form-modify-stats-medical.component.html',
   styleUrl: './form-modify-stats-medical.component.css'
 })
 export class FormModifyStatsMedicalComponent implements OnInit {
 
+  @Input() alumno: Alumno | null = null;
+  @Output() toSegMedEvent = new EventEmitter<void>();
+  @Output() onModifyAlumno = new EventEmitter<{ key: string, value: any }[]>();
 
   medicalForm: FormGroup;
-  @Output() toSegMedEvent: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onModifyAlumno: EventEmitter<{ key: string, value: any }[]> = new EventEmitter<{ key: string, value: any }[]>();
-  @Input() alumno: Alumno | null = null;
   fieldUpdatingList: string[] = [];
+  fieldErrorList: string[] = [];
+  fieldSuccessList: string[] = [];
+  fieldWarningList: string[] = [];
+  private readonly fields = [
+    'NSS', 'afiliacion', 'RH', 'donador', 'peso', 'talla',
+    'alergias', 'enfermedades', 'tratamientos', 'discapacidad', 'enCasoDeAccidente'
+  ];
 
   constructor(private alumnosService: AlumnosService, private fb: FormBuilder) {
-    this.medicalForm = this.fb.group({
-      NSS: ['', Validators.required],
-      afiliacion: ['', Validators.required],
-      RH: ['', Validators.required],
-      donador: ['', Validators.required],
-      peso: ['', Validators.required],
-      talla: ['', Validators.required],
-      alergias: ['', Validators.required],
-      enfermedades: ['', Validators.required],
-      tratamientos: ['', Validators.required],
-      discapacidad: ['', Validators.required],
-      enCasoDeAccidente: ['', Validators.required]
-    });
-
-    const b = {
-      x: 'hi'
-    }
-    console.log(b);
-
+    this.medicalForm = this.fb.group(
+      Object.fromEntries(this.fields.map(field => [field, ['', Validators.required]]))
+    );
   }
 
   ngOnInit(): void {
@@ -46,79 +37,75 @@ export class FormModifyStatsMedicalComponent implements OnInit {
       this.volver();
       return;
     }
-    // Actualiza el formulario con los datos del alumno cuando esté disponible
-    this.medicalForm.patchValue({
-      NSS: this.alumno.NSS,
-      afiliacion: this.alumno.afiliacion,
-      RH: this.alumno.RH,
-      donador: this.alumno.donador,
-      peso: this.alumno.peso,
-      talla: this.alumno.talla,
-      alergias: this.alumno.alergias,
-      enfermedades: this.alumno.enfermedades,
-      tratamientos: this.alumno.tratamientos,
-      discapacidad: this.alumno.discapacidad,
-      enCasoDeAccidente: this.alumno.enCasoDeAccidente
-    });
+    this.medicalForm.patchValue(
+      Object.fromEntries(this.fields.map(field => [field, (this.alumno as any)[field]]))
+    );
   }
 
   volver() {
     this.toSegMedEvent.emit();
   }
+
   applyField(field: string) {
     const control = this.medicalForm.get(field);
     if (!control || !this.alumno) return;
+    if (control.value === (this.alumno as any)[field]) {
+      this.updateFieldStatus(field, 'warning');
+      return;
+    }
 
-    if (control.value === (this.alumno as any)[field]) return;
-
-    this.fieldUpdatingList.push(field);
-
+    this.updateFieldStatus(field, 'updating');
     this.alumnosService.modifyStat(this.alumno.matricula, field, control.value).subscribe({
       next: res => {
-        this.fieldUpdatingList = this.fieldUpdatingList.filter(f => f !== field);
-        if (res) {
-          this.onModifyAlumno.emit(
-            Object.keys(this.medicalForm.controls).map(key => ({
-              key,
-              value: this.medicalForm.get(key)?.value
-            }))
-          );
-        } else {
-           //TODO:agregar algun efecto visual de los cambios
-          console.log('fallo la edicion');
-        }
-      }, error: (error) => {
-        //TODO:agregar algun efecto visual de los cambios
-      }
+        this.updateFieldStatus(field, res ? 'success' : 'error');
+        if (res) this.emitModifiedAlumno();
+      },
+      error: () => this.updateFieldStatus(field, 'error')
     });
+  }
+
+  getWarningMessage(_: string): string {
+    return 'Sin cambios';
   }
 
   onSubmit() {
     if (!this.alumno) return;
-    const body = new FormData();
-    Object.keys(this.medicalForm.controls).forEach(key => {
-      body.append(key, this.medicalForm.get(key)?.value);
-    });
-    this.fieldUpdatingList.push('all')
-    this.alumnosService.modifyAllStats(this.alumno.matricula, body).subscribe({
-      next: x => {
-        console.log(x);
-        this.fieldUpdatingList = this.fieldUpdatingList.filter(field => field !== 'all');
 
-        if (x && x.status === 'success')
-          console.log('campos editados con exito: ', x.data);
-        else {
-          console.log('algo fallo');
-
-        }
-      }
+    const hasChanges = this.fields.some(
+      field => this.medicalForm.get(field)?.value !== (this.alumno as any)[field]
+    );
+    if (!hasChanges) {
+      this.updateFieldStatus('all', 'warning');
+      return;
     }
-      //TODO:dar aviso  visual al momento de actualizar el campo
 
-
-    )
+    const body = new FormData();
+    this.fields.forEach(field => body.append(field, this.medicalForm.get(field)?.value));
+    this.updateFieldStatus('all', 'updating');
+    this.alumnosService.modifyAllStats(this.alumno.matricula, body).subscribe({
+      next: x => this.updateFieldStatus('all', x && x.status === 'success' ? 'success' : 'error'),
+      error: () => this.updateFieldStatus('all', 'error')
+    });
   }
 
+  private updateFieldStatus(field: string, status: 'updating' | 'success' | 'error' | 'warning') {
+    this.fieldUpdatingList = this.fieldUpdatingList.filter(f => f !== field);
+    this.fieldErrorList = this.fieldErrorList.filter(f => f !== field);
+    this.fieldSuccessList = this.fieldSuccessList.filter(f => f !== field);
+    this.fieldWarningList = this.fieldWarningList.filter(f => f !== field);
+
+    if (status === 'updating') this.fieldUpdatingList.push(field);
+    else if (status === 'success') this.fieldSuccessList.push(field);
+    else if (status === 'error') this.fieldErrorList.push(field);
+    else if (status === 'warning') this.fieldWarningList.push(field);
+  }
+
+  private emitModifiedAlumno() {
+    this.onModifyAlumno.emit(
+      this.fields.map(key => ({
+        key,
+        value: this.medicalForm.get(key)?.value
+      }))
+    );
+  }
 }
-
-
