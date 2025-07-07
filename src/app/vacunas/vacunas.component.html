@@ -7,7 +7,7 @@
         <div class="search-box">
             <input type="text" placeholder="Buscar alumno..." [value]="filter" (input)="onFilterChange($event)">
         </div>
-        <div class="list">
+        <div class="list" style="overflow-y: scroll; height: 100vh;">
             <div class="list-item" *ngFor="let student of filteredStudents; let i = index" [class.selected]="selectedIndex === i" (click)="selectItem(i)">
                 {{ student.nombre }}
             </div>

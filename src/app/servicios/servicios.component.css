@@ -11,17 +11,16 @@
       border-right: 1px solid #ccc;
   }
   
-  .conference-detail {
-      border: 1px solid black;
-      padding: 20px;
-  }
-  
-  .conference-item:hover {
-      cursor: pointer;
-      background-color: #f8f9fa;
-  }
-  
   .card-title {
       display: flex;
       align-items: center;
+  }
+  
+  .consulta-row .editar-btn {
+      opacity: 0;
+      transition: opacity 0.2s;
+  }
+  
+  .consulta-row:hover .editar-btn {
+      opacity: 1;
   }

@@ -135,7 +135,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['resultado' => $resultado]);
         exit;
 
-    } elseif (isset($data['accion']) && $data['accion'] === 'registrarVacunaAlumno') {
+    } elseif (isset($data['accion']) && $data['accion'] == 'editarConsulta') {
+        if (!isset($data['id']) || !isset($data['nombre']) || !isset($data['fecha']) || !isset($data['diagnostico'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Faltan datos para editar consulta']);
+            exit;
+        }
+
+        $update = $con->update('consultas');
+        $update->set('nombre', $data['nombre']);
+        $update->set('fecha', $data['fecha']);
+        $update->set('diagnostico', $data['diagnostico']);
+        $update->where('id', '=', $data['id']);
+        $resultado = $update->execute();
+
+        echo json_encode(['resultado' => $resultado]);
+        exit;
+    }
+    
+    elseif (isset($data['accion']) && $data['accion'] === 'registrarVacunaAlumno') {
         if (!isset($data['estudiante_id']) || !isset($data['vacuna_id'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Faltan datos para registrar vacunación']);
