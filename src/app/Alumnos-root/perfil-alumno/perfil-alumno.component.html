@@ -1,63 +1,59 @@
-<div class="container my-3">
-
-    <div class="row ">
-        <div class="col-8 ">
-            <div class="card shadow-lg border-0 rounded-4">
+<div class="container my-3" style="height: 100%;">
+    <div class="row" style="height: 100%;">
+        <div class="col-8" style="height: 100%;">
+            <div class="card shadow-lg border-0 rounded-4 h-100">
                 <div class="card-body p-4" *ngIf="alumno">
-
                     <div class="text-center mb-4">
                         <h2 id="name" class="fw-bold">{{alumno.nombre}}</h2>
                         <p id="matricula" class="mb-1">Matrícula: {{alumno.matricula}}</p>
                         <p id="carrera" class="mb-1">Carrera: {{alumno.carrera}}</p>
                         <p id="age" class="mb-1">Edad: {{alumno.edad}}</p>
                         <p id="genre" class="mb-1">Genero: {{alumno.genero}}</p>
-                        <p id="age" class="mb-1">Telefono: {{alumno.telefono}}</p>
+                        <p id="phone" class="mb-1">Telefono: {{alumno.telefono}}</p>
                         <p id="curp" class="mb-1">CURP:{{alumno.CURP}}</p>
                         <p id="city" class="mb-1">Ciudad:{{alumno.ciudad}}</p>
                         <p id="domicile" class="mb-1">Domicilio: {{alumno.domicilio}}</p>
                         <p id="email" class="mb-0">Correo: {{alumno.correo}}</p>
                     </div>
-
                     <div class="row justify-content-center">
-
-                        <div class="col-4 text-center"> <button class="btn btn-primary px-4" id="segmed"
-                                (click)="onOpenSegMedico()">Seguimiento
-                                Médico</button></div>
-
-                        <div class="col-4 text-center"><button class="btn btn-success px-4" id="conasi"
-                                (click)="onOpenConferAsistidas()">Conferencias
-                                Asistidas</button></div>
-                        <div class="col-6 align-self-center text-center mt-3 "> <button type="button"
-                                class="btn btn-outline-secondary px-4" (click)="volver()"> ← Regresar
-                            </button></div>
+                        <div class="col-4 text-center">
+                            <button class="btn btn-primary px-4" id="segmed" (click)="onOpenSegMedico()">Seguimiento Médico</button>
+                        </div>
+                        <div class="col-4 text-center">
+                            <button class="btn btn-success px-4" id="conasi" (click)="onOpenConferAsistidas()">Conferencias Asistidas</button>
+                        </div>
+                        <div class="col-6 align-self-center text-center mt-3">
+                            <button type="button" class="btn btn-outline-secondary px-4" (click)="volver()"> ← Regresar </button>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-4 documento-container text-center">
+        <div class="col-4" style="height: 100%;">
+            <div class="card shadow-lg border-0 rounded-4 h-100">
+                <div class="card-body p-4 documento-container text-center d-flex flex-column">
                     <h5 class="card-title text-center">Documentos</h5>
-                    <button class="btn btn-primary mb-3 text-center" (click)="onChangeVisibilityModal(true)">Agregar Documento</button>   
-                    <ul class="list-group list-group-flush">
-
+                    <button class="btn btn-primary mb-3 text-center" (click)="onChangeVisibilityModal(true)">
+                        Agregar Documento
+                    </button>
+                    <ul class="list-group list-group-flush flex-grow-1">
                         @for (item of alumno?.documentos; track $index) {
-                              <li (click)="showDocument(item.name)"
-                            class="list-group documento-item ">
-                            <span>{{item.name}}</span>
-                        </li>
+                            <li (click)="showDocument(item.name)" class="list-group-item documento-item d-flex align-items-center">
+                                <i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>
+                                <span>{{item.name}}</span>
+                            </li>
                         }
-                            
                         @empty {
-                            <li>Sin Documentos</li>
+                            <li class="list-group-item">Sin Documentos</li>
                         }
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-
-    <app-form-alumnos-add-document (onCloseModal)="onChangeVisibilityModal(false)" (onAddDocumentEvent)="onAddDocument($event)"  *ngIf="showModal" ></app-form-alumnos-add-document>
-
+    <app-form-alumnos-add-document
+        (onCloseModal)="onChangeVisibilityModal(false)"
+        (onAddDocumentEvent)="onAddDocument($event)"
+        *ngIf="showModal">
+    </app-form-alumnos-add-document>
 </div>

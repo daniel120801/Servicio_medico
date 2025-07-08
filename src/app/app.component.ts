@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { EventType, Router, RouterOutlet } from '@angular/router';
 import { AuthService, TokenState } from './core/services/token.service';
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import { Timer } from './core/Utilities/Timer';
 
 @Component({
@@ -9,7 +9,7 @@ import { Timer } from './core/Utilities/Timer';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css', '../styles.css'],
   standalone: true,
-  imports: [RouterOutlet, NgIf]
+  imports: [RouterOutlet, NgIf, NgClass]
 
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -20,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private lastState = TokenState.NOASSIGNED;
   sessionExpired: boolean = false;
   timer: Timer;
+  currentRoute: string = '';
 //#endregion
   constructor(private router: Router, private authService: AuthService) {
     this.timer = new Timer(15, 1);
@@ -58,6 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (!this.hasSession && event.url !== '/') {
           this.router.navigate(['/']);
         }
+      this.currentRoute = this.router.url;
     })
 
   }
@@ -86,6 +88,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   navigate(path: string) {
     this.router.navigate([path]);
+    this.currentRoute = path;
   }
   ngOnDestroy(): void {
     this.timer.stopTimer();

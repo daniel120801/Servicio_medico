@@ -1,4 +1,4 @@
-    .transparent_button {
+.transparent_button {
         background-color: rgba(255, 255, 255, 0);
         border: none;
     }
@@ -60,4 +60,8 @@
 
     nav button:hover {
         color: #00b69e;
+    }
+
+    .active-nav {
+        color: #00b69e !important;
     }

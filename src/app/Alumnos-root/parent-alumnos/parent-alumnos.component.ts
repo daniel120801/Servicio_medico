@@ -98,10 +98,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
     $event.forEach( value =>{
       (this.alumnoSelected as any)[value.key] = value.value;
     })
-
     console.log('nuevo alumno: ', this.alumnoSelected);
-    
-
   }
   get ParentPages() {
     return ParentPages;

@@ -43,17 +43,20 @@ export class PerfilAlumnoComponent implements OnInit {
     this.volverEvent.emit()
   }
   showDocument(fileName: string) {
-
     if (!this.alumno) return;
-
-    
     this.alumnosService.getFile(fileName, this.alumno.matricula).subscribe({
       next: (fileContent) => {
-        
-
-        const blob = new Blob([fileContent], { type: 'application/pdf' });
+        const blob = new Blob([fileContent]);
         const url = window.URL.createObjectURL(blob);
-        window.open(url, '_blank');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }, 100);
       },
       error: (error) => {
         console.error('Error al obtener el archivo:', error);
