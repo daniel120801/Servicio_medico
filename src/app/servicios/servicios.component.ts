@@ -29,10 +29,10 @@ export class ServiciosComponent implements OnInit {
 
   trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index;
 
-constructor(
+  constructor(
     private vacunasService: VacunasService,
     private consultasService: ConsultasService
-  ) {}
+  ) { }
 
 
   ngOnInit() {
@@ -40,30 +40,28 @@ constructor(
     this.cargarConsultas();
   }
 
-cargarConsultas() {
-  this.consultasService.getConsultas().subscribe((data: Consulta[]) => {
-    const hoy = new Date();
-    const mesActual = hoy.getMonth();
-    const anioActual = hoy.getFullYear();
-    
-    // Filtrar y ordenar las consultas
-    this.consultas = data
-      .filter(consulta => {
-        const fechaConsulta = new Date(consulta.fecha);
-        return (
-          fechaConsulta.getMonth() === mesActual &&
-          fechaConsulta.getFullYear() === anioActual
-        );
-      })
-      .sort((a, b) => {
-        // Convertir fechas a timestamps para comparación
-        const fechaA = new Date(a.fecha).getTime();
-        const fechaB = new Date(b.fecha).getTime();
-        // Orden descendente (más reciente primero)
-        return fechaB - fechaA;
-      });
-  });
-}
+  cargarConsultas() {
+    this.consultasService.getConsultas().subscribe((data: Consulta[]) => {
+      const hoy = new Date();
+      const mesActual = hoy.getMonth();
+      const anioActual = hoy.getFullYear();
+
+      // Filtrar y ordenar las consultas
+      this.consultas = data
+        .filter(consulta => {
+          const fechaConsulta = new Date(consulta.fecha);
+          return (
+            fechaConsulta.getMonth() === mesActual &&
+            fechaConsulta.getFullYear() === anioActual
+          );
+        })
+        .sort((a, b) => {
+          const fechaA = new Date(a.fecha).getTime();
+          const fechaB = new Date(b.fecha).getTime();
+          return fechaB - fechaA;
+        });
+    });
+  }
 
   cargarVacunas() {
     this.vacunasService.getVacunas().subscribe(data => {
@@ -85,9 +83,6 @@ cargarConsultas() {
     this.consultaSeleccionada = { ...consulta }; // Copia para edición
     this.formularioConsultaVisible = true;
   }
-
-
-  // ... otros métodos ...
 
   guardarConsulta(consulta: Consulta) {
     if (consulta.id) {
