@@ -4,6 +4,9 @@ import { API_CONFERENCIAS, API_VACUNAS } from '../Utilities/Api';
 
 @Injectable({ providedIn: 'root' })
 export class EstadisticasService {
+  getEstadisticas() {
+    throw new Error('Method not implemented.');
+  }
   constructor(private http: HttpClient) {}
 
 getConsultas() {
