@@ -17,6 +17,13 @@ export class ConsultasService {
     return this.http.get<Consulta[]>(API_CONSULTAS + '?all_consulta');
   }
 
+  actualizarConsulta(consulta: Partial<Consulta>): Observable<any> {
+    return this.http.post(API_CONSULTAS, {
+      accion: 'editarConsulta',
+      ...consulta
+    });
+  }
+
   // Agregar una nueva consulta
   agregarConsulta(consulta: Partial<Consulta>): Observable<any> {
     return this.http.post(API_CONSULTAS, {

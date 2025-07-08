@@ -16,20 +16,26 @@
                         <button class="btn btn-primary mb-3" (click)="mostrarFormularioConsulta()">Agregar</button>
 
                         <div *ngIf="formularioConsultaVisible" class="mt-3">
-                            <app-form-consulta-modal (cerrar)="cerrarFormularioConsulta()"></app-form-consulta-modal> <br>
+                            <app-form-consulta-modal [consulta]="consultaSeleccionada" (cerrar)="cerrarFormularioConsulta()" (guardar)="guardarConsulta($event)">
+                            </app-form-consulta-modal>
+                            <br>
                         </div>
 
                         <ul class="list-group mb-3" style="overflow-y: scroll; height: 80vh;">
-                            <li *ngFor="let consulta of consultas; let i = index; trackBy: trackByIndex" class="list-group-item">
-                                <div class="fw-bold">{{ consulta.nombre }}</div>
-                                <div class="text-muted small">{{ consulta.fecha }} - {{ consulta.diagnostico }}</div>
-                            </li>
+                            <ng-container *ngIf="consultas && consultas.length > 0">
+                                <li *ngFor="let consulta of consultas; let i = index; trackBy: trackByIndex" class="list-group-item">
+                                    <div class="fw-bold">{{ consulta.nombre }}</div>
+                                    <div class="text-muted small">{{ consulta.fecha }} - {{ consulta.diagnostico }}</div>
+                                    <button class="icon-btn editar-btn" (click)="editarConsulta(consulta)" title="Editar">
+      <i class="fas fa-pen"></i>
+    </button>
+                                </li>
+                            </ng-container>
                             <li *ngIf="!consultas || consultas.length === 0" class="list-group-item text-muted">No hay consultas registradas</li>
                         </ul>
                     </div>
                 </div>
             </div>
-
 
             <div class="col-md-6">
                 <div class="card shadow-sm border-0">
@@ -55,4 +61,3 @@
             </div>
         </div>
     </div>
-</div>

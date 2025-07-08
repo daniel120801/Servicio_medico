@@ -13,8 +13,8 @@ import { ConsultasService } from '../core/services/consultas.service';
   templateUrl: './servicios.component.html',
   styleUrls: ['./servicios.component.css'],
   standalone: true,
-  imports: [CommonModule, FormConsultaModalComponent, FormVacunasModalComponent, VacunasComponent]
-  ,providers: [VacunasService, ConsultasService]
+  imports: [CommonModule, FormConsultaModalComponent, FormVacunasModalComponent, VacunasComponent],
+  providers: [VacunasService, ConsultasService]
 })
 export class ServiciosComponent implements OnInit {
   vacunas: Vacunas[] = [];
@@ -24,49 +24,78 @@ export class ServiciosComponent implements OnInit {
   showVacunas = false;
   formularioConsultaVisible = false;
   formularioVacunasVisible = false;
-vacunaSeleccionada: any;
-trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index;
+  vacunaSeleccionada: any;
+  consultaSeleccionada: Consulta | null = null;
 
-  constructor(private vacunasService: VacunasService, private ConsultasService: ConsultasService) {}
+  trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index;
+
+  constructor(
+    private vacunasService: VacunasService,
+    private consultasService: ConsultasService
+  ) {}
 
   ngOnInit() {
     this.cargarVacunas();
     this.cargarConsultas();
-
   }
 
-cargarConsultas() {
-  this.ConsultasService.getConsultas().subscribe((data: Consulta[]) => {
-    const hoy = new Date();
-    const mesActual = hoy.getMonth();
-    const anioActual = hoy.getFullYear();
-    this.consultas = data.filter(consulta => {
-      const fechaConsulta = new Date(consulta.fecha);
-      return (
-        fechaConsulta.getMonth() === mesActual &&
-        fechaConsulta.getFullYear() === anioActual
-      );
+  cargarConsultas() {
+    this.consultasService.getConsultas().subscribe((data: Consulta[]) => {
+      const hoy = new Date();
+      const mesActual = hoy.getMonth();
+      const anioActual = hoy.getFullYear();
+      this.consultas = data.filter(consulta => {
+        const fechaConsulta = new Date(consulta.fecha);
+        return (
+          fechaConsulta.getMonth() === mesActual &&
+          fechaConsulta.getFullYear() === anioActual
+        );
+      });
     });
-  });
-}
+  }
 
   cargarVacunas() {
     this.vacunasService.getVacunas().subscribe(data => {
       this.vacunas = data;
     });
   }
-  
- onVacunaSeleccionada(item: any) {
-  this.vacunaSeleccionada = item;
-  this.showVacunas = true;
-}
+
+  onVacunaSeleccionada(item: any) {
+    this.vacunaSeleccionada = item;
+    this.showVacunas = true;
+  }
 
   mostrarFormularioConsulta() {
+    this.consultaSeleccionada = null; // Nueva consulta
     this.formularioConsultaVisible = true;
+  }
+
+  editarConsulta(consulta: Consulta) {
+    this.consultaSeleccionada = { ...consulta }; // Copia para edición
+    this.formularioConsultaVisible = true;
+  }
+
+  guardarConsulta(consulta: Consulta) {
+    if (consulta.id) {
+      // Editar
+      this.consultasService.actualizarConsulta(consulta).subscribe(() => {
+        this.cargarConsultas();
+        this.formularioConsultaVisible = false;
+        this.consultaSeleccionada = null;
+      });
+    } else {
+      // Nuevo
+      this.consultasService.agregarConsulta(consulta).subscribe(() => {
+        this.cargarConsultas();
+        this.formularioConsultaVisible = false;
+        this.consultaSeleccionada = null;
+      });
+    }
   }
 
   cerrarFormularioConsulta() {
     this.formularioConsultaVisible = false;
+    this.consultaSeleccionada = null;
     this.cargarConsultas();
   }
 
@@ -76,13 +105,11 @@ cargarConsultas() {
 
   cerrarFormularioVacunas() {
     this.formularioVacunasVisible = false;
-    this.cargarVacunas(); 
+    this.cargarVacunas();
   }
 
   volverDeVacunas() {
     this.showVacunas = false;
     this.selectedVacuna = null;
   }
-
-
 }
