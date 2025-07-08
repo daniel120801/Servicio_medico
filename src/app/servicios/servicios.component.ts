@@ -29,30 +29,41 @@ export class ServiciosComponent implements OnInit {
 
   trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index;
 
-  constructor(
+constructor(
     private vacunasService: VacunasService,
     private consultasService: ConsultasService
   ) {}
+
 
   ngOnInit() {
     this.cargarVacunas();
     this.cargarConsultas();
   }
 
-  cargarConsultas() {
-    this.consultasService.getConsultas().subscribe((data: Consulta[]) => {
-      const hoy = new Date();
-      const mesActual = hoy.getMonth();
-      const anioActual = hoy.getFullYear();
-      this.consultas = data.filter(consulta => {
+cargarConsultas() {
+  this.consultasService.getConsultas().subscribe((data: Consulta[]) => {
+    const hoy = new Date();
+    const mesActual = hoy.getMonth();
+    const anioActual = hoy.getFullYear();
+    
+    // Filtrar y ordenar las consultas
+    this.consultas = data
+      .filter(consulta => {
         const fechaConsulta = new Date(consulta.fecha);
         return (
           fechaConsulta.getMonth() === mesActual &&
           fechaConsulta.getFullYear() === anioActual
         );
+      })
+      .sort((a, b) => {
+        // Convertir fechas a timestamps para comparación
+        const fechaA = new Date(a.fecha).getTime();
+        const fechaB = new Date(b.fecha).getTime();
+        // Orden descendente (más reciente primero)
+        return fechaB - fechaA;
       });
-    });
-  }
+  });
+}
 
   cargarVacunas() {
     this.vacunasService.getVacunas().subscribe(data => {
@@ -75,23 +86,39 @@ export class ServiciosComponent implements OnInit {
     this.formularioConsultaVisible = true;
   }
 
+
+  // ... otros métodos ...
+
   guardarConsulta(consulta: Consulta) {
     if (consulta.id) {
       // Editar
-      this.consultasService.actualizarConsulta(consulta).subscribe(() => {
-        this.cargarConsultas();
-        this.formularioConsultaVisible = false;
-        this.consultaSeleccionada = null;
+      this.consultasService.actualizarConsulta(consulta).subscribe({
+        next: () => {
+          this.cargarConsultas();
+          this.formularioConsultaVisible = false;
+          this.consultaSeleccionada = null;
+        },
+        error: (err) => {
+          console.error('Error al actualizar consulta:', err);
+          alert('Error al actualizar la consulta');
+        }
       });
     } else {
       // Nuevo
-      this.consultasService.agregarConsulta(consulta).subscribe(() => {
-        this.cargarConsultas();
-        this.formularioConsultaVisible = false;
-        this.consultaSeleccionada = null;
+      this.consultasService.agregarConsulta(consulta).subscribe({
+        next: () => {
+          this.cargarConsultas();
+          this.formularioConsultaVisible = false;
+          this.consultaSeleccionada = null;
+        },
+        error: (err) => {
+          console.error('Error al agregar consulta:', err);
+          alert('Error al agregar la consulta');
+        }
       });
     }
   }
+
 
   cerrarFormularioConsulta() {
     this.formularioConsultaVisible = false;

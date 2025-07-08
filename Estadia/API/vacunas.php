@@ -86,6 +86,7 @@ elseif (
     }
     exit;
 }
+
 // ...existing code...
  else {
         http_response_code(400);

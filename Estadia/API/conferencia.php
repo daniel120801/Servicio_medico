@@ -35,7 +35,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         header("Content-Type: application/json");
         echo json_encode($conferencia);
         exit;
-    } else {
+    } 
+
+// ...existing code...
+
+elseif (isset($_GET['accion']) && $_GET['accion'] === 'asistentesConferencia' && isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    $sql = "SELECT COUNT(*) as total FROM conferenciasasistidas WHERE conferencia_id = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->execute([$id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $total = $row['total'] ?? 0;
+    header("Content-Type: application/json");
+    echo json_encode(['total' => $total]); // <-- Cambia aquí
+    exit;
+}
+// ...existing code...
+    else {
         http_response_code(400);
         echo json_encode(['error' => 'Parámetros inválidos para GET']);
         exit;
