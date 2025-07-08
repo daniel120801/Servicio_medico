@@ -1,7 +1,7 @@
-<div class="container my-3" style="height: 100%;">
-    <div class="row" style="height: 100%;">
-        <div class="col-8" style="height: 100%;">
-            <div class="card shadow-lg border-0 rounded-4 h-100">
+<div class="container my-3" >
+    <div class="row" >
+        <div class="col-8">
+            <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-body p-4" *ngIf="alumno">
                     <div class="text-center mb-4">
                         <h2 id="name" class="fw-bold">{{alumno.nombre}}</h2>
@@ -29,14 +29,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-4" style="height: 100%;">
-            <div class="card shadow-lg border-0 rounded-4 h-100">
+        <div class="col-4 " >
+            <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-body p-4 documento-container text-center d-flex flex-column">
                     <h5 class="card-title text-center">Documentos</h5>
                     <button class="btn btn-primary mb-3 text-center" (click)="onChangeVisibilityModal(true)">
                         Agregar Documento
                     </button>
-                    <ul class="list-group list-group-flush flex-grow-1">
+                    <ul class="list-group list-group-flush  flex-grow-1" style="overflow-y: scroll; height: 20vh;">
                         @for (item of alumno?.documentos; track $index) {
                             <li (click)="showDocument(item.name)" class="list-group-item documento-item d-flex align-items-center">
                                 <i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>
