@@ -6,19 +6,22 @@
                 Agregar Documento
             </div>
             <div class="card-body">
-                <form [formGroup]="addFile" (ngSubmit)="onSubmit()">
+                <form [formGroup]="addFile" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
 
                     <div class="row align-items-center g-2">
 
-                        <div class="col-10">
-                            <div class="mb-3">
+                        <div class="col-12">
+
+                            <div class="input-group mb-3">
+
                                 <input type="file" (change)="onChangeFile($event)" class="form-control"
                                     formControlName="file" id="fileInput" placeholder="seleccione un archivo"
-                                    accept=".pdf" />
+                                    accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+
+                                <button class="btn btn-primary" type="submit">Agregar</button>
                             </div>
-                        </div>
-                        <div class=" mb-3 col-2 text-end ">
-                            <button class="btn btn-primary" type="submit">Agregar</button>
+
+                            <div *ngIf="errorMsg" class="text-danger mt-2">{{ errorMsg }}</div>
 
                         </div>
 

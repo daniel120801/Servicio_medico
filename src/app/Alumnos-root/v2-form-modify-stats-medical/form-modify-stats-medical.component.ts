@@ -58,7 +58,7 @@ export class FormModifyStatsMedicalComponent implements OnInit {
     this.alumnosService.modifyStat(this.alumno.matricula, field, control.value).subscribe({
       next: res => {
         this.updateFieldStatus(field, res ? 'success' : 'error');
-        if (res) this.emitModifiedAlumno();
+        if (res) this.emitModifiedFieldAlumno(field);
       },
       error: () => this.updateFieldStatus(field, 'error')
     });
@@ -98,6 +98,24 @@ export class FormModifyStatsMedicalComponent implements OnInit {
     else if (status === 'success') this.fieldSuccessList.push(field);
     else if (status === 'error') this.fieldErrorList.push(field);
     else if (status === 'warning') this.fieldWarningList.push(field);
+  }
+
+  private emitModifiedFieldAlumno(field: string) {
+
+    // Emit only the modified field as an array with one object
+    this.onModifyAlumno.emit([
+      {
+      key: field,
+      value: this.medicalForm.get(field)?.value
+      }
+    ]);
+
+    this.onModifyAlumno.emit(
+      this.fields.map(key => ({
+        key,
+        value: this.medicalForm.get(key)?.value
+      }))
+    );
   }
 
   private emitModifiedAlumno() {

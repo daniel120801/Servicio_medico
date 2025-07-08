@@ -7,10 +7,10 @@
 </header>
 
 <nav *ngIf="hasSession">
-    <button class="transparent_button" (click)="navigate('/main')">Inicio</button>
-    <button class="transparent_button" (click)="navigate('/servicios')">servicios</button>
-    <button class="transparent_button" (click)="navigate('/confer')">Conferencias</button>
-    <button class="transparent_button" (click)="navigate('/alumnos')">Alumnos</button>
+    <button class="transparent_button" [ngClass]="{'active-nav': currentRoute === '/main'}" (click)="navigate('/main')">Inicio</button>
+    <button class="transparent_button" [ngClass]="{'active-nav': currentRoute === '/servicios'}" (click)="navigate('/servicios')">servicios</button>
+    <button class="transparent_button" [ngClass]="{'active-nav': currentRoute === '/confer'}" (click)="navigate('/confer')">Conferencias</button>
+    <button class="transparent_button" [ngClass]="{'active-nav': currentRoute === '/alumnos'}" (click)="navigate('/alumnos')">Alumnos</button>
 </nav>
 <div *ngIf="sessionExpired" class="modal">
     <div class="card mx-auto" style="max-width: 400px; margin-top: 2rem;">
