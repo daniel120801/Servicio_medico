@@ -13,7 +13,7 @@ import { VacunasService } from '../core/services/vacunas.service'; // <-- Import
 export class FormVacunasModalComponent implements OnInit {
   vacunaForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private vacunasService: VacunasService) {}
+  constructor(private fb: FormBuilder, private vacunasService: VacunasService) { }
 
   ngOnInit(): void {
     this.vacunaForm = this.fb.group({

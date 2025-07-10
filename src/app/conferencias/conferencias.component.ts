@@ -18,7 +18,7 @@ import { EstadisticasService } from '../core/services/estadisticas.service';
 export class ConferenciasComponent implements OnInit {
 
   conferencias: Conferencia[] = [];
- asistentesConferencia: number = 0;
+  asistentesConferencia: number = 0;
   qrData: string = '';
   url: SafeUrl = '';
   @ViewChild(FormConferModalComponent) modal!: FormConferModalComponent;
@@ -32,14 +32,14 @@ export class ConferenciasComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarConferencias();
-    
+
   }
 
   cargarConferencias(): void {
     this.conferenciaService.getConferencias().subscribe({
       next: (response: Conferencia[]) => {
         console.log(response);
-        
+
         this.conferencias = response;
         console.log('Conferencias obtenidas:', this.conferencias);
       },
@@ -50,24 +50,22 @@ export class ConferenciasComponent implements OnInit {
     });
   }
 
-selectConferencia(conferencia: IConferencia) {
-  this.conferenciaSeleccionada = new Conferencia(
-    conferencia.id,
-    conferencia.nombre,
-    conferencia.fecha,
-    conferencia.hora,
-    conferencia.presentador,
-    conferencia.descripcion ?? ''
-  );
-  this.qrData = `http://dandi1333.great-site.net/Estadias/form-registro.php?conferencia_id=${conferencia.id}`;
-// ...existing code...
-this.estadisticasService.getAsistentesPorConferencia(Number(conferencia.id)).subscribe(
-  response => this.asistentesConferencia = response.total // <-- Cambia aquí
-);
-// ...existing code...
-  console.log('Datos del QR:', this.qrData);
-  console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
-}
+  selectConferencia(conferencia: IConferencia) {
+    this.conferenciaSeleccionada = new Conferencia(
+      conferencia.id,
+      conferencia.nombre,
+      conferencia.fecha,
+      conferencia.hora,
+      conferencia.presentador,
+      conferencia.descripcion ?? ''
+    );
+    this.qrData = `http://dandi1333.great-site.net/Estadias/form-registro.php?conferencia_id=${conferencia.id}`;
+    this.estadisticasService.getAsistentesPorConferencia(Number(conferencia.id)).subscribe(
+      response => this.asistentesConferencia = response.total // <-- Cambia aquí
+    );
+    console.log('Datos del QR:', this.qrData);
+    console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
+  }
 
   navigateToForm(): void {
     this.router.navigate(['/formConfer']);

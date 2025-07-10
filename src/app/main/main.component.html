@@ -1,15 +1,35 @@
-<div id="inicio" class="container text-center">
-    <i class="mt-5 fa-solid fa-heart-pulse icon "></i>
-
-    <div class="stat-card">
-        <h3>Total de consultas realizadas hoy</h3>
-        <ng-container *ngIf="consultasHoy.length > 0; else noResultados">
-            <div class="fs-4 fw-bold text-success">
-                {{ consultasHoy.length }}
+<div id="inicio" class="container py-5 fade-in">
+    <div class="row align-items-start">
+        <!-- Sección izquierda: Consultas -->
+        <div class="col-md-4">
+            <div class="text-center mb-4">
+                <i class="fa-solid fa-heart-pulse fa-3x text-danger icon-animated"></i>
             </div>
-        </ng-container>
-        <ng-template #noResultados>
-            <div class="fs-5 text-muted">No hay consultas registradas hoy</div>
-        </ng-template>
+            <div class="card card-elegante px-3 py-3">
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center mb-2">Consultas de Hoy</h5>
+                    <ng-container *ngIf="consultasHoy.length > 0; else noResultados">
+                        <div class="fs-3 fw-bold text-success text-center">
+                            {{ consultasHoy.length }}
+                        </div>
+                    </ng-container>
+                    <ng-template #noResultados>
+                        <div class="fs-6 text-muted">No hay consultas registradas hoy</div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección derecha: Información -->
+        <div class="col-md-8">
+            <div class="info-text p-4 shadow-sm text-start">
+                <p class="mb-0">
+                    El servicio médico que la Universidad ofrece a los estudiantes está relacionado con:
+                    <strong>Atención Médica, Medicina Preventiva, Salud Sexual y Reproductiva</strong>, además de afiliar a los alumnos al
+                    <strong>seguro facultativo del IMSS</strong>. La meta es la
+                    <strong>prevención, promoción, protección y mantenimiento de la salud</strong> de nuestra comunidad universitaria.
+                </p>
+            </div>
+        </div>
     </div>
 </div>

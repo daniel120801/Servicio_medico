@@ -4,7 +4,7 @@ import { AlumnosService } from '../core/services/alumnos.service';
 import { IAlumnoHeaders } from '../core/Models/alumno.model';
 import { provideSharedFeature } from '../core/providers/alumnos.providers';
 import { VacunasService } from '../core/services/vacunas.service';
- 
+
 @Component({
   selector: 'app-vacunas',
   templateUrl: './vacunas.component.html',
@@ -17,7 +17,7 @@ export class VacunasComponent implements OnInit {
 
   @Output() volverEvent: EventEmitter<void> = new EventEmitter<void>();
   @Input() vacunaNombre: string | null = null;
-  @Input() vacunaId: string | number | null = null; 
+  @Input() vacunaId: string | number | null = null;
 
   filter: string = '';
   students: IAlumnoHeaders[] = [];
@@ -27,20 +27,20 @@ export class VacunasComponent implements OnInit {
   constructor(
     private alumnosService: AlumnosService,
     private vacunasService: VacunasService
-  ) {}
+  ) { }
 
- ngOnInit(): void {
-  this.alumnosService.getHeaders().subscribe(alumnos => {
-    this.students = alumnos;
-  });
+  ngOnInit(): void {
+    this.alumnosService.getHeaders().subscribe(alumnos => {
+      this.students = alumnos;
+    });
 
-  if (this.vacunaId) {
-  this.vacunasService.obtenerVacunadosPorVacuna(this.vacunaId).subscribe(nombres => {
-    console.log('Vacunados:', nombres);
-    this.vacunados = nombres;
-  });
-}
-}
+    if (this.vacunaId) {
+      this.vacunasService.obtenerVacunadosPorVacuna(this.vacunaId).subscribe(nombres => {
+        console.log('Vacunados:', nombres);
+        this.vacunados = nombres;
+      });
+    }
+  }
 
   selectItem(index: number): void {
     this.selectedIndex = index;
@@ -72,7 +72,7 @@ export class VacunasComponent implements OnInit {
     }
   }
 
- 
+
   quitarVacunado(nombre: string) {
     const alumno = this.students.find(s => s.nombre === nombre);
     if (!alumno || !this.vacunaId) return;

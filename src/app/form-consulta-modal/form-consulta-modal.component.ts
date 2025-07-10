@@ -12,7 +12,7 @@ import { Consulta } from '../core/Models/consultas.model';
 export class FormConsultaModalComponent implements OnInit, OnChanges {
   formConsulta!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   @Input() consulta: Consulta | null = null;
   @Output() cerrar = new EventEmitter<void>();
@@ -26,7 +26,7 @@ export class FormConsultaModalComponent implements OnInit, OnChanges {
       fecha: [hoy, Validators.required],
       diagnostico: ['', Validators.required]
     });
-    
+
     if (this.consulta) {
       this.patchFormValues();
     }
@@ -46,7 +46,7 @@ export class FormConsultaModalComponent implements OnInit, OnChanges {
 
   private patchFormValues(): void {
     this.formConsulta.patchValue({
-      id: this.consulta?.id, 
+      id: this.consulta?.id,
       nombre: this.consulta?.nombre,
       fecha: this.consulta?.fecha,
       diagnostico: this.consulta?.diagnostico
