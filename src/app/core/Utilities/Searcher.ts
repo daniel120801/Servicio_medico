@@ -23,8 +23,8 @@ export class Searcher {
     filter: FilterMode = FilterMode.NOMBRE;
     lastValue: string = '';
 
-    
-    constructor(private http: HttpClient) {}
+
+    constructor(private http: HttpClient) { }
     setFilter(newFilter: FilterMode) {
         this.filter = newFilter;
     }
@@ -41,7 +41,7 @@ export class Searcher {
     setPage(index: number) {
         this.pag = index;
     }
-    search(value: string = ''): Observable<never[] | IAlumnoHeaders[]> {
+    search(value: string = ''): Observable<| { error: boolean } | IAlumnoHeaders[]> {
 
 
 
@@ -97,20 +97,18 @@ export class Searcher {
                     }
                 }));
             }),
-            catchError(() => of([]))
+            catchError(() => of({ error: true }))
         );
     }
-    update(forceUpdate: boolean = false): Observable<never[] | IAlumnoHeaders[]> {
+    update(forceUpdate: boolean = false): Observable<IAlumnoHeaders[] | { error: boolean }> {
 
         if (this.lastValue === '' && !forceUpdate) {
             console.log('last value ');
-
             return of();
         }
 
         let m = 'all';
         if (this.lastValue !== '') {
-
             switch (this.filter) {
                 case FilterMode.CARRERA:
                     m = 'c';
@@ -122,24 +120,19 @@ export class Searcher {
                     m = 'n';
                     break;
             }
-
         }
 
-        let body: FormData = new FormData()
+        let body: FormData = new FormData();
 
         body.append('field', m);
-        body.append('value', this.lastValue)
+        body.append('value', this.lastValue);
         body.append('pag', this.pag.toString());
-
         return this.http.post<Response>(`${API_ALUMNOS}?search=`, body).pipe(
             map(response => {
                 if (!response || !Array.isArray(response.data)) {
                     console.log('no data');
-
-                    return [];
+                    return { error: true };
                 }
-
-
                 return (response.data as any[]).map(obj => new Alumno({
                     general: {
                         matricula: obj.matricula || '',
@@ -148,7 +141,7 @@ export class Searcher {
                     }
                 }));
             }),
-            catchError(() => of([]))
+            catchError(() => of({ error: true }))
         );
     }
 }

@@ -47,7 +47,12 @@
                 </td>
             </tr>
             } @empty {
+            @if (hasErrorSearch) {
+            <li class="list-group-item  text-danger">Error en la solicitud de busqueda</li>
+            }
+            @else {
             <li class="list-group-item ">No hay resultados</li>
+            }
             }
             }
 

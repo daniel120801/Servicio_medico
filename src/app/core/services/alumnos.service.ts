@@ -75,11 +75,6 @@ export class AlumnosService {
     return new Searcher(this.http);
   }
 
-
-
-
-
-
   getFile(fileName: string, mtr: string): Observable<any> {
 
     const formD: FormData = new FormData();

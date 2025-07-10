@@ -19,6 +19,7 @@ export class AlumnosComponent implements OnInit, OnDestroy {
   private requestSearch?: Subscription;
   private searcher: Searcher;
   searching = true;
+  hasErrorSearch = false;
 
   constructor(
     private fb: FormBuilder,
@@ -28,20 +29,26 @@ export class AlumnosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.initForm();
+    this.subscribeToSearcher();
+    this.subscribeToFormChanges();
+  }
+
+  private initForm(): void {
     this.searchForm = this.fb.group({
       filterSearch: ['nombre', Validators.required],
       searchInput: ['', Validators.required]
     });
+  }
 
-    this.requestSearch = this.searcher.search().subscribe(val => {
-      this.filteredAlumnos = val;
-      this.searcher.setFilter(FilterMode.NOMBRE);
-      this.searching = false;
-    });
+  private subscribeToSearcher(): void {
+    this.requestSearch = this.searcher.search().subscribe(val => this.handleSearchResult(val));
+    this.searcher.setFilter(FilterMode.NOMBRE);
+  }
 
+  private subscribeToFormChanges(): void {
     this.searchForm.get('filterSearch')?.valueChanges.subscribe(valor => {
-      const value = String(valor);
-      const newFilterMode = FilterMode[value.toUpperCase() as keyof typeof FilterMode];
+      const newFilterMode = FilterMode[String(valor).toUpperCase() as keyof typeof FilterMode];
       this.searcher.setFilter(newFilterMode);
       this.updateList(true);
     });
@@ -49,31 +56,36 @@ export class AlumnosComponent implements OnInit, OnDestroy {
     this.searchForm.get('searchInput')?.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-    ).subscribe(valor => {
-      this.search(valor);
-    });
+    ).subscribe(valor => this.search(valor));
+  }
+
+  private handleSearchResult(val: any): void {
+    if (Array.isArray(val)) {
+      this.filteredAlumnos = val;
+      this.hasErrorSearch = false;
+    } else if (val && typeof val === 'object' && 'error' in val) {
+      this.filteredAlumnos = [];
+      this.onFailSearch();
+    }
+    this.searching = false;
+  }
+
+  onFailSearch(): void {
+    this.hasErrorSearch = true;
   }
 
   updateList(force = false): void {
     this.searching = true;
     this.requestSearch?.unsubscribe();
-    this.requestSearch = this.searcher.update(force).subscribe(val => {
-      this.filteredAlumnos = val;
-      this.searching = false;
-    });
+    this.requestSearch = this.searcher.update(force).subscribe(val => this.handleSearchResult(val));
   }
 
   search(value: string): void {
     this.searching = true;
     this.requestSearch?.unsubscribe();
     this.requestSearch = this.searcher.search(value).subscribe({
-      next: response => {
-        this.filteredAlumnos = response;
-        this.searching = false;
-      },
-      error: () => {
-        this.searching = false;
-      }
+      next: val => this.handleSearchResult(val),
+      error: () => { this.searching = false; }
     });
   }
 
@@ -90,7 +102,8 @@ export class AlumnosComponent implements OnInit, OnDestroy {
   hasMorePages(): boolean {
     return this.filteredAlumnos.length > 0 && this.filteredAlumnos.length % 10 === 0;
   }
-  getPage(){
+
+  getPage(): number {
     return this.searcher.getPage();
   }
 
