@@ -2,6 +2,27 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/token.service';
 
+/**
+ * Componente de login para la autenticación de usuarios.
+ *
+ * @remarks
+ * Este componente proporciona un formulario reactivo para que los usuarios ingresen su nombre de usuario y contraseña.
+ * Utiliza `AuthService` para validar las credenciales y manejar la respuesta del servidor.
+ *
+ * @example
+ * <app-login></app-login>
+ *
+ * @property {FormGroup} loginForm - Formulario reactivo que contiene los campos de usuario y contraseña.
+ * @property {string} message - Mensaje de estado para mostrar errores o información al usuario.
+ *
+ * @constructor
+ * @param {FormBuilder} fb - Servicio para construir el formulario reactivo.
+ * @param {AuthService} authService - Servicio de autenticación para validar las credenciales.
+ *
+ * @method onSubmit
+ * Envía el formulario de login. Valida los campos requeridos y realiza la autenticación.
+ * Actualiza el mensaje de estado según el resultado de la autenticación o errores de red.
+ */
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, FormsModule],

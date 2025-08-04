@@ -11,6 +11,41 @@ export enum TokenState {
 }
 
 
+/**
+ * Servicio de autenticación para gestionar el estado del token y las operaciones de login/logout.
+ *
+ * @remarks
+ * Esta clase centraliza la lógica relacionada con la autenticación de usuarios en la aplicación.
+ * Utiliza un `BehaviorSubject` para emitir cambios en el estado del token, permitiendo que otros
+ * componentes se suscriban y reaccionen ante cambios de autenticación. Provee métodos para iniciar
+ * sesión (`login`), cerrar sesión (`logout`) y actualizar el estado del token (`setToken`).
+ *
+ * @example
+ * ```typescript
+ * // Suscribirse al estado del token
+ * authService.tokenStateObserver$.subscribe(state => {
+ *   if (state === TokenState.VALID) {
+ *     // El usuario está autenticado
+ *   }
+ * });
+ *
+ * // Iniciar sesión
+ * authService.login('usuario', 'contraseña').subscribe(response => {
+ *   // Manejar respuesta de login
+ * });
+ *
+ * // Cerrar sesión
+ * authService.logout().subscribe(() => {
+ *   // Manejar cierre de sesión
+ * });
+ * ```
+ *
+ * @property _tokenObserver - BehaviorSubject que mantiene el estado actual del token.
+ * @property tokenStateObserver$ - Observable para suscribirse a los cambios de estado del token.
+ * @method setToken - Actualiza el estado del token.
+ * @method login - Realiza la autenticación del usuario.
+ * @method logout - Cierra la sesión del usuario.
+ */
 @Injectable({
   providedIn: 'root'
 })

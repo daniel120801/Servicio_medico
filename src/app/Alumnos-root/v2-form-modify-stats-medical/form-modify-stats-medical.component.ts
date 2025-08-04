@@ -4,6 +4,43 @@ import { AlumnosService } from '../../core/services/alumnos.service';
 import { Alumno } from '../../core/Models/alumno.model';
 import { FieldStatusIndicatorComponent } from '../../shared/field-status-indicator/field-status-indicator.component';
 
+/**
+ * Componente para modificar los datos médicos de un alumno.
+ * Permite editar campos individuales o todos los campos médicos a la vez, mostrando el estado de cada campo (actualizando, éxito, error, advertencia).
+ *
+ * @selector app-form-modify-stats-medical
+ * @imports ReactiveFormsModule, FieldStatusIndicatorComponent
+ * @templateUrl ./form-modify-stats-medical.component.html
+ * @styleUrl ./form-modify-stats-medical.component.css
+ *
+ * @example
+ * <app-form-modify-stats-medical [alumno]="alumno" (toSegMedEvent)="onBack()" (onModifyAlumno)="onAlumnoModified($event)"></app-form-modify-stats-medical>
+ *
+ * @property {Alumno | null} alumno - El alumno cuyos datos médicos se van a modificar. Si es null, el componente retorna a la vista anterior.
+ * @property {EventEmitter<void>} toSegMedEvent - Evento emitido para regresar a la sección anterior.
+ * @property {EventEmitter<{ key: string, value: any }[]>} onModifyAlumno - Evento emitido cuando se modifica algún campo médico, enviando los campos modificados.
+ *
+ * @property {FormGroup} medicalForm - Formulario reactivo que contiene los campos médicos del alumno.
+ * @property {string[]} fieldUpdatingList - Lista de campos que están en proceso de actualización.
+ * @property {string[]} fieldErrorList - Lista de campos que han tenido error al actualizarse.
+ * @property {string[]} fieldSuccessList - Lista de campos que se actualizaron correctamente.
+ * @property {string[]} fieldWarningList - Lista de campos que no han tenido cambios.
+ * @property {string[]} fields - Lista de nombres de los campos médicos que se pueden modificar.
+ *
+ * @method ngOnInit Inicializa el formulario con los datos del alumno. Si no hay alumno, emite el evento para regresar.
+ * @method volver Emite el evento para regresar a la sección anterior.
+ * @method applyField Aplica la modificación de un campo individual, actualizando su estado y notificando el resultado.
+ * @method getWarningMessage Devuelve el mensaje de advertencia para un campo sin cambios.
+ * @method onSubmit Envía todos los cambios del formulario si hay modificaciones, actualizando el estado general.
+ * @method updateFieldStatus Actualiza las listas de estado de los campos según el resultado de la operación.
+ * @method emitModifiedFieldAlumno Emite el evento de modificación para un campo específico y para todos los campos.
+ * @method emitModifiedAlumno Emite el evento de modificación para todos los campos médicos.
+ *
+ * @remarks
+ * - Utiliza servicios para modificar los datos médicos del alumno en el backend.
+ * - Muestra indicadores visuales del estado de cada campo (actualizando, éxito, error, advertencia).
+ * - Evita enviar cambios si los datos no han sido modificados.
+ */
 @Component({
   selector: 'app-form-modify-stats-medical',
   imports: [ReactiveFormsModule, FieldStatusIndicatorComponent],

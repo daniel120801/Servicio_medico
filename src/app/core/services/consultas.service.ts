@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Consulta } from '../Models/consultas.model';
 import { Observable } from 'rxjs';
-
-const API_CONSULTAS = 'http://localhost/Estadia/API/vacunas.php';
+import { API_CONSULTAS } from '../Utilities/Api';
 
 @Injectable({
   providedIn: 'root'

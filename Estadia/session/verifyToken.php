@@ -1,3 +1,15 @@
+/**
+ * Verifica la validez de un token JWT enviado en la cabecera Authorization.
+ *
+ * Este script maneja solicitudes CORS y verifica el token JWT usando la clave "Estadia_2025" y el algoritmo HS256.
+ * Si la solicitud es de tipo OPTIONS, responde con éxito para el preflight.
+ * Si el token es válido, responde con estado 200 y el tiempo restante de expiración.
+ * Si el token es inválido o no se encuentra, responde con estado 401 y un mensaje de error.
+ *
+ * Requiere la librería firebase-php-jwt.
+ *
+ * @return  JSON con el estado de la verificación y el tiempo restante de expiración del token.
+ */
 <?php
 
 require "firebase-php-jwt/vendor/autoload.php";

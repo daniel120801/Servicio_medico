@@ -17,7 +17,72 @@ export class Response {
 
 }
 
+/**
+ * Servicio para gestionar la información de los alumnos.
+ * Proporciona métodos para seleccionar alumnos, obtener encabezados, buscar alumnos,
+ * descargar y subir documentos, construir instancias de Alumno y modificar estadísticas.
+ *
+ * @remarks
+ * Utiliza observables para manejar la selección de alumnos y la obtención de datos desde el servidor.
+ * Implementa manejo de errores para las operaciones HTTP.
+ *
+ * @example
+ * ```typescript
+ * alumnosService.selectAlumno('123456');
+ * alumnosService.getHeaders().subscribe(headers => { ... });
+ * alumnosService.uploadDocument(formData).subscribe(response => { ... });
+ * ```
+ */
 @Injectable()
+/**
+ * Servicio para la gestión de alumnos en la aplicación.
+ * Proporciona métodos para seleccionar alumnos, obtener información general,
+ * descargar y subir documentos, y modificar datos médicos y generales.
+ *
+ * @remarks
+ * Utiliza observables para la reactividad y comunicación entre componentes.
+ *
+ * @method selectAlumno
+ * Selecciona un alumno por su matrícula.
+ * @param nuevoId - Matrícula del alumno a seleccionar.
+ *
+ * @method getHeaders
+ * Obtiene los encabezados generales de todos los alumnos.
+ * @returns Observable con un arreglo de encabezados de alumnos.
+ *
+ * @method getSearcher
+ * Retorna una instancia de Searcher para realizar búsquedas de alumnos.
+ * @returns Instancia de Searcher.
+ *
+ * @method getFile
+ * Descarga un archivo asociado a un alumno.
+ * @param fileName - Nombre del archivo a descargar.
+ * @param mtr - Matrícula del alumno.
+ * @returns Observable con el archivo en formato blob.
+ *
+ * @method uploadDocument
+ * Sube un documento al servidor para un alumno.
+ * @param form - FormData con el documento y datos del alumno.
+ * @returns Observable con la respuesta del servidor.
+ *
+ * @method buildAlumno
+ * Construye una instancia de Alumno a partir de la respuesta del servidor.
+ * @param response - Objeto con los datos del alumno.
+ * @returns Instancia de Alumno.
+ *
+ * @method modifyStat
+ * Modifica un campo específico del estado médico de un alumno.
+ * @param mtr - Matrícula del alumno.
+ * @param field - Campo a modificar.
+ * @param newValue - Nuevo valor para el campo.
+ * @returns Observable que indica si la modificación fue exitosa.
+ *
+ * @method modifyAllStats
+ * Modifica múltiples campos del estado médico de un alumno.
+ * @param mtr - Matrícula del alumno.
+ * @param body - FormData con los campos a modificar.
+ * @returns Observable con la respuesta del servidor.
+ */
 export class AlumnosService {
 
 
@@ -84,6 +149,7 @@ export class AlumnosService {
 
 
     return this.http.post(`${API_ALUMNOS}?gFile=true`, formD, { responseType: 'blob' }).pipe(
+      
       catchError(error => {
         console.error('Error al descargar el archivo:', error);
         return of(null);

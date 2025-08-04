@@ -12,6 +12,44 @@ import { Alumno, IAlumnoHeaders } from '../../core/Models/alumno.model';
 import { FormModifyStatsMedicalComponent } from "../v2-form-modify-stats-medical/form-modify-stats-medical.component";
 
 
+/**
+ * Componente principal para la gestión de alumnos en el módulo de servicio médico.
+ * 
+ * Este componente actúa como contenedor y orquestador de las vistas relacionadas con los alumnos,
+ * permitiendo navegar entre diferentes páginas (buscador, perfil, conferencias asistidas, seguro médico, etc.)
+ * y gestionar la selección y modificación de alumnos.
+ * 
+ * @remarks
+ * - Utiliza observables para reaccionar a cambios en la ruta y en la selección de alumnos.
+ * - Proporciona métodos para navegar entre las diferentes vistas internas y para modificar datos del alumno seleccionado.
+ * - Gestiona la suscripción y desuscripción de observadores para evitar fugas de memoria.
+ * 
+ * @example
+ * ```html
+ * <app-parent-alumnos></app-parent-alumnos>
+ * ```
+ * 
+ * @property {string} selectedIdAlumno - Matrícula del alumno actualmente seleccionado.
+ * @property {Alumno | null} alumnoSelected - Instancia del alumno seleccionado, o null si no hay ninguno.
+ * @property {ParentPages} selectedPage - Página actual mostrada en el componente.
+ * @property {Subscription} subscriptionRouteObserver - Suscripción al observable de rutas.
+ * @property {Subscription} subscriptionAlumnoObserver - Suscripción al observable de selección de alumno.
+ * 
+ * @method ngOnInit - Inicializa las suscripciones a los observables de rutas y selección de alumno.
+ * @method ngOnDestroy - Cancela las suscripciones para evitar fugas de memoria.
+ * @method onPerfil - Navega a la vista de perfil del alumno.
+ * @method onClosePerfil - Cierra la vista de perfil y regresa al buscador.
+ * @method onAlumnoSelected - Selecciona un alumno y actualiza el estado interno.
+ * @method toFormEditSegMed - Navega al formulario de edición de seguro médico del alumno.
+ * @method onConferAsistidas - Navega a la vista de conferencias asistidas del alumno.
+ * @method onSegMedico - Navega a la vista de seguro médico del alumno.
+ * @method modifyAlumno - Modifica los datos del alumno seleccionado según los valores recibidos.
+ * @method toGeneralConferences - Redirige a la vista general de conferencias.
+ * @method toGeneralServices - Redirige a la vista general de servicios.
+ * 
+ * @see AlumnosService
+ * @see ParentPages
+ */
 @Component({
   selector: 'app-parent-alumnos',
   imports: [AlumnosComponent, PerfilAlumnoComponent, CommonModule, ConferAsistidasAlumnoComponent, SegMedicoAlumnoComponent, FormModifyStatsMedicalComponent],

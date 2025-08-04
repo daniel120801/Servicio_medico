@@ -15,6 +15,41 @@ export enum FilterMode {
     MATRICULA = "MATRICULA",
     CARRERA = "CARRERA"
 }
+/**
+ * Clase `Searcher` para gestionar la búsqueda y paginación de alumnos.
+ * 
+ * Esta clase proporciona métodos para buscar, filtrar y paginar resultados de alumnos
+ * utilizando peticiones HTTP. Permite seleccionar el tipo de filtro, navegar entre páginas
+ * y actualizar los resultados de la búsqueda.
+ * 
+ * @remarks
+ * - Utiliza `HttpClient` para realizar peticiones POST al backend.
+ * - Los filtros disponibles se definen en el enum `FilterMode`.
+ * - Los resultados se mapean a instancias de la clase `Alumno`.
+ * 
+ * @example
+ * ```typescript
+ * const searcher = new Searcher(httpClient);
+ * searcher.setFilter(FilterMode.NOMBRE);
+ * searcher.search('Juan').subscribe(result => { ... });
+ * ```
+ * 
+ * @property pag - Índice de la página actual.
+ * @property rowsForPage - Número de filas por página.
+ * @property totalRows - Número total de filas encontradas (-1 si no se ha buscado).
+ * @property filter - Filtro actual aplicado a la búsqueda.
+ * @property lastValue - Último valor de búsqueda utilizado.
+ * 
+ * @method setFilter - Cambia el filtro de búsqueda.
+ * @method getPage - Obtiene el índice de la página actual.
+ * @method prevPage - Retrocede a la página anterior.
+ * @method nextPage - Avanza a la siguiente página.
+ * @method setPage - Establece el índice de la página actual.
+ * @method search - Realiza una búsqueda con el valor especificado y retorna los resultados.
+ * @method update - Actualiza los resultados de la búsqueda usando el último valor o fuerza la actualización.
+ * 
+ * @param http - Instancia de `HttpClient` para realizar peticiones HTTP.
+ */
 export class Searcher {
 
     pag: number = 0
@@ -66,15 +101,7 @@ export class Searcher {
         this.lastValue = value;
         let body: FormData = new FormData()
 
-        console.log('search called with:', {
-            value,
-            pag: this.pag,
-            sizePag: this.rowsForPage,
-            sizeFile: this.totalRows,
-            filter: this.filter.toString(),
-            lastValue: this.lastValue,
-            m: m
-        });
+    
         body.append('field', m);
         body.append('value', value)
         body.append('pag', this.pag.toString());
@@ -83,7 +110,6 @@ export class Searcher {
 
             map(response => {
                 if (!response || !Array.isArray(response.data)) {
-                    console.log('no data');
 
                     return [];
                 }
@@ -103,7 +129,6 @@ export class Searcher {
     update(forceUpdate: boolean = false): Observable<IAlumnoHeaders[] | { error: boolean }> {
 
         if (this.lastValue === '' && !forceUpdate) {
-            console.log('last value ');
             return of();
         }
 
@@ -130,7 +155,6 @@ export class Searcher {
         return this.http.post<Response>(`${API_ALUMNOS}?search=`, body).pipe(
             map(response => {
                 if (!response || !Array.isArray(response.data)) {
-                    console.log('no data');
                     return { error: true };
                 }
                 return (response.data as any[]).map(obj => new Alumno({
