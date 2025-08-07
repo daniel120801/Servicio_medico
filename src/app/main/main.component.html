@@ -5,16 +5,23 @@
             <div class="text-center mb-4">
                 <i class="fa-solid fa-heart-pulse fa-3x text-danger icon-animated"></i>
             </div>
-            <div class="card card-elegante px-3 py-3">
+            <div class="card card-elegante px-3 py-3 shadow-lg border-0">
                 <div class="card-body">
-                    <h5 class="card-title text-dark text-center mb-2">Consultas de Hoy</h5>
+                    <h5 class="card-title text-dark text-center mb-2">
+                        <i class="fa-solid fa-calendar-check text-primary me-2"></i> Consultas de Hoy
+                    </h5>
                     <ng-container *ngIf="consultasHoy.length > 0; else noResultados">
-                        <div class="fs-3 fw-bold text-success text-center">
+                        <div class="fs-1 fw-bold text-success text-center animate__animated animate__pulse">
                             {{ consultasHoy.length }}
+                        </div>
+                        <div class="text-center text-muted mt-2">
+                            <small>¡Sigue cuidando tu salud!</small>
                         </div>
                     </ng-container>
                     <ng-template #noResultados>
-                        <div class="fs-6 text-muted">No hay consultas registradas hoy</div>
+                        <div class="fs-6 text-muted text-center">
+                            <i class="fa-solid fa-face-smile-beam text-warning me-2"></i> No hay consultas registradas hoy
+                        </div>
                     </ng-template>
                 </div>
             </div>
@@ -22,13 +29,30 @@
 
         <!-- Sección derecha: Información -->
         <div class="col-md-8">
-            <div class="info-text p-4 shadow-sm text-start">
-                <p class="mb-0">
-                    El servicio médico que la Universidad ofrece a los estudiantes está relacionado con:
-                    <strong>Atención Médica, Medicina Preventiva, Salud Sexual y Reproductiva</strong>, además de afiliar a los alumnos al
-                    <strong>seguro facultativo del IMSS</strong>. La meta es la
-                    <strong>prevención, promoción, protección y mantenimiento de la salud</strong> de nuestra comunidad universitaria.
-                </p>
+            <div class="info-text p-4 shadow-lg rounded-4 bg-light border-start border-4 border-primary">
+                <h4 class="fw-bold mb-3 text-primary">
+                    <i class="fa-solid fa-user-doctor me-2"></i> Servicio Médico Universitario
+                </h4>
+                <ul class="list-unstyled mb-3">
+                    <li class="mb-2">
+                        <i class="fa-solid fa-stethoscope text-success me-2"></i>
+                        <strong>Atención Médica</strong>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fa-solid fa-shield-heart text-info me-2"></i>
+                        <strong>Medicina Preventiva</strong>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fa-solid fa-venus-mars text-danger me-2"></i>
+                        <strong>Salud Sexual y Reproductiva</strong>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fa-solid fa-id-card-clip text-secondary me-2"></i> Afiliación al <strong>seguro facultativo del IMSS</strong>
+                    </li>
+                </ul>
+                <div class="alert alert-primary mb-0 py-2 px-3 rounded-pill text-center">
+                    <strong>Meta:</strong> Prevención, promoción, protección y mantenimiento de la salud de nuestra comunidad universitaria.
+                </div>
             </div>
         </div>
     </div>
