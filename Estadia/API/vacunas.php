@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode($vacunas);
         exit;
     } elseif (isset($_GET['all_consulta'])) {
-        $select = $con->select('consultas', "id, nombre, fecha, diagnostico");
+        $select = $con->select('consultas');
         $consultas = $select->execute();
         header("Content-Type: application/json");
         echo json_encode($consultas);
@@ -126,10 +126,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $insert = $con->insert('consultas', "nombre, fecha, diagnostico");
+        $insert = $con->insert('consultas', "nombre, fecha, diagnostico,nota,impresion");
         $insert->value($data['nombre']);
         $insert->value($data['fecha']);
         $insert->value($data['diagnostico']);
+        $insert->value($data['nota']);
+        $insert->value($data['impresion']);
         $resultado = $insert->execute();
 
         echo json_encode(['resultado' => $resultado]);
@@ -146,6 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $update->set('nombre', $data['nombre']);
         $update->set('fecha', $data['fecha']);
         $update->set('diagnostico', $data['diagnostico']);
+        $update->set('nota', $data['nota']);
+        $update->set('impresion', $data['impresion']);
         $update->where('id', '=', $data['id']);
         $resultado = $update->execute();
 
