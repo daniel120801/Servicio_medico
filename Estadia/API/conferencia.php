@@ -112,5 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+
 http_response_code(405); // Método no permitido
 echo json_encode(['error' => 'Método no permitido']);
