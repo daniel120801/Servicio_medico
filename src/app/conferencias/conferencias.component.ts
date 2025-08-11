@@ -16,9 +16,10 @@ import { EstadisticasService } from '../core/services/estadisticas.service';
   providers: [ConferenciaServiceService]
 })
 export class ConferenciasComponent implements OnInit {
-
   conferencias: Conferencia[] = [];
   asistentesConferencia: number = 0;
+  matriculasAsistentes: string[] = [];
+  mostrarMatriculas: boolean = false;
   qrData: string = '';
   url: SafeUrl = '';
   @ViewChild(FormConferModalComponent) modal!: FormConferModalComponent;
@@ -32,16 +33,12 @@ export class ConferenciasComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarConferencias();
-
   }
 
   cargarConferencias(): void {
     this.conferenciaService.getConferencias().subscribe({
       next: (response: Conferencia[]) => {
-        console.log(response);
-
         this.conferencias = response;
-        console.log('Conferencias obtenidas:', this.conferencias);
       },
       error: (error) => {
         console.error('Error al obtener conferencias:', error);
@@ -61,11 +58,33 @@ export class ConferenciasComponent implements OnInit {
     );
     this.qrData = `https://localhost/Estadia/form-registro.php?conferencia_id=${conferencia.id}`;
     this.estadisticasService.getAsistentesPorConferencia(Number(conferencia.id)).subscribe(
-      response => this.asistentesConferencia = response.total // <-- Cambia aquí
+      response => this.asistentesConferencia = response.total
     );
-    console.log('Datos del QR:', this.qrData);
-    console.log('Conferencia seleccionada:', this.conferenciaSeleccionada);
+    this.mostrarMatriculas = false;
+    this.matriculasAsistentes = [];
   }
+
+  toggleMatriculas(): void {
+    if (!this.conferenciaSeleccionada) return;
+    
+    if (!this.mostrarMatriculas) {
+       this.estadisticasService.getMatriculasAsistentes(Number(this.conferenciaSeleccionada.id)).subscribe({
+    next: (response: any) => {
+        // PHP devuelve un array de objetos: [{ alumno_mtr: '12345' }, ...]
+        this.matriculasAsistentes = response.asistentes.map((a: any) => a.alumno_mtr);
+        this.mostrarMatriculas = true;
+    },
+    error: (error) => {
+        console.error('Error al obtener matrículas:', error);
+        this.matriculasAsistentes = [];
+        this.mostrarMatriculas = true;
+    }
+});
+
+    } else {
+        this.mostrarMatriculas = false;
+    }
+}
 
   navigateToForm(): void {
     this.router.navigate(['/formConfer']);

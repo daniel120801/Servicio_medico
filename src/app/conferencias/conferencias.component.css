@@ -17,3 +17,22 @@ li {
     flex: 1;
     justify-content: center;
 }
+
+.matriculas-container {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.conference-item:hover {
+    background-color: #f0f8ff;
+    transition: background-color 0.3s ease;
+}
+
+.badge {
+    font-size: 0.9em;
+    padding: 0.5em 0.75em;
+}

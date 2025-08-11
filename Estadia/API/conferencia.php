@@ -50,7 +50,21 @@ elseif (isset($_GET['accion']) && $_GET['accion'] === 'asistentesConferencia' &&
     echo json_encode(['total' => $total]); // <-- Cambia aquí
     exit;
 }
-// ...existing code...
+elseif (isset($_GET['accion']) && $_GET['accion'] === 'matriculasAsistentes' && isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+
+    // Consulta que obtiene matrícula y nombre (reemplaza con los nombres reales de columnas y tabla)
+    $sql = "SELECT alumno_mtr
+            FROM conferenciasasistidas 
+            WHERE conferencia_id = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->execute([$id]);
+    $asistentes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    header("Content-Type: application/json");
+    echo json_encode(['asistentes' => $asistentes]);
+    exit;
+}
     else {
         http_response_code(400);
         echo json_encode(['error' => 'Parámetros inválidos para GET']);
@@ -104,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
 
     }
+
     
     else {
         http_response_code(400);
@@ -111,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-
 
 http_response_code(405); // Método no permitido
 echo json_encode(['error' => 'Método no permitido']);
