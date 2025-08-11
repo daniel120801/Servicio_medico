@@ -1,5 +1,6 @@
-import { Component, OnInit, TrackByFunction } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { FormConsultaModalComponent } from "../form-consulta-modal/form-consulta-modal.component";
 import { FormVacunasModalComponent } from "../form-vacunas-modal/form-vacunas-modal.component";
 import { VacunasComponent } from "../vacunas/vacunas.component";
@@ -13,12 +14,15 @@ import { ConsultasService } from '../core/services/consultas.service';
   templateUrl: './servicios.component.html',
   styleUrls: ['./servicios.component.css'],
   standalone: true,
-  imports: [CommonModule, FormConsultaModalComponent, FormVacunasModalComponent, VacunasComponent],
+  imports: [CommonModule, FormsModule, FormConsultaModalComponent, FormVacunasModalComponent, VacunasComponent],
   providers: [VacunasService, ConsultasService]
 })
 export class ServiciosComponent implements OnInit {
   vacunas: Vacunas[] = [];
   consultas: Consulta[] = [];
+  todasConsultas: Consulta[] = []; // Para almacenar todas las consultas
+
+  searchTerm: string = ''; // Para el buscador
 
   selectedVacuna: string | null = null;
   showVacunas = false;
@@ -27,12 +31,10 @@ export class ServiciosComponent implements OnInit {
   vacunaSeleccionada: any;
   consultaSeleccionada: Consulta | null = null;
 
-
   constructor(
     private vacunasService: VacunasService,
     private consultasService: ConsultasService
   ) { }
-
 
   ngOnInit() {
     this.cargarVacunas();
@@ -41,12 +43,23 @@ export class ServiciosComponent implements OnInit {
 
   cargarConsultas() {
     this.consultasService.getConsultas().subscribe((data: Consulta[]) => {
-      const hoy = new Date();
-      const mesActual = hoy.getMonth();
-      const anioActual = hoy.getFullYear();
+      this.todasConsultas = data; // Guardamos todas las consultas
+      this.filtrarConsultas(); // Filtramos según el estado del buscador
+    });
+  }
 
-      // Filtrar y ordenar las consultas
-      this.consultas = data
+  filtrarConsultas() {
+    const hoy = new Date();
+    const mesActual = hoy.getMonth();
+    const anioActual = hoy.getFullYear();
+
+    // Función para quitar acentos y poner en minúsculas
+    const normalizar = (texto: string) =>
+      texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+    if (this.searchTerm.trim() === '') {
+      // Mostrar solo las del mes actual
+      this.consultas = this.todasConsultas
         .filter(consulta => {
           const fechaConsulta = new Date(consulta.fecha);
           return (
@@ -54,12 +67,14 @@ export class ServiciosComponent implements OnInit {
             fechaConsulta.getFullYear() === anioActual
           );
         })
-        .sort((a, b) => {
-          const fechaA = new Date(a.fecha).getTime();
-          const fechaB = new Date(b.fecha).getTime();
-          return fechaB - fechaA;
-        });
-    });
+        .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+    } else {
+      // Mostrar todas las que coincidan con el nombre (sin acentos ni mayúsculas)
+      const term = normalizar(this.searchTerm);
+      this.consultas = this.todasConsultas
+        .filter(consulta => normalizar(consulta.nombre).includes(term))
+        .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+    }
   }
 
   cargarVacunas() {
@@ -74,12 +89,12 @@ export class ServiciosComponent implements OnInit {
   }
 
   mostrarFormularioConsulta() {
-    this.consultaSeleccionada = null; // Nueva consulta
+    this.consultaSeleccionada = null;
     this.formularioConsultaVisible = true;
   }
 
   editarConsulta(consulta: Consulta) {
-    this.consultaSeleccionada = { ...consulta }; // Copia para edición
+    this.consultaSeleccionada = { ...consulta };
     this.formularioConsultaVisible = true;
   }
 
@@ -112,7 +127,6 @@ export class ServiciosComponent implements OnInit {
       });
     }
   }
-
 
   cerrarFormularioConsulta() {
     this.formularioConsultaVisible = false;
