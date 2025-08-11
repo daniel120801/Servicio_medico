@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_CONFERENCIAS, API_VACUNAS } from '../Utilities/Api';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({ providedIn: 'root' })
 export class EstadisticasService {
@@ -17,4 +18,8 @@ getConsultas() {
 getAsistentesPorConferencia(id: number) {
   return this.http.get<{ total: number }>(API_CONFERENCIAS + `?accion=asistentesConferencia&id=${id}`);
 }
+
+getMatriculasAsistentes(id: number): Observable<any> {
+    return this.http.get<any>(API_CONFERENCIAS + `?accion=matriculasAsistentes&id=${id}`);
+  }
 }
