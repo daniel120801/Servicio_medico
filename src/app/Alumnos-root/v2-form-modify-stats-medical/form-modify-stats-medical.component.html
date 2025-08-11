@@ -1,4 +1,4 @@
-<div class="container my-4">
+<div class="container mb-4">
 
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -73,14 +73,6 @@
                                     <button type="button" class="btn btn-success"
                                         (click)="applyField('peso')">Aplicar</button>
                                 </div>
-                            </div>
-                            <div
-                                class="col-2      "
-                            >
-                                
-                            </div>
-                            
-                            <div class="col-5">
                                 <div class="input-group mb-3">
                                     <label class="form-label w-100" for="talla">Estatura:</label>
                                     <app-field-status-indicator [loading]="fieldUpdatingList.includes('talla')"
@@ -93,6 +85,13 @@
                                     <button type="button" class="btn btn-success"
                                         (click)="applyField('talla')">Aplicar</button>
                                 </div>
+                            </div>
+                            <div class="col-2">
+
+                            </div>
+
+                            <div class="col-5">
+
                                 <div class="input-group mb-3">
                                     <label class="form-label w-100" for="alergias">Alergias:</label>
                                     <app-field-status-indicator [loading]="fieldUpdatingList.includes('alergias')"

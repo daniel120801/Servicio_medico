@@ -82,6 +82,7 @@ export class FormAlumnosAddDocumentComponent {
       this.errorMsg = 'Tipo de archivo no permitido. Solo PDF, Word o Excel.';
       return;
     }
+    
     this.errorMsg = '';
     const formData = new FormData();
     formData.append('file', this.file as Blob );
