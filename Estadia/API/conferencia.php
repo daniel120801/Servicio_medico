@@ -86,8 +86,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo json_encode(['resultado' => $resultado]);
         exit;
+    }
 
-    }  else {
+    elseif (isset($data['accion']) && $data['accion'] === 'registrarAsistencia') {
+        if (!isset($data['conferencia_id']) || !isset($data['matricula'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Faltan datos para registrar asistencia']);
+            exit;
+        }
+
+        $insert = $con->insert('conferenciasasistidas', "conferencia_id, alumno_mtr");
+        $insert->value($data['conferencia_id']);
+        $insert->value($data['matricula']);
+        $resultado = $insert->execute();
+
+        echo json_encode(['resultado' => $resultado]);
+        exit;
+
+    }
+    
+    else {
         http_response_code(400);
         echo json_encode(['error' => 'Acción no reconocida']);
         exit;
