@@ -5,6 +5,8 @@ export interface Consulta {
   nombre: string;
   fecha: string;
   diagnostico: string;
+  nota:string;
+  impresion:string;
 }
 
 export class Consultas implements Consulta {
@@ -12,7 +14,9 @@ export class Consultas implements Consulta {
     public id: string | number = 0,
     public nombre: string = '',
     public fecha: string = '',
-    public diagnostico: string = ''
+    public diagnostico: string = '',
+    public nota: string = '',
+    public impresion: string = ''
   ) {}
 
   patchValue(consulta: Consulta): void {
@@ -20,6 +24,8 @@ export class Consultas implements Consulta {
     this.nombre = consulta.nombre;
     this.fecha = consulta.fecha;
     this.diagnostico = consulta.diagnostico;
+    this.nota = consulta.nota;
+    this.impresion = consulta.impresion;
   }
 }
 
