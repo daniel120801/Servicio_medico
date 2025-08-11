@@ -119,7 +119,7 @@ export class AlumnosService {
     this.idSubject.next(nuevoId);
   }
   getHeaders(): Observable<IAlumnoHeaders[]> {
- 
+
     return this.http.get<any[]>(`${API_ALUMNOS}?allheaders=`).pipe(
       map(objects => {
         if (!Array.isArray(objects)) return [];
@@ -148,10 +148,22 @@ export class AlumnosService {
 
 
 
-    return this.http.post(`${API_ALUMNOS}?gFile=true`, formD, { responseType: 'blob' }).pipe(
-      
+    return this.http.post(`${API_ALUMNOS}?gFile=`, formD, { responseType: 'blob' }).pipe(
+
       catchError(error => {
         console.error('Error al descargar el archivo:', error);
+        return of(null);
+      })
+    );
+  }
+  removeFile(fileId: number, mtr: string): Observable<any> {
+    const formD: FormData = new FormData();
+    formD.append('mtr', mtr + '')
+    formD.append('id_file', fileId + '')
+    return this.http.post(`${API_ALUMNOS}?rmfile=`, formD).pipe(
+
+      catchError(error => {
+        console.error('Error al eliminar el archivo:', error);
         return of(null);
       })
     );

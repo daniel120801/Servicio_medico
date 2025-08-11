@@ -1,4 +1,35 @@
 <?php
+/**
+ * API para la gestión de alumnos.
+ *
+ * Este archivo proporciona múltiples endpoints para interactuar con la base de datos de alumnos,
+ * incluyendo operaciones de consulta, actualización, búsqueda y gestión de archivos/documentos.
+ *
+ * Endpoints disponibles (según parámetros GET):
+ *
+ * - allheaders: Obtiene una lista de alumnos con los campos básicos.
+ * - mtr: Obtiene la información detallada de un alumno por matrícula, incluyendo vacunas, conferencias y documentos.
+ * - gFile: Descarga un archivo PDF asociado a un alumno.
+ * - uploadFile: Sube un archivo y lo asocia a un alumno, registrando el documento en la base de datos.
+ * - modStat: Actualiza un campo específico del alumno por matrícula.
+ * - modAllStats: Actualiza múltiples campos del alumno por matrícula.
+ * - search: Realiza búsquedas paginadas de alumnos por nombre, matrícula o carrera.
+ *
+ * Seguridad:
+ * - Requiere verificación de token mediante cookie para todas las operaciones.
+ * - Responde con códigos HTTP apropiados y mensajes en formato JSON.
+ *
+ * Cabeceras CORS:
+ * - Permite solicitudes desde http://localhost:4200 con credenciales.
+ *
+ * Dependencias:
+ * - require_once '../conexion.php'
+ * - require_once '../session/TokenUtility.php'
+ *
+ * @author  Tu Nombre o Equipo
+ * @version 1.0
+ * @package API
+ */
 header("Access-Control-Allow-Origin: http://localhost:4200");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -38,7 +69,7 @@ if (isset($_GET['allheaders'])) {
     $alumno = $select->execute();
     echo json_encode($alumno);
     exit;
-} else if (isset($_GET['mtr'])) {
+} elseif (isset($_GET['mtr'])) {
     $mtr = $_GET['mtr'];
 
 
@@ -84,27 +115,29 @@ if (isset($_GET['allheaders'])) {
 
     echo json_encode($alumno, JSON_PRETTY_PRINT);
     exit;
-} else if (isset($_GET['getallHeadersFiles'])) {
+} elseif (isset($_GET['gFile'])) {
 
-} else if (isset($_GET['gFile'])) {
+    $file = '../documents/' . $_POST['mtr'] . '/' . $_POST['fileName'];
 
-    $pdfFile = '../documents/' . $_POST['mtr'] . '/' . $_POST['fileName'];
-
-    if (file_exists($pdfFile)) {
+    if (file_exists($file)) {
 
         header('Content-Type: application/pdf');
-        header('Content-Disposition: inline; filename="' . basename($pdfFile) . '"');
-        header('Content-Length: ' . filesize($pdfFile));
-        readfile($pdfFile);
+        header('Content-Disposition: inline; filename="' . basename($file) . '"');
+        header('Content-Length: ' . filesize($file));
+        readfile($file);
         exit;
     } else {
         header("HTTP/1.0 404 Not Found");
-        echo "PDF no encontrado";
+        echo json_encode(['error' => 'Documento no encontrado']);
     }
-} else if (isset($_GET['uploadFile'])) {
+} elseif (isset($_GET['uploadFile'])) {
 
 
-
+    if (!isset($_POST['mtr'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Falta matricula']);
+        exit;
+    }
     if (!isset($_FILES['file'])) {
         http_response_code(400);
         echo json_encode(['error' => 'No se ha enviado ningún archivo']);
@@ -130,17 +163,31 @@ if (isset($_GET['allheaders'])) {
         echo json_encode(['error' => 'Algo fallo al subir el archivo']);
 
     }
+
+
     $insert = $con->insert('documento', 'nombre,alumno_mtr');
     $insert->value($archivo['name']);
     $insert->value($_POST['mtr']);
+
+
     if ($insert->execute()) {
+
+        $selectID = $con->select('documento', 'id');
+        $selectID->orderby("id DESC ");
+        $selectID->limit("1");
+        $lastID = $selectID->execute();
+        $id = 1;
+        if (count($lastID) > 0) {
+            $id = $lastID[0][0];
+        }
         header('Content-Type: application/json');
         http_response_code(200);
         echo json_encode([
             'status' => 'success',
             'message' => 'Archivo subido correctamente',
             'data' => [
-                'fileName' => $archivo['name']
+                'fileName' => $archivo['name'],
+                'idFile' => $id
             ]
         ]);
     } else {
@@ -151,6 +198,76 @@ if (isset($_GET['allheaders'])) {
             'message' => 'Algo fallo al subir el archivo'
         ]);
     }
+
+
+} elseif (isset($_GET['rmfile'])) {
+
+    if (!isset($_POST['mtr']) && !isset($_POST['id_file'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Falta matricula']);
+        exit;
+
+    }
+    $select = $con->select('documento', "nombre");
+    $select->where('alumno_mtr', "=", $_POST['mtr']);
+    $select->where_and('id', "=", $_POST['id_file']);
+    $result = $select->execute();
+    if (count($result) == 0) {
+        http_response_code(400);
+        echo json_encode([
+            'error' => 'Archivo no encontrado',
+            'data' => $result
+        ]);
+        exit;
+    }
+
+    $archivo = '../documents/' . $_POST['mtr'] . '/' . $result[0]['nombre'];
+    if (file_exists($archivo)) {
+        $delete = new Delete($con, "DELETE FROM documento");
+        $delete->where('id', "=", $_POST['id_file']);
+        $res = $delete->execute();
+        if (!$res > 0) {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'failed',
+                'message' => 'No se logro eliminar el archivo',
+                'data' => null
+            ]);
+            exit;
+        }
+        if (unlink($archivo)) {
+
+            http_response_code(200);
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Eliminado correctamente',
+                'data' => null
+            ]);
+        } else {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'failed',
+                'message' => 'No se logro eliminar el archivo',
+                'data' => null
+            ]);
+            exit;
+        }
+    } else {
+        $delete = new Delete($con, "DELETE FROM documento");
+        $delete->where('alumno_mtr', "=", $_POST['mtr']);
+        $delete->where_and('id', "=", $_POST['id_file']);
+        $result = $delete->execute();
+
+
+        http_response_code(400);
+        echo json_encode([
+            'status' => 'failed',
+            'message' => 'Archivo no encontrado',
+            'data' => $archivo
+        ]);
+    }
+
+
 
 
 } elseif (isset($_GET['modStat'])) {

@@ -39,12 +39,13 @@
                     <button class="btn btn-primary mb-3 text-center" (click)="onChangeVisibilityModal(true)">
                         Agregar Documento
                     </button>
-                    <ul class="list-group list-group-flush  flex-grow-1" style="overflow-y: scroll; height: 20vh;">
+                    <ul class="list-group list-group-flush flex-grow-1" style="overflow-y: scroll; height: 20vh;">
                         @for (item of alumno?.documentos; track $index) {
-                        <li (click)="showDocument(item.name)"
-                            class="list-group-item documento-item d-flex align-items-center">
-                            <i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>
-                            <span>{{item.name}}</span>
+                        <li class="list-group-item documento-item d-flex align-items-center justify-content-between">
+                            <span (click)="showDocument(item.name)">{{item.name}}</span>
+                            <button class="btn btn-danger btn-sm ms-2" (click)="onShowModalRemove(item.id,item.name);">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
                         </li>
                         }
                         @empty {
@@ -58,6 +59,11 @@
     <app-form-alumnos-add-document (onCloseModal)="onChangeVisibilityModal(false)"
         (onAddDocumentEvent)="onAddDocument($event)" *ngIf="showModal">
     </app-form-alumnos-add-document>
+
+    <app-modal-remove-document *ngIf="showModalRemove"
+        (onCloseModal)="onChangeVisibilityModalRemove(false)"
+        (onConfirmRemove)="onRemoveDocument($event)"
+        ></app-modal-remove-document>
 </div>
 
 

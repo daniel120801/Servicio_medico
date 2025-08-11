@@ -1,3 +1,5 @@
+
+<?php
 /**
  * Token Utility Class
  *
@@ -23,7 +25,6 @@
  *
  * @package Estadia\Session
  */
-<?php
 require "firebase-php-jwt/vendor/autoload.php";
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;

@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Alumno } from '../../core/Models/alumno.model';
 import { AlumnosService } from '../../core/services/alumnos.service';
 import { CommonModule } from '@angular/common';
 import { FormAlumnosAddDocumentComponent } from "../form-alumnos-add-document/form-alumnos-add-document.component";
 import { FileUpload } from '../../core/Utilities/FileUpload';
 import { Documento } from '../../core/Models/Documento.model';
+import { ModalRemoveDocumentComponent } from "../modal-remove-document/modal-remove-document.component";
 
 /**
  * Componente que gestiona el perfil de un alumno, permitiendo visualizar y administrar documentos,
@@ -49,15 +50,16 @@ import { Documento } from '../../core/Models/Documento.model';
  */
 @Component({
   selector: 'app-perfil-alumno',
-  imports: [CommonModule, FormAlumnosAddDocumentComponent],
+  imports: [CommonModule, FormAlumnosAddDocumentComponent, ModalRemoveDocumentComponent],
   templateUrl: './perfil-alumno.component.html',
   styleUrls: ['./perfil-alumno.component.css', '../../../styles.css']
 })
 export class PerfilAlumnoComponent implements OnInit {
-  fileError: boolean = false;;
-  
+
+
 
   //#region Variables
+  @ViewChild(ModalRemoveDocumentComponent) removeDocumentChild!: ModalRemoveDocumentComponent;
   @Output() volverEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() openSegMedicoEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() openConferAsisEvent: EventEmitter<void> = new EventEmitter<void>();
@@ -65,6 +67,10 @@ export class PerfilAlumnoComponent implements OnInit {
   @Input() alumno: Alumno | null = null;
   generals: any = null;
   showModal: boolean = false;
+  fileError: boolean = false;
+  showModalRemove: boolean = false;
+
+
   //#endregion
 
   constructor(private alumnosService: AlumnosService) { }
@@ -78,7 +84,6 @@ export class PerfilAlumnoComponent implements OnInit {
   onAccept() {
     this.fileError = false;
   }
-
   onOpenSegMedico() {
     this.openSegMedicoEvent.emit();
   }
@@ -116,6 +121,33 @@ export class PerfilAlumnoComponent implements OnInit {
 
     });
   }
+  onChangeVisibilityModalRemove(arg0: boolean) {
+    this.showModalRemove = arg0;
+  }
+
+  onShowModalRemove(arg0: number, fileName: string) {
+    this.onChangeVisibilityModalRemove(true);
+    setTimeout(() => {
+
+      this.removeDocumentChild.onshowModal(fileName, arg0);
+    });
+  }
+
+  onRemoveDocument(arg0: number) {
+
+    this.onChangeVisibilityModalRemove(false);
+    if (!this.alumno) return;
+    this.alumnosService.removeFile(arg0, this.alumno.matricula).subscribe({
+      next: (response) => {
+        if (this.alumno) {
+          this.alumno.documentos = this.alumno.documentos.filter((item) => item.id !== arg0)
+        }
+      },
+      error: (error) => {
+        console.error('Error al eliminar el documento:', error);
+      }
+    });
+  }
   onAddDocument(form: FormData) {
 
     if (!this.alumno) return;
@@ -128,7 +160,7 @@ export class PerfilAlumnoComponent implements OnInit {
 
         //TODO:agregar que cuando el documento se sube, actualize la lista de documentos para mostrar los nuevos valores
         if (this.alumno) {
-          this.alumno.documentos.push(new Documento(-1, response.data['fileName']))
+          this.alumno.documentos.push(new Documento(response.data['idFile'], response.data['fileName']))
         }
 
 
