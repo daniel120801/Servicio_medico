@@ -104,7 +104,7 @@ export class AlumnosComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToFormChanges(): void {
-    this.searchForm.get('filterSearch')?.valueChanges.subscribe(valor => {
+    this.searchForm.get('filterSearch')?.valueChanges.subscribe (valor => {
       const newFilterMode = FilterMode[String(valor).toUpperCase() as keyof typeof FilterMode];
       this.searcher.setFilter(newFilterMode);
       this.updateList(true);
