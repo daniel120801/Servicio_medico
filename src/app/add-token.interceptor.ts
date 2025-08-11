@@ -29,13 +29,13 @@ import { AuthService, TokenState } from './core/services/token.service';
  */
 export const addTokenInterceptor: HttpInterceptorFn = (req, next) => {
   
-  const authService = inject(AuthService); // 👈 funciona igual
+  const authService = inject(AuthService); 
 
   req = req.clone({
     withCredentials: true
   });
 
-  console.log(req);
+  //console.log(req);
   
   return next(req).pipe(
     tap({
