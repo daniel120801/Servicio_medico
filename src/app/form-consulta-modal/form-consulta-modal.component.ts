@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Consulta } from '../core/Models/consultas.model';
+import { not } from 'rxjs/internal/util/not';
 
 @Component({
   selector: 'app-form-consulta-modal',
@@ -24,7 +25,9 @@ export class FormConsultaModalComponent implements OnInit, OnChanges {
       id: [null],
       nombre: ['', Validators.required],
       fecha: [hoy, Validators.required],
-      diagnostico: ['', Validators.required]
+      diagnostico: ['', Validators.required],
+      nota: [''],
+      impresion: ['']
     });
 
     if (this.consulta) {
@@ -49,7 +52,9 @@ export class FormConsultaModalComponent implements OnInit, OnChanges {
       id: this.consulta?.id,
       nombre: this.consulta?.nombre,
       fecha: this.consulta?.fecha,
-      diagnostico: this.consulta?.diagnostico
+      diagnostico: this.consulta?.diagnostico,
+      nota: this.consulta?.nota,
+      impresion: this.consulta?.impresion
     });
   }
 

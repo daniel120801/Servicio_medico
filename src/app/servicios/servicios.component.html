@@ -23,7 +23,7 @@
 
                         <ul class="list-group mb-3" style="overflow-y: scroll; height: 50vh;">
                             <ng-container *ngIf="consultas && consultas.length > 0">
-                                <li *ngFor="let consulta of consultas; let i = index; trackBy: trackByIndex" class="list-group-item list-group-item-action" (click)="editarConsulta(consulta)">
+                                <li *ngFor="let consulta of consultas; let i = index;" class="list-group-item list-group-item-action" (click)="editarConsulta(consulta)">
                                     <div class="fw-bold">{{ consulta.nombre }}</div>
                                     <div class="text-muted small">{{ consulta.fecha }} - {{ consulta.diagnostico }}</div>
                                 </li>
@@ -50,7 +50,7 @@
                         </div><br>
 
                         <ul class="list-group mb-3" style="overflow-y: scroll; height: 50vh;">
-                            <li *ngFor="let item of vacunas; let i = index; trackBy: trackByIndex" class="list-group-item list-group-item-action" (click)="onVacunaSeleccionada(item)" style="cursor: pointer;">
+                            <li *ngFor="let item of vacunas; let i = index; " class="list-group-item list-group-item-action" (click)="onVacunaSeleccionada(item)" style="cursor: pointer;">
                                 <div class="fw-bold">{{ item.nombre }}</div>
                                 <div class="text-muted small" *ngIf="item.fecha">
                                     {{ item.fecha | date:'dd/MM/yyyy' }}

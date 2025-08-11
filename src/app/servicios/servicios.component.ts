@@ -27,7 +27,6 @@ export class ServiciosComponent implements OnInit {
   vacunaSeleccionada: any;
   consultaSeleccionada: Consulta | null = null;
 
-  trackByIndex: TrackByFunction<Vacunas> = (index: number, item: Vacunas) => index;
 
   constructor(
     private vacunasService: VacunasService,
