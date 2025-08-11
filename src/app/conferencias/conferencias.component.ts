@@ -59,7 +59,7 @@ export class ConferenciasComponent implements OnInit {
       conferencia.presentador,
       conferencia.descripcion ?? ''
     );
-    this.qrData = `http://dandi1333.great-site.net/Estadias/form-registro.php?conferencia_id=${conferencia.id}`;
+    this.qrData = `https://localhost/Estadia/form-registro.php?conferencia_id=${conferencia.id}`;
     this.estadisticasService.getAsistentesPorConferencia(Number(conferencia.id)).subscribe(
       response => this.asistentesConferencia = response.total // <-- Cambia aquí
     );
