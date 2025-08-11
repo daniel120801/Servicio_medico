@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container mb-3">
     <div *ngIf="alumno">
         <h2 class="text-center">Datos Medicos</h2>
-        <div class="info-wrapper">
-            <div class="info-section">
 
+        <div class="row  g-2">
+            <div class="col">
                 <p><strong>NSS:</strong> {{alumno.NSS }}</p>
                 <p><strong>Afiliación:</strong> {{alumno.afiliacion === '' ? 'ninguna':alumno.afiliacion }}</p>
                 <p><strong>Grupo RH:</strong> {{alumno.RH }}</p>
@@ -12,8 +12,7 @@
                 <p><strong>Estatura:</strong> {{alumno.talla }}</p>
                 <p><strong>En caso de accidente:</strong> {{alumno.enCasoDeAccidente }} </p>
             </div>
-
-            <div class="info-section">
+            <div class="col">
                 <p><strong>Nombre alumno:</strong> {{alumno.nombre }}
                 <p>
                 <p><strong>Matrícula:</strong> {{alumno.matricula }}

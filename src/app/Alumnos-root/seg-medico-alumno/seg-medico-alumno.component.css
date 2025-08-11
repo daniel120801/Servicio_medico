@@ -23,12 +23,15 @@ h1 {
 .info-wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .info-section {
     width: 45%;
+    background-color: #2b6777;
+      word-wrap: break-word; 
     margin-bottom: 20px;
+    
 }
 
 

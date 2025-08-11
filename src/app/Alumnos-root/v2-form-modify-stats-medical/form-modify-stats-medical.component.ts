@@ -120,8 +120,18 @@ export class FormModifyStatsMedicalComponent implements OnInit {
     this.fields.forEach(field => body.append(field, this.medicalForm.get(field)?.value));
     this.updateFieldStatus('all', 'updating');
     this.alumnosService.modifyAllStats(this.alumno.matricula, body).subscribe({
-      next: x => this.updateFieldStatus('all', x && x.status === 'success' ? 'success' : 'error'),
-      error: () => this.updateFieldStatus('all', 'error')
+      next: x => {
+        console.log( x && x.status);
+        
+        this.updateFieldStatus('all', x && x.status === 'success' ? 'success' : 'error')
+        this.fields.forEach(f => this.emitModifiedFieldAlumno(f));
+      }
+      ,
+      error: (e) => {
+        console.log(e);
+
+        this.updateFieldStatus('all', 'error')
+      }
     });
   }
 
@@ -142,8 +152,8 @@ export class FormModifyStatsMedicalComponent implements OnInit {
     // Emit only the modified field as an array with one object
     this.onModifyAlumno.emit([
       {
-      key: field,
-      value: this.medicalForm.get(field)?.value
+        key: field,
+        value: this.medicalForm.get(field)?.value
       }
     ]);
 
