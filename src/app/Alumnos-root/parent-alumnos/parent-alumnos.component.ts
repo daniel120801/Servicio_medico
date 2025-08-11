@@ -81,7 +81,7 @@ export class ParentAlumnosComponent implements OnInit, OnDestroy {
       {
         next: alumno => {
           if (!alumno) {
-            console.error('No se recibió un alumno válido');
+            console.warn('No se recibió un alumno válido');
           } else {
 
             this.alumnoSelected = alumno;
