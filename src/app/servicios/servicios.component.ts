@@ -8,6 +8,7 @@ import { VacunasService } from '../core/services/vacunas.service';
 import { Vacunas } from '../core/Models/vacunas.model';
 import { Consulta } from '../core/Models/consultas.model';
 import { ConsultasService } from '../core/services/consultas.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-servicios',
@@ -33,7 +34,8 @@ export class ServiciosComponent implements OnInit {
 
   constructor(
     private vacunasService: VacunasService,
-    private consultasService: ConsultasService
+    private consultasService: ConsultasService,
+    private router:Router
   ) { }
 
   ngOnInit() {
@@ -143,6 +145,11 @@ export class ServiciosComponent implements OnInit {
     this.cargarVacunas();
   }
 
+  toForms(){
+    this.router.navigate(['forms']);
+  }
+  toFormsVacunas(){
+  }
   volverDeVacunas() {
     this.showVacunas = false;
     this.selectedVacuna = null;

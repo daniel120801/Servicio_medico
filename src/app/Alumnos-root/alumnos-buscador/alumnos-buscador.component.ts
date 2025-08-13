@@ -1,33 +1,11 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlumnosService } from '../../core/services/alumnos.service';
 import { IAlumnoHeaders } from '../../core/Models/alumno.model';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import { Searcher, FilterMode } from '../../core/Utilities/Searcher';
 
-/**
- * Componente para buscar y seleccionar alumnos.
- * 
- * Permite filtrar alumnos por diferentes criterios, realizar búsquedas con debounce,
- * manejar paginación y emitir eventos al seleccionar un alumno.
- * 
- * @example
- * <app-alumnos (onSelectAlumnoEvent)="handleSelect($event)"></app-alumnos>
- * 
- * @property {EventEmitter<IAlumnoHeaders>} onSelectAlumnoEvent - Evento emitido al seleccionar un alumno.
- * @property {FormGroup} searchForm - Formulario reactivo para búsqueda y filtro.
- * @property {IAlumnoHeaders[]} filteredAlumnos - Lista de alumnos filtrados.
- * @property {boolean} searching - Indica si se está realizando una búsqueda.
- * @property {boolean} hasErrorSearch - Indica si ocurrió un error en la búsqueda.
- * 
- * @method ngOnInit Inicializa el formulario y suscripciones.
- * @method ngOnDestroy Limpia las suscripciones al destruir el componente.
- * @method onSelectAlumno Emite el evento al seleccionar un alumno.
- * @method onNextPag Avanza a la siguiente página de resultados.
- * @method onPrevPag Retrocede a la página anterior de resultados.
- * @method hasMorePages Indica si hay más páginas disponibles.
- * @method getPage Obtiene el número de página actual.
- */
+
 /**
  * Componente para la búsqueda y selección de alumnos.
  * 
@@ -104,7 +82,7 @@ export class AlumnosComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToFormChanges(): void {
-    this.searchForm.get('filterSearch')?.valueChanges.subscribe (valor => {
+    this.searchForm.get('filterSearch')?.valueChanges.subscribe(valor => {
       const newFilterMode = FilterMode[String(valor).toUpperCase() as keyof typeof FilterMode];
       this.searcher.setFilter(newFilterMode);
       this.updateList(true);
@@ -144,6 +122,19 @@ export class AlumnosComponent implements OnInit, OnDestroy {
       next: val => this.handleSearchResult(val),
       error: () => { this.searching = false; }
     });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowLeft':
+        this.onPrevPag();
+        break;
+      case 'ArrowRight':
+        if(this.hasMorePages())
+        this.onNextPag();
+        break;
+    }
   }
 
   onNextPag(): void {
