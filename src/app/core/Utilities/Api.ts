@@ -29,4 +29,4 @@ export const API_ASISTENCIA = MAIN_API_URL + 'asistencia.php';
 
 export const API_TOKEN_VERIFIER = MAIN_SESSION_URL + 'verifyToken.php';
 export const API_TOKEN_REFRESH = MAIN_SESSION_URL + 'refrehToken.php';
-export const API_LOGIN = MAIN_SESSION_URL + 'index.php';
+export const API_SESSION = MAIN_SESSION_URL + 'index.php';

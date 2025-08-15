@@ -56,50 +56,67 @@ if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
     ]);
     exit();
 }
-if (!isset($_POST["username"]) || !isset($_POST["password"])) {
 
+
+if (isset($_GET['login'])) {
+
+    if (!isset($_POST["username"]) || !isset($_POST["password"])) {
+
+        http_response_code(400);
+        echo json_encode([
+            'status' => 'failed',
+            'message' => 'Parametros faltantes',
+            'valores recibidos' => $_POST,
+        ]);
+        exit;
+    }
+
+    $nombre_usuario = $_POST["username"];
+    $contrasena = $_POST["password"];
+
+
+    $con = new Conexion(array(
+        "tipo" => "mysql",
+        "servidor" => "127.0.0.1",
+        "bd" => "estadia",
+        "usuario" => "root",
+        "contrasena" => ""
+    ));
+
+    $select = $con->select("usuarios");
+    $select->where("nombre", "=", $nombre_usuario);
+    $select->where_and("pwd", "=", $contrasena);
+
+    $usuarios = $select->execute();
+    $token = new Token();
+
+    if (count($usuarios) > 0) {
+        $usuario = $usuarios[0];
+
+        $jwt = $token->generate($usuario["id"]);
+        http_response_code(200);
+        echo json_encode([
+            'status' => 'success',
+            'token' => $jwt
+        ]);
+    } else {
+        http_response_code(401);
+        echo json_encode([
+            'status' => 'failed',
+            'message' => 'usuario no encontrado'
+        ]);
+    }
+
+} elseif (isset($_GET['logout'])) {
+    Token::deleteCookie();
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'logout success'
+    ]);
+} else {
     http_response_code(400);
     echo json_encode([
         'status' => 'failed',
-        'message' => 'Parametros faltantes',
-        'valores recibidos' => $_POST,
-    ]);
-    exit;
-}
-
-$nombre_usuario = $_POST["username"];
-$contrasena = $_POST["password"];
-
-
-$con = new Conexion(array(
-    "tipo" => "mysql",
-    "servidor" => "127.0.0.1",
-    "bd" => "estadia",
-    "usuario" => "root",
-    "contrasena" => ""
-));
-
-$select = $con->select("usuarios");
-$select->where("nombre", "=", $nombre_usuario);
-$select->where_and("pwd", "=", $contrasena);
-
-$usuarios = $select->execute();
-$token = new Token();
-
-if (count($usuarios) > 0) {
-    $usuario = $usuarios[0];
-
-    $jwt = $token->generate($usuario["id"]);
-    http_response_code(200);
-    echo json_encode([
-        'status' => 'success',
-        'token' => $jwt
-    ]);
-} else {
-    http_response_code(401);
-    echo json_encode([
-        'status' => 'failed',
-        'message' => 'usuario no encontrado'
+        'message' => 'Parametros faltantes'
     ]);
 }
-

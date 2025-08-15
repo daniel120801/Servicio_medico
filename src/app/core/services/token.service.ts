@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, interval } from 'rxjs';
 import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { API_LOGIN, API_TOKEN_REFRESH, API_TOKEN_VERIFIER } from '../Utilities/Api';
+import { API_SESSION, API_TOKEN_REFRESH, API_TOKEN_VERIFIER } from '../Utilities/Api';
 
 export enum TokenState {
   VALID = 'valid',
@@ -59,15 +59,12 @@ export class AuthService {
     this._tokenObserver.next(token);
   }
 
-
-
-
   login(username: string, password: string): Observable<any> {
     const body = new FormData();
     body.append('username', username);
     body.append('password', password);
 
-    return this.http.post<any>(API_LOGIN, body).pipe(
+    return this.http.post<any>(API_SESSION + "?login=", body).pipe(
       tap({
         next: (response) => {
           if (response.status === 'success') {
@@ -79,8 +76,8 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    this.setToken(TokenState.NOASSIGNED)
-    return this.http.get<any>(API_LOGIN + "?logout=", {});
+    
+    return this.http.get<any>(API_SESSION + "?logout=");
 
   }
 }

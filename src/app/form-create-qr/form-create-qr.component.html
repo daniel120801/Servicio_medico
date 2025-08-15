@@ -6,19 +6,15 @@
                 Crear Nuevo Formulario
             </div>
             <div class="card-body">
-
-                <form [formGroup]="descriptionForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                <form [formGroup]="descriptionForm" >
 
                     <div class="input-group mb-3">
-                        <input type="text" name="descripcion" id="descripcion">
-                        <button class="btn btn-danger me-2" (click)="confirm()">Confirmar</button>
+                        <input type="text" name="descripcion" formControlName="descripcion" autofocus="true" class="form-control" id="descripcion">
+                        <button class="btn btn-success me-2" (click)="confirm()">Confirmar</button>
                     </div>
-
-
                 </form>
 
-                <div class="d-flex justify-content-between align-items-center mt-3">
-
+                <div class="d-flex justify-content-center align-items-center mt-3">
                     <button type="button" class="btn btn-outline-secondary" (click)="close()">Cerrar</button>
                 </div>
             </div>

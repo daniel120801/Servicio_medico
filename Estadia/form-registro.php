@@ -1,3 +1,22 @@
+<?php
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET");
+require_once 'session/TokenUtility.php';
+
+$resultVerifyToken = Token::verifyCookieValid();
+if (!$resultVerifyToken['valid']) {
+    http_response_code(401);
+    echo json_encode([
+        'status' => 'failed',
+        'message' => $resultVerifyToken,
+        'data' => null
+    ]);
+    exit;
+}
+?>
+
 <!doctype html>
 <html lang="es">
 
@@ -19,7 +38,8 @@
                         <form id="registroForm" autocomplete="off">
                             <div class="mb-3">
                                 <label for="matricula" class="form-label">Matrícula</label>
-                                <input type="number" class="form-control" id="matricula" name="matricula" maxlength="8" required placeholder="Ej: 12345678" />
+                                <input type="number" class="form-control" id="matricula" name="matricula" maxlength="8"
+                                    required placeholder="Ej: 12345678" />
                                 <div class="form-text">Máximo 8 caracteres, solo números.</div>
                             </div>
                             <input type="hidden" id="conferencia_id" name="conferencia_id" />
@@ -40,7 +60,7 @@
         }
 
         // Establecer el valor del campo conferencia_id al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const conferenciaId = obtenerIdConferenciaDeURL();
             document.getElementById('conferencia_id').value = conferenciaId;
 
@@ -48,7 +68,7 @@
             console.log('ID de conferencia establecido:', conferenciaId);
         });
 
-        document.getElementById('registroForm').addEventListener('submit', function(event) {
+        document.getElementById('registroForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const mensaje = document.getElementById('mensaje');
             mensaje.innerHTML = "";
@@ -63,16 +83,16 @@
             });
 
             fetch('API/conferencia.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        accion: 'registrarAsistencia',
-                        matricula: matricula,
-                        conferencia_id: conferencia_id
-                    })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    accion: 'registrarAsistencia',
+                    matricula: matricula,
+                    conferencia_id: conferencia_id
                 })
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.resultado) {

@@ -13,10 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-if (!Token::verifyCookieValid()) {
-
+$resultVerifyToken = Token::verifyCookieValid();
+if (!$resultVerifyToken['valid'] ){
     http_response_code(401);
-    echo json_encode(['error' => 'token invalido']);
+    echo json_encode([
+        'status' => 'failed',
+        'message' => $resultVerifyToken,
+        'data' => null
+    ]);
     exit;
 }
 $con = new Conexion([

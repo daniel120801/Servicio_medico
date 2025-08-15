@@ -22,6 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
     exit;
 }
+$resultVerifyToken = Token::verifyCookieValid();
+if (!$resultVerifyToken['valid']) {
+    http_response_code(401);
+    echo json_encode([
+        'status' => 'failed',
+        'message' => $resultVerifyToken,
+        'data' => null
+    ]);
+    exit;
+}
 
 $con = new Conexion([
     "tipo" => "mysql",
@@ -44,8 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         header("Content-Type: application/json");
         echo json_encode($consultas);
         exit;
-    }
-    elseif (isset($_GET['accion']) && $_GET['accion'] === 'alumnosVacunados' && isset($_GET['vacuna_id'])) {
+    } elseif (isset($_GET['accion']) && $_GET['accion'] === 'alumnosVacunados' && isset($_GET['vacuna_id'])) {
         $vacuna_id = intval($_GET['vacuna_id']);
         $select = $con->select('alumnovacuna a JOIN alumnos al ON a.alumno_mtr = al.matricula', 'al.nombre');
         $select->where('a.vacuna_id', '=', $vacuna_id);
@@ -55,40 +64,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode($nombres);
         exit;
     }
-// ...existing code...
-elseif (
-    isset($_GET['accion']) && 
-    $_GET['accion'] === 'verificarVacunado' && 
-    isset($_GET['estudiante_id']) && 
-    isset($_GET['vacuna_id'])
-) {
-    try {
-        $estudiante_id = intval($_GET['estudiante_id']);
-        $vacuna_id = intval($_GET['vacuna_id']);
+    // ...existing code...
+    elseif (
+        isset($_GET['accion']) &&
+        $_GET['accion'] === 'verificarVacunado' &&
+        isset($_GET['estudiante_id']) &&
+        isset($_GET['vacuna_id'])
+    ) {
+        try {
+            $estudiante_id = intval($_GET['estudiante_id']);
+            $vacuna_id = intval($_GET['vacuna_id']);
 
-        $select = $con->select('alumnovacuna', "COUNT(*) as total");
-        $select->where('alumno_mtr', '=', $estudiante_id);
-        $select->where_and('vacuna_id', '=', $vacuna_id); // <-- CAMBIO AQUÍ
-        $result = $select->execute();
+            $select = $con->select('alumnovacuna', "COUNT(*) as total");
+            $select->where('alumno_mtr', '=', $estudiante_id);
+            $select->where_and('vacuna_id', '=', $vacuna_id); // <-- CAMBIO AQUÍ
+            $result = $select->execute();
 
-        if (!$result || !isset($result[0]['total'])) {
-            throw new Exception("Resultado inesperado en la consulta");
+            if (!$result || !isset($result[0]['total'])) {
+                throw new Exception("Resultado inesperado en la consulta");
+            }
+
+            $yaVacunado = ($result[0]['total'] > 0);
+            header("Content-Type: application/json");
+            echo json_encode($yaVacunado);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'error' => 'Error al verificar vacunación: ' . $e->getMessage()
+            ]);
         }
-
-        $yaVacunado = ($result[0]['total'] > 0);
-        header("Content-Type: application/json");
-        echo json_encode($yaVacunado);
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode([
-            'error' => 'Error al verificar vacunación: ' . $e->getMessage()
-        ]);
+        exit;
     }
-    exit;
-}
 
-// ...existing code...
- else {
+    // ...existing code...
+    else {
         http_response_code(400);
         echo json_encode(['error' => 'Parámetros inválidos para GET']);
         exit;
@@ -155,9 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo json_encode(['resultado' => $resultado]);
         exit;
-    }
-    
-    elseif (isset($data['accion']) && $data['accion'] === 'registrarVacunaAlumno') {
+    } elseif (isset($data['accion']) && $data['accion'] === 'registrarVacunaAlumno') {
         if (!isset($data['estudiante_id']) || !isset($data['vacuna_id'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Faltan datos para registrar vacunación']);
@@ -172,13 +179,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['resultado' => $resultado]);
         exit;
 
-    }else {
+    } else {
         http_response_code(400);
         echo json_encode(['error' => 'Acción no reconocida']);
         exit;
     }
 
-    
+
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {

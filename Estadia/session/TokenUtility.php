@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Token Utility Class
@@ -28,51 +27,106 @@
 require "firebase-php-jwt/vendor/autoload.php";
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-
 class Token
 {
-    private static $SECRET_KEY = "Estadia_2025";
+    private static string $SECRET_KEY = "Estadia_2025";
+    private static string $COOKIE_NAME = 'access_token';
+    private static int $EXPIRATION = 3600; // 1 hora en segundos
 
-    static function generate( $sub): string
+    /**
+     * Genera un token JWT y lo establece como cookie
+     */
+    public static function generate(string $subject): string
     {
-
         $payload = [
             "iat" => time(),
-            "exp" => time() + (60 * 60 * 24),
-            "sub" => $sub
+            "exp" => time() + self::$EXPIRATION,
+            "sub" => $subject
         ];
 
         $jwt = JWT::encode($payload, self::$SECRET_KEY, "HS256");
-        setcookie(
-            name: 'access_token',          // Nombre
-            value: $jwt,            // Valor
-            path: '/',                      // Ruta
-            domain: 'localhost',          // Dominio (ajusta si estás en localhost)
-            secure: false,                     // Secure (requiere HTTPS)
-            httponly: true                      // HttpOnly
-        );
+
+        self::setTokenCookie($jwt);
+
         return $jwt;
     }
 
-    static function verifyCookieValid(): string
+    /**
+     * Verifica si el token en la cookie es válido
+     */
+    public static function verifyCookieValid(): array
     {
-        if (!isset($_COOKIE['access_token'])) {
-            
-
-            return 'token no encontrado';
+        if (!isset($_COOKIE[self::$COOKIE_NAME])) {
+            return ['valid' => false, 'message' => 'Token no encontrado'];
         }
 
         try {
-            $decoded = JWT::decode($_COOKIE['access_token'], new Key(self::$SECRET_KEY, 'HS256'));
-            if ($decoded)
-                return 'decoded';
-            else
-                return 'no decoded';
+            $decoded = JWT::decode(
+                $_COOKIE[self::$COOKIE_NAME],
+                new Key(self::$SECRET_KEY, 'HS256')
+            );
+
+            return [
+                'valid' => true,
+                'data' => $decoded,
+                'message' => 'Token válido'
+            ];
+
         } catch (Exception $e) {
-            return $e->getMessage();
+            self::deleteCookie(); // Eliminar cookie inválida
+            return ['valid' => false, 'message' => $e->getMessage()];
         }
     }
 
+    /**
+     * Elimina la cookie del token
+     */
+    public static function deleteCookie(): bool
+    {
+        if (isset($_COOKIE[self::$COOKIE_NAME])) {
+            unset($_COOKIE[self::$COOKIE_NAME]);
+        }
+
+        return setcookie(
+            self::$COOKIE_NAME,
+            '',
+            time() - 3600,
+            '/',
+            'localhost',
+            true,  // Secure
+            true   // HttpOnly
+        );
+    }
+
+    /**
+     * Establece la cookie con el token
+     */
+    private static function setTokenCookie(string $token): bool
+    {
+        return setcookie(
+            self::$COOKIE_NAME,
+            $token,
+            time() + self::$EXPIRATION,
+            '/',
+            'localhost',
+            false,  // Secure (cambiar a true en producción con HTTPS)
+            true    // HttpOnly
+        );
+    }
+
+    /**
+     * Obtiene el subject (sub) del token decodificado
+     */
+    public static function getSubject(): ?string
+    {
+        $verification = self::verifyCookieValid();
+
+        if ($verification['valid']) {
+            return $verification['data']->sub ?? null;
+        }
+
+        return null;
+    }
 }
 
 

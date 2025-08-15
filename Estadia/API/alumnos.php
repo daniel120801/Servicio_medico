@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 $resultVerifyToken = Token::verifyCookieValid();
-if ($resultVerifyToken != 'decoded') {
+if (!$resultVerifyToken['valid'] ){
     http_response_code(401);
     echo json_encode([
         'status' => 'failed',

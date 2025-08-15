@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { QRCodeComponent } from  'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
+import { FormCreateQrComponent } from "../form-create-qr/form-create-qr.component";
 interface QRCode {
   id: string;
   value: string;
@@ -11,11 +12,12 @@ interface QRCode {
 
 @Component({
   selector: 'app-forms',
-  imports: [QRCodeComponent,DatePipe],
+  imports: [DatePipe, FormCreateQrComponent],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.css'
 })
 export class FormsComponent {
+
   qrCodes: QRCode[] = [
     {
       id: '1',
@@ -31,19 +33,29 @@ export class FormsComponent {
       fecha: new Date('2023-12-20')
     }
   ];
+  showModalNewQR: boolean = false;
 
-  generarNuevoQR() {
+  generarNuevoQR($value: string) {
     const newId = (this.qrCodes.length + 1).toString();
+    this.closeModal()
     this.qrCodes.push({
       id: newId,
       value: `https://ejemplo.com/form${newId}`,
-      titulo: `Nuevo Formulario ${newId}`,
+      titulo: $value,
       fecha: new Date()
     });
   }
 
-  // Pipe personalizado para ordenar (simplificado)
-  orderByDate(codes: QRCode[]): QRCode[] {
-    return [...codes].sort((a, b) => b.fecha.getTime() - a.fecha.getTime());
+  openQR(arg0: string) {
+
   }
+
+  openModal() {
+    this.showModalNewQR = true;
+  }
+
+  closeModal() {
+    this.showModalNewQR = false;
+  }
+
 }

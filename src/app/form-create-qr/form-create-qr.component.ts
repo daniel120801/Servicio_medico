@@ -1,28 +1,32 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-form-create-qr',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './form-create-qr.component.html',
   styleUrl: './form-create-qr.component.css'
 })
 export class FormCreateQrComponent {
-descriptionForm: FormGroup;
+  descriptionForm: FormGroup;
 
-constructor(private fb: FormBuilder){
+  @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onConfirmEvent: EventEmitter<string> = new EventEmitter<string>();
+
+  constructor(private fb: FormBuilder) {
     this.descriptionForm = this.fb.group({
-      descripcion: [null, Validators.required]
+      descripcion: ['', Validators.required]
     });
-}
-onSubmit() {
-throw new Error('Method not implemented.');
-}
-close() {
-throw new Error('Method not implemented.');
-}
-confirm() {
-throw new Error('Method not implemented.');
-}
+  }
+
+  close() {
+    this.closeEvent.emit();
+  }
+  confirm() {
+    if (this.descriptionForm.valid) {
+      this.onConfirmEvent.emit(this.descriptionForm.value.descripcion);
+    }
+
+  }
 
 }

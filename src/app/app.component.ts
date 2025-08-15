@@ -14,18 +14,19 @@ import { Timer } from './core/Utilities/Timer';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-//#region variables
+  //#region variables
   title = 'Servicio_medico';
   hasSession = false;
   private lastState = TokenState.NOASSIGNED;
   sessionExpired: boolean = false;
   timer: Timer;
   currentRoute: string = '';
-//#endregion
+  //#endregion
   constructor(private router: Router, private authService: AuthService) {
     this.timer = new Timer(15, 1);
     this.timer.setOnEndListener(() => {
-      this.authService.logout()
+      this.sessionExpired = true;
+      this.logout()
     })
   }
   ngOnInit(): void {
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
       switch (state) {
         case TokenState.EXPIRED:
-         
+
           this.sessionExpired = true;
           console.log('token expirado');
 
@@ -64,12 +65,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   }
   onAcceptSessionExpired() {
-    this.handleLogout()
+
     this.sessionExpired = false;
   }
-  logout(){
-    this.authService.logout();
-    this.handleLogout();
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.authService.setToken(TokenState.NOASSIGNED)
+        this.handleLogout();
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
   handleLogout() {
     this.timer.stopTimer();

@@ -35,7 +35,7 @@ export const addTokenInterceptor: HttpInterceptorFn = (req, next) => {
     withCredentials: true
   });
 
-  //console.log(req);
+  console.log(req);
   
   return next(req).pipe(
     tap({
