@@ -6,7 +6,7 @@ import { FormConferModalComponent } from './form-confer-modal/form-confer-modal.
 import { PerfilAlumnoComponent } from './Alumnos-root/perfil-alumno/perfil-alumno.component';
 import { ParentAlumnosComponent } from './Alumnos-root/parent-alumnos/parent-alumnos.component';
 import { LoginComponent } from './login/login.component';
-import { FormsComponent } from './forms/forms.component';
+import { FormsComponent } from './medical-forms/forms/forms.component';
 
 export const routes: Routes = [
 

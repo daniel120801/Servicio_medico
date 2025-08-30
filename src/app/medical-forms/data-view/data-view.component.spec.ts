@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormCreateQrComponent } from './form-create-qr.component';
+import { DataViewComponent } from './data-view.component';
 
-describe('FormCreateQrComponent', () => {
-  let component: FormCreateQrComponent;
-  let fixture: ComponentFixture<FormCreateQrComponent>;
+describe('DataViewComponent', () => {
+  let component: DataViewComponent;
+  let fixture: ComponentFixture<DataViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormCreateQrComponent]
+      imports: [DataViewComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FormCreateQrComponent);
+    fixture = TestBed.createComponent(DataViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

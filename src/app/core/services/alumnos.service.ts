@@ -33,7 +33,7 @@ export class Response {
  * alumnosService.uploadDocument(formData).subscribe(response => { ... });
  * ```
  */
-@Injectable()
+
 /**
  * Servicio para la gestión de alumnos en la aplicación.
  * Proporciona métodos para seleccionar alumnos, obtener información general,
@@ -83,6 +83,7 @@ export class Response {
  * @param body - FormData con los campos a modificar.
  * @returns Observable con la respuesta del servidor.
  */
+@Injectable()
 export class AlumnosService {
 
 
