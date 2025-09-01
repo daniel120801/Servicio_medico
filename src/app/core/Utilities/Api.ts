@@ -26,7 +26,7 @@ export const API_CONFERENCIAS = MAIN_API_URL + 'conferencia.php';
 //TODO: a considerar si se necesita unificar las APIs de asistencia y conferencias
 export const API_ASISTENCIA = MAIN_API_URL + 'asistencia.php';
 
-
+export const API_MEDICALSHIFT = MAIN_API_URL + 'medicalshift.php';
 export const API_TOKEN_VERIFIER = MAIN_SESSION_URL + 'verifyToken.php';
 export const API_TOKEN_REFRESH = MAIN_SESSION_URL + 'refrehToken.php';
 export const API_SESSION = MAIN_SESSION_URL + 'index.php';

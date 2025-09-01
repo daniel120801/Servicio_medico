@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 @Component({
   selector: 'app-form-create-qr',
   imports: [ReactiveFormsModule],
-  templateUrl: './form-create-qr.component.html',
-  styleUrl: './form-create-qr.component.css'
+  templateUrl: './form-create-qrModal.component.html',
+  styleUrl: './form-create-qrModal.component.css'
 })
 export class FormCreateQrComponent {
   descriptionForm: FormGroup;
