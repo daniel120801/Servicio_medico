@@ -146,7 +146,7 @@ export class ServiciosComponent implements OnInit {
   }
 
   toForms(){
-    this.router.navigate(['forms']);
+    this.router.navigate(['medicalShift']);
   }
   toFormsVacunas(){
   }

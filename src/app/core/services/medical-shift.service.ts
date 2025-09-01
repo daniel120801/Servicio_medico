@@ -9,8 +9,6 @@ export class MedicalShiftService {
 
   constructor(private http: HttpClient) { }
 
-
-
   getAllHeaders(): Observable<IMedicalShift[]> {
     return this.http.get<any>(API_MEDICALSHIFT + '?allheaders')
       .pipe(
@@ -26,6 +24,35 @@ export class MedicalShiftService {
       );
   }
 
+  createNewMedicalShift(name: string): Observable<medicalShift> {
 
+    var date = new Date();
+    var dateStr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+    const formD: FormData = new FormData();
+    formD.append('name', name)
+    formD.append('date', dateStr)
+
+    return this.http.post<any>(API_MEDICALSHIFT + "?create", formD)
+      .pipe(
+        tap((response) => console.log(response)),
+        map(response => {
+          return new medicalShift(response.data.id,
+            response.data.name,
+            response.data.access_code,
+            response.data.date,
+            [],
+            response.data.filesCount,
+            response.data.state
+          );
+        })
+      );
+  }
+  getForms($accessCode: string) {
+   return this.http.get<any>(API_MEDICALSHIFT + "?forms&access_code=" + $accessCode)
+      .pipe(
+        tap(console.log)
+      );
+  }
 
 }

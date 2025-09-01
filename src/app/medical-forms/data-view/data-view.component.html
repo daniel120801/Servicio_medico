@@ -1,1 +1,61 @@
-<p>data-view works!</p>
+<div class="card">
+    <div class="card-body text-center">
+        @if (_data == undefined) {
+        <ng-container>
+
+            <p>selecciona una para ver detalles</p>
+        </ng-container>
+        }
+        @else{
+
+
+        <ng-container>
+
+
+            <div class="text-center">
+                <h2>{{_data.name}}</h2>
+
+            </div>
+            <div class="text-end">
+                <div class="row justify-content-center g-2">
+
+                    <div class="col text-start">
+                        <div class="mt-5"></div>
+                        <p><strong>Código de acceso:</strong> {{_data.accessCode}}</p>
+                        <p><strong>registros recibidos:</strong> {{_data.filesCount}}</p>
+                        <p><strong>fecha de creación:</strong> {{_data.fecha}}</p>
+                        <p><strong>estado de acceso:</strong> {{_data.state}}</p>
+
+                        <div>
+                            <button
+                                type="button"
+                                class="btn btn-primary"  
+                               
+                                (click)="onOpenForms()"
+                            >
+                               Confirmar registros
+                            </button>
+                            
+
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <qrcode #qrCanvas [qrdata]="qrUrl" [allowEmptyString]="true" [ariaLabel]="'Código jornada'"
+                            [cssClass]="'center'" [colorDark]="'#000000ff'" [colorLight]="'#ffffffff'"
+                            [elementType]="'img'" [errorCorrectionLevel]="'M'" [imageHeight]="75" [imageWidth]="75"
+                            [margin]="2" [scale]="1" (qrCodeURL)="onChangeURL($event)" [title]="'Código QR de jornada'"
+                            [width]="200">
+                        </qrcode>
+                        <a class="btn btn-outline-success text-center mt-3" [href]="qrDownload" download="qr">
+                            Descargar QR
+                        </a>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </ng-container>
+        }
+    </div>
+</div>

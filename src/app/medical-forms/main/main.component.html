@@ -1,0 +1,14 @@
+@switch (pageSelected) {
+
+@case ('list') {
+<app-list-view (onShowForms)="onOpenForm($event)">
+
+</app-list-view>
+}
+@case ('forms') {
+<app-forms [accessCode]="accessCodeSelected" >
+
+</app-forms>
+}
+
+}

@@ -8,6 +8,7 @@
 
 
 
+
 -----Funcion de formulario llenado por alumnos----
 
 -buscar donde poner la creacion del qr

@@ -1,0 +1,1 @@
+agregando el cambio de paginas y vy a pasar todo el medicalshift en lugar del access code

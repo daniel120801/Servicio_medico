@@ -35,17 +35,14 @@ export const addTokenInterceptor: HttpInterceptorFn = (req, next) => {
     withCredentials: true
   });
 
-  console.log(req);
+  //console.log(req);
   
   return next(req).pipe(
     tap({
 
       error: (err) => {
         console.error('❌ Error en la respuesta:', err);
-        // Aquí puedes manejar errores HTTP
-        if (err.status === 401) {
-          authService.setToken(TokenState.EXPIRED)
-        }
+   
       }
     })
   );

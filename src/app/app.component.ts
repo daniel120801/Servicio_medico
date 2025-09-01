@@ -41,6 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
           break;
         case TokenState.NOASSIGNED:
+          console.log(' token no asignado ');
+          
           if (this.lastState != state)
             this.handleLogout();
           break;
