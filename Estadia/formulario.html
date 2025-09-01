@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información Básica de Salud</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+        }
+        
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-title {
+            color: #0d6efd;
+            margin-bottom: 25px;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .section-title {
+            color: #0d6efd;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #0d6efd;
+            padding-bottom: 5px;
+        }
+        
+        .btn-submit {
+            background-color: #0d6efd;
+            color: white;
+            padding: 10px 25px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        .btn-submit:hover {
+            background-color: #0b5ed7;
+        }
+        
+        .alert-success {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="form-title">Información Básica de Salud</h2>
+
+            <!-- Mensaje de éxito (oculto inicialmente) -->
+            <div id="success-message" class="alert alert-success d-none" role="alert">
+                ¡Formulario enviado con éxito! Los datos han sido almacenados.
+            </div>
+
+            <form id="health-form">
+                <h5 class="section-title">Información Personal</h5>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha" required>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="nombre" class="form-label">Nombre completo</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección y ciudad donde vive actualmente</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="edad" class="form-label">Edad</label>
+                        <input type="number" class="form-control" id="edad" name="edad" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="peso" class="form-label">Peso (kg)</label>
+                        <input type="number" step="0.1" class="form-control" id="peso" name="peso" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="estatura" class="form-label">Estatura (cm)</label>
+                        <input type="number" class="form-control" id="estatura" name="estatura" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="sangre" class="form-label">Tipo de sangre</label>
+                        <select class="form-select" id="sangre" name="sangre" required>
+                            <option value="">Seleccionar</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="Desconocido">Desconocido</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h5 class="section-title">Información Académica</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="carrera" class="form-label">Carrera, Grupo y Sección</label>
+                        <input type="text" class="form-control" id="carrera" name="carrera" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="preparatoria" class="form-label">Preparatoria (de la que egresó)</label>
+                        <input type="text" class="form-control" id="preparatoria" name="preparatoria" required>
+                    </div>
+                </div>
+
+                <h5 class="section-title">Información de Contacto</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="whatsapp" class="form-label">WhatsApp</label>
+                        <input type="tel" class="form-control" id="whatsapp" name="whatsapp" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="correo" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="correo" name="correo" required>
+                    </div>
+                </div>
+
+                <h5 class="section-title">Información de Salud</h5>
+                <div class="mb-3">
+                    <label for="enfermedades" class="form-label">Enfermedades actuales (crónicas y/o psicológicas)</label>
+                    <textarea class="form-control" id="enfermedades" name="enfermedades" rows="2"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tratamiento" class="form-label">¿Lleva algún tratamiento?</label>
+                    <input type="text" class="form-control" id="tratamiento" name="tratamiento">
+                </div>
+
+                <div class="mb-3">
+                    <label for="alergias" class="form-label">Alérgica a medicamentos, insectos o alimentos (explicar)</label>
+                    <input type="text" class="form-control" id="alergias" name="alergias">
+                </div>
+
+                <div class="mb-3">
+                    <label for="discapacidad" class="form-label">Discapacidad (explicar)</label>
+                    <input type="text" class="form-control" id="discapacidad" name="discapacidad">
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="embarazo" class="form-label">¿Está embarazada?</label>
+                        <select class="form-select" id="embarazo" name="embarazo">
+                            <option value="">Seleccione</option>
+                            <option value="Sí">Sí</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="semanas_embarazo" class="form-label">Semanas de embarazo</label>
+                        <input type="number" class="form-control" id="semanas_embarazo" name="semanas_embarazo" disabled>
+                    </div>
+                </div>
+
+                <h5 class="section-title">Información de Seguro</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="imss" class="form-label">N° del IMSS</label>
+                        <input type="text" class="form-control" id="imss" name="imss">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="afiliado_utnc" class="form-label">Afiliado por UTNC</label>
+                        <select class="form-select" id="afiliado_utnc" name="afiliado_utnc">
+                            <option value="">Seleccione</option>
+                            <option value="Sí">Sí</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="curp" class="form-label">CURP</label>
+                    <input type="text" class="form-control" id="curp" name="curp" required>
+                </div>
+
+                <h5 class="section-title">Contacto de Emergencia</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="contacto" class="form-label">Nombre y parentesco</label>
+                        <input type="text" class="form-control" id="contacto" name="contacto" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="contacto_cel" class="form-label">Teléfono de contacto</label>
+                        <input type="tel" class="form-control" id="contacto_cel" name="contacto_cel" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tutor" class="form-label">Nombre del tutor (si aplica)</label>
+                    <input type="text" class="form-control" id="tutor" name="tutor">
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-submit">Enviar Formulario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Array para almacenar todos los formularios enviados
+        const formulariosEnviados = [];
+
+        // Habilitar campo de semanas de embarazo solo si está embarazada
+        document.getElementById('embarazo').addEventListener('change', function() {
+            const semanasEmbarazo = document.getElementById('semanas_embarazo');
+            semanasEmbarazo.disabled = this.value !== 'Sí';
+            if (this.value !== 'Sí') {
+                semanasEmbarazo.value = '';
+            }
+        });
+
+        // Manejar el envío del formulario
+        document.getElementById('health-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Obtener los datos del formulario
+            const formData = new FormData(this);
+            const formObject = {};
+
+            // Convertir FormData a objeto
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+
+            // Agregar el formulario al array
+            formulariosEnviados.push(formObject);
+
+            // Mostrar en consola
+            console.log('Formulario enviado:', formObject);
+            console.log('Todos los formularios:', formulariosEnviados);
+
+            // Mostrar mensaje de éxito
+            const successMessage = document.getElementById('success-message');
+            successMessage.classList.remove('d-none');
+
+            // Ocultar mensaje después de 5 segundos
+            setTimeout(() => {
+                successMessage.classList.add('d-none');
+            }, 5000);
+
+            // Limpiar el formulario
+            this.reset();
+
+            // Deshabilitar semanas de embarazo nuevamente
+            document.getElementById('semanas_embarazo').disabled = true;
+        });
+    </script>
+</body>
+
+</html>
