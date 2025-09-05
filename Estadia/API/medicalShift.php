@@ -157,7 +157,31 @@ if (isset($_GET['allheaders'])) {
 
 
 
-} else {
+
+} elseif (isset($_GET['saveForm'])) {
+    // Guardar registro de formulario en carpeta por CURP
+    $input = $_POST;
+    if (!isset($input['curp'])) {
+        http_response_code(400);
+        echo json_encode(['status' => 'failed', 'message' => 'CURP faltante']);
+        exit;
+    }
+    $curp = preg_replace('/[^A-Za-z0-9]/', '', $input['curp']);
+    $baseDir = __DIR__ . '/../documents/' . $curp;
+    if (!is_dir($baseDir)) {
+        mkdir($baseDir, 0777, true);
+    }
+    $filename = $baseDir . '/registro_' . date('Ymd_His') . '.json';
+    $contenido = json_encode($input, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    if (file_put_contents($filename, $contenido) !== false) {
+        http_response_code(200);
+        echo json_encode(['status' => 'success', 'message' => 'Registro guardado', 'file' => basename($filename)]);
+    } else {
+        http_response_code(500);
+        echo json_encode(['status' => 'failed', 'message' => 'No se pudo guardar el archivo']);
+    }
+}
+else {
     http_response_code(403);
     echo json_encode(['error' => 'solicitud no encontrada']);
 }
