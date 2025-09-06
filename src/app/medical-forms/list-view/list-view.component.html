@@ -14,35 +14,40 @@
             </div>
             <!-- Listado de QR generados -->
             <div class="qr-history card shadow-sm">
-                <ul class="list-group flex-grow-1 overflow-auto" style="max-height: 50vh;">
+                <ul class="list-group flex-grow-1 overflow-auto">
+                    @if (loadingList) {
+                    <li class="list-group-item text-center">
+
+                        <div class="spinner-border text-primary" role="status">
+                        </div>
+                    </li>
+                    }@else{
                     @for (code of listMedicalShifts; track code.id; ) {
-                    <li class="list-group-item qr-item">
+                    <li class="list-group-item " [ngClass]="{ 'selected': code.id === MedicalShiftSelected?.id }"
+                        style="cursor: pointer;" (click)="showDetails(code)">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h5 class="mb-1">{{ code.name }}</h5>
-                             
                                 <span class="badge bg-secondary">
                                     {{ code.fecha | date:'dd/MM/yyyy HH:mm' }}
                                 </span>
                             </div>
-                            <div>
-                                <button class="btn btn-primary" (click)="showDetails(code)"> Ver</button>
-
-                            </div>
                         </div>
                     </li>
-                    } @empty {
+
+                    }
+                    @empty {
                     <li class="list-group-item text-center text-muted py-4">
                         <i class="fas fa-inbox fa-2x mb-2"></i>
                         <p>No hay códigos QR generados aún</p>
                     </li>
                     }
+                    }
                 </ul>
             </div>
         </div>
         <div class="col w-100 h-100">
-            <app-data-view [data]="MedicalShiftSelected" (onShowForms)="onOpenForms($event)" >
-
+            <app-data-view [data]="MedicalShiftSelected" (onShowForms)="onOpenForms($event) " (onChangeState)="onChangeState($event)">
             </app-data-view>
         </div>
     </div>

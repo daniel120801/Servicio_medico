@@ -8,7 +8,7 @@ export interface IMedicalShift {
     fecha: Date;
     formMedicals: formMedical[];
     filesCount:number;
-    state:boolean;
+    state:string;
 
 }
 
@@ -22,7 +22,7 @@ export class medicalShift implements IMedicalShift {
         public fecha: Date = new Date(),
         public formMedicals: formMedical[] = [],
         public filesCount:number = 0,
-        public state:boolean = false
+        public state:string = 'inactive'
     ) {
 
     }

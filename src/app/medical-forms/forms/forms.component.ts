@@ -12,16 +12,27 @@ import { MedicalShiftService } from '../../core/services/medical-shift.service';
 export class FormsComponent implements OnInit {
 
   @Input() accessCode: string = '';
-
+  names: string[] = [];
+  data: any = '';
+  searchingData:boolean = false;
   constructor(private medicalService: MedicalShiftService) {
-
   }
   ngOnInit(): void {
     console.log('opening forms');
 
-    this.medicalService.getForms(this.accessCode).subscribe((forms) => {
-      console.log('forms', forms);
+    this.medicalService.getFormsName(this.accessCode).subscribe((forms) => {
+      this.names = forms;
     });
-  }
 
+
+  }
+  onLoadFormData(name: string) {
+    this.searchingData = true;
+    this.medicalService.getFormData(this.accessCode, name).subscribe({
+      next: (data) => {
+        this.searchingData = false;
+        this.data = data;
+      },
+    })
+  }
 }

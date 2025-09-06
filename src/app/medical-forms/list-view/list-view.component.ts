@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { DataViewComponent } from '../data-view/data-view.component';
 import { provideSharedFeature } from '../../core/providers/medical.providers';
 import { MedicalShiftService } from '../../core/services/medical-shift.service';
@@ -8,15 +8,16 @@ import { FormCreateQrComponent } from '../../form-create-qrmodal/form-create-qrm
 
 @Component({
   selector: 'app-list-view',
-  imports: [DatePipe, FormCreateQrComponent, DataViewComponent],
+  imports: [DatePipe, FormCreateQrComponent, DataViewComponent, NgClass],
   templateUrl: './list-view.component.html',
   styleUrl: './list-view.component.css',
   providers: [provideSharedFeature]
 })
 export class ListViewComponent implements OnInit {
 
-  listMedicalShifts: medicalShift[] = [];
 
+  listMedicalShifts: medicalShift[] = [];
+  loadingList: boolean = true;
   @Output() onShowForms = new EventEmitter<string>();
   constructor(private medicalService: MedicalShiftService) { }
   MedicalShiftSelected: medicalShift | undefined = undefined;
@@ -29,6 +30,7 @@ export class ListViewComponent implements OnInit {
 
         this.listMedicalShifts = qrCodes;
         console.log(this.listMedicalShifts);
+        this.loadingList = false;
       },
       error: (error) => {
         console.log(error);
@@ -37,11 +39,26 @@ export class ListViewComponent implements OnInit {
   }
   showModalNewQR: boolean = false;
 
-  onOpenForms($value:string){
-    console.log( 'try open ', $value);
+  onOpenForms($value: string) {
+    console.log('try open ', $value);
     this.onShowForms.emit($value);
-  
-    
+
+
+  }
+  onChangeState($id: number) {
+    this.medicalService.updateState($id).subscribe(
+      {
+        next: (response) => {
+          if(response){
+            if(this.MedicalShiftSelected){
+              this.MedicalShiftSelected.state = response ? 'active': 'inactive';
+            }
+            
+
+          }
+        }
+      }
+    )
   }
   generarNuevoQR($value: string) {
 
@@ -56,7 +73,7 @@ export class ListViewComponent implements OnInit {
     }
     )
   }
-  
+
   showDetails(arg: medicalShift) {
 
     this.MedicalShiftSelected = arg;

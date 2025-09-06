@@ -35,6 +35,7 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   message = '';
+  loading = false;
   constructor(private fb: FormBuilder,
     private authService: AuthService
   ) {
@@ -49,7 +50,7 @@ export class LoginComponent {
       this.message = 'campos faltantes'
       return;
     }
-
+    this.loading = true;
     const username = this.loginForm.get('username')?.value;
     const password = this.loginForm.get('password')?.value;
     this.authService.login(username, password).subscribe(
