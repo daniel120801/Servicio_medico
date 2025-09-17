@@ -159,19 +159,18 @@ if (isset($_GET['allheaders'])) {
 
 
 } elseif (isset($_GET['saveForm'])) {
-    // Guardar registro de formulario en carpeta por CURP
+    // Guardar registro de formulario en carpeta por access_code
     $input = $_POST;
-    if (!isset($input['curp'])) {
+    if (!isset($input['access_code'])) {
         http_response_code(400);
-        echo json_encode(['status' => 'failed', 'message' => 'CURP faltante']);
+        echo json_encode(['status' => 'failed', 'message' => 'access_code faltante']);
         exit;
     }
-    $curp = preg_replace('/[^A-Za-z0-9]/', '', $input['curp']);
-    $baseDir = __DIR__ . '/../documents/' . $curp;
-    if (!is_dir($baseDir)) {
-        mkdir($baseDir, 0777, true);
+    $folderPath = $directory . '/' . $input['access_code'];
+    if (!is_dir($folderPath)) {
+        mkdir($folderPath, 0777, true);
     }
-    $filename = $baseDir . '/registro_' . date('Ymd_His') . '.json';
+    $filename = $folderPath . '/registro_' . date('Ymd_His') . '.json';
     $contenido = json_encode($input, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     if (file_put_contents($filename, $contenido) !== false) {
         http_response_code(200);
