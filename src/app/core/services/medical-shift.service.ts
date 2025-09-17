@@ -48,11 +48,22 @@ export class MedicalShiftService {
         })
       );
   }
-  getForms($accessCode: string) {
-   return this.http.get<any>(API_MEDICALSHIFT + "?forms&access_code=" + $accessCode)
+  getFormsName($accessCode: string) {
+    return this.http.get<any>(API_MEDICALSHIFT + "?labels&access_code=" + $accessCode)
       .pipe(
-        tap(console.log)
+        tap(console.log), map(response => response.data)
       );
+  }
+  getFormData($accessCode: string, name: string): Observable<any> {
+    return this.http.get<any>(API_MEDICALSHIFT + "?getForm&access_code=" + $accessCode + "&nameFile=" + name)
+      .pipe(
+        tap(console.log), map(response => response.data)
+      );
+  }
+  updateState(id: number): Observable<boolean> {
+    return this.http.get<any>(API_MEDICALSHIFT + "?updateState=&id=" + id).pipe(
+      map(response => response.status == 'success')
+    )
   }
 
 }
