@@ -31,4 +31,4 @@ export const API_TOKEN_VERIFIER = MAIN_SESSION_URL + 'verifyToken.php';
 export const API_TOKEN_REFRESH = MAIN_SESSION_URL + 'refrehToken.php';
 export const API_SESSION = MAIN_SESSION_URL + 'index.php';
 
-export const API_MEDICALSHIFTFORM = MAIN_API_URL + 'jornadas_form.php';
+export const API_MEDICALSHIFTFORM = MAIN_URL + 'formulario.html';
