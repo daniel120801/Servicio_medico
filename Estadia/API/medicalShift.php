@@ -119,12 +119,30 @@ if (isset($_GET['allheaders'])) {
 
 
 } elseif (isset($_GET['getForm'])) {
+
     if (!isset($_GET['access_code']) || !isset($_GET['nameFile'])) {
         http_response_code(402);
         echo json_encode(['status' => 'failed', 'message' => 'campos faltantes']);
         exit;
     }
-} elseif (isset($_GET['forms'])) {
+
+    $folderPath = $directory . '/' . $_GET['access_code'];
+    $filePath = $folderPath . '/' . $_GET['nameFile'] . '.json';
+    if (!file_exists($filePath)) {
+        http_response_code(402);
+        echo json_encode(['status' => 'failed', 'message' => 'archivo no encontrado']);
+        exit;
+    }
+    //obtener los archivos json
+    $file = file_get_contents($filePath);
+
+
+    http_response_code(200);
+    echo json_encode(['status' => 'success', 'data' => $file]);
+    exit;
+
+
+} elseif (isset($_GET['labels'])) {
 
     if (!isset($_GET['access_code'])) {
         http_response_code(402);
@@ -137,48 +155,35 @@ if (isset($_GET['allheaders'])) {
         echo json_encode(['status' => 'failed', 'message' => 'sin archivos']);
         exit;
     }
-    //obtener los archivos json
-
-    $allFiles = array_filter(scandir($folderPath), function ($file) use ($folderPath) {
-        return is_file($folderPath . '/' . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'json';
-    });
-    $allFiles = array_diff(
-        $allFiles,
-        array('.', '..')
-    );
-    //leer archivos json y crear un array donde se guarde un diccionario de "nombre doc" con el contenido del json en formato array
-    $jsons = [];
-    foreach ($allFiles as $key => $value) {
-        $jsons[] = json_decode(file_get_contents($folderPath . '/' . $value), true);
-
+    $files = [];
+    foreach (scandir($folderPath) as $file) {
+        if (is_file($folderPath . '/' . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'json') {
+            $files[] = pathinfo($file, PATHINFO_FILENAME);
+        }
     }
 
-    echo json_encode($jsons);
+
+    http_response_code(200);
+    echo json_encode(['status' => 'success', 'data' => $files]);
+    exit;
 
 
 
+}
+elseif(isset($_GET["updateState"])){
 
-} elseif (isset($_GET['saveForm'])) {
-    // Guardar registro de formulario en carpeta por access_code
-    $input = $_POST;
-    if (!isset($input['access_code'])) {
-        http_response_code(400);
-        echo json_encode(['status' => 'failed', 'message' => 'access_code faltante']);
+if (!isset($_GET['id'])) {
+        http_response_code(402);
+        echo json_encode(['status' => 'failed', 'message' => 'campos faltantes']);
         exit;
     }
-    $folderPath = $directory . '/' . $input['access_code'];
-    if (!is_dir($folderPath)) {
-        mkdir($folderPath, 0777, true);
-    }
-    $filename = $folderPath . '/registro_' . date('Ymd_His') . '.json';
-    $contenido = json_encode($input, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    if (file_put_contents($filename, $contenido) !== false) {
-        http_response_code(200);
-        echo json_encode(['status' => 'success', 'message' => 'Registro guardado', 'file' => basename($filename)]);
-    } else {
-        http_response_code(500);
-        echo json_encode(['status' => 'failed', 'message' => 'No se pudo guardar el archivo']);
-    }
+    $id = $_GET['id'];
+
+    $update = $con->update("jornadasmedica");
+    $update->set("state", "active");
+    http_response_code(200);
+    echo json_encode(['status' => 'success']);
+    exit;
 }
 else {
     http_response_code(403);

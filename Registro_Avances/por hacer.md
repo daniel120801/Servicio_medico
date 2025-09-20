@@ -11,14 +11,6 @@
 
 -----Funcion de formulario llenado por alumnos----
 
--buscar donde poner la creacion del qr
-
--(se recibio hoja que contiene los campos)-preguntar que campos se podran ingresar
-
 -encontrar manera de deshabilitar el qr una vez terminada la jornada de edición
-
--encontrar el metodo en el que accedera el alumno
-
--buscar donde se pondra el formulario (backend/frontend)
 
 -pedir la url de intranet
