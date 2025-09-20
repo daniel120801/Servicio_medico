@@ -137,11 +137,32 @@
                     </div>
                 </div>
 
-                <h5 class="section-title">Información Académica</h5>
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="carrera" class="form-label">Carrera, Grupo y Sección</label>
+                        <label for="telefono" class="form-label">Telefono</label>
+                        <input type="tel" class="form-control" id="telefono" name="telefono" required>
+                        <div id="error-telefono" class="text-danger small"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="correo" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="correo" name="correo" required>
+                        <div id="error-correo" class="text-danger small"></div>
+                    </div>
+                </div>
+
+                <h5 class="section-title">Información Académica</h5>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="carrera" class="form-label">Carrera</label>
                         <input type="text" class="form-control" id="carrera" name="carrera" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="grupo" class="form-label">Grupo</label>
+                        <input type="text" class="form-control" id="grupo" name="grupo" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="seccion" class="form-label">Sección</label>
+                        <input type="text" class="form-control" id="seccion" name="seccion" required>
                     </div>
                     <div class="col-md-6">
                         <label for="preparatoria" class="form-label">Preparatoria (de la que egresó)</label>
@@ -149,17 +170,6 @@
                     </div>
                 </div>
 
-                <h5 class="section-title">Información de Contacto</h5>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="whatsapp" class="form-label">WhatsApp</label>
-                        <input type="tel" class="form-control" id="whatsapp" name="whatsapp" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="correo" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="correo" name="correo" required>
-                    </div>
-                </div>
 
                 <h5 class="section-title">Información de Salud</h5>
                 <div class="mb-3">
@@ -197,7 +207,6 @@
                     </div>
                 </div>
 
-                <h5 class="section-title">Información de Seguro</h5>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="imss" class="form-label">N° del IMSS</label>
@@ -216,6 +225,7 @@
                 <div class="mb-3">
                     <label for="curp" class="form-label">CURP</label>
                     <input type="text" class="form-control" id="curp" name="curp" required>
+                    <div id="error-curp" class="text-danger small"></div>
                 </div>
 
                 <h5 class="section-title">Contacto de Emergencia</h5>
@@ -328,31 +338,44 @@
             }
         });
 
+        // Validar CURP (acepta formato estándar y permite letras minúsculas)
+        function validarCURP(curp) {
+            // CURP estándar: 4 letras, 6 dígitos, 1 letra (H/M), 5 letras, 2 alfanuméricos
+            const regex = /^[A-Za-z]{4}\d{6}[HhMm][A-Za-z]{5}[A-Za-z0-9]{2}$/;
+            return regex.test(curp);
+        }
 
-        // Validar formulario antes de enviar
+        // Validar formulario antes de enviar y mostrar errores debajo de cada campo
         function validarFormulario(formData) {
+            let valido = true;
+
+            // Limpiar mensajes previos
+            document.getElementById('error-curp').textContent = '';
+            document.getElementById('error-correo').textContent = '';
+            document.getElementById('error-telefono').textContent = '';
+
             // Validar CURP
             if (!validarCURP(formData.get('curp'))) {
-                alert('Por favor, ingrese una CURP válida.');
-                return false;
+                document.getElementById('error-curp').textContent = 'Por favor, ingrese una CURP válida.';
+                valido = false;
             }
 
             // Validar email
             const email = formData.get('correo');
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                alert('Por favor, ingrese un correo electrónico válido.');
-                return false;
+                document.getElementById('error-correo').textContent = 'Por favor, ingrese un correo electrónico válido.';
+                valido = false;
             }
 
             // Validar teléfono (mínimo 10 dígitos)
-            const telefono = formData.get('whatsapp').replace(/\D/g, '');
+            const telefono = formData.get('telefono').replace(/\D/g, '');
             if (telefono.length < 10) {
-                alert('Por favor, ingrese un número de teléfono válido (mínimo 10 dígitos).');
-                return false;
+                document.getElementById('error-telefono').textContent = 'Por favor, ingrese un número de teléfono válido (mínimo 10 dígitos).';
+                valido = false;
             }
 
-            return true;
+            return valido;
         }
 
         // Manejar el envío del formulario
