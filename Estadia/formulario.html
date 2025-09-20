@@ -88,7 +88,8 @@
                 Ha ocurrido un error al enviar el formulario.
             </div>
 
-            <form id="health-form" action="API/medicalShift.php?saveForm=1" method="POST">
+            <form id="health-form" action="API/medicalShift.php" method="POST">
+                <input type="hidden" id="access_code" name="access_code" value="">
                 <h5 class="section-title">Información Personal</h5>
                 <div class="row mb-3">
                     <div class="col-md-4">
@@ -251,8 +252,61 @@
         // Array para almacenar todos los formularios enviados (solo como respaldo)
         const formulariosEnviados = [];
 
-        // Establecer fecha actual por defecto
-        document.addEventListener('DOMContentLoaded', function() {
+        // Función para obtener el access_code de la URL
+        function getAccessCodeFromURL() {
+            const url = window.location.href;
+            // Busca el access_code después del ? en la URL
+            const match = url.match(/\?(\w{20,})/);
+            return match ? match[1] : null;
+        }
+
+        // Verificar access_code en la base de datos
+        async function verificarAccessCode(accessCode) {
+            try {
+                // Cambia la URL al endpoint que verifica el access_code
+                const response = await fetch(`API/medicalShift.php?allheaders`, {
+                    method: 'GET'
+                });
+                const result = await response.json();
+                if (result.status === 'success' && Array.isArray(result.data)) {
+                    // Buscar el access_code en los registros activos
+                    const jornada = result.data.find(j => j.access_code === accessCode);
+                    // Aquí podrías agregar más validaciones de "activo" si tienes ese campo
+                    return !!jornada;
+                }
+                return false;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const accessCode = getAccessCodeFromURL();
+            const formContainer = document.querySelector('.form-container');
+            const healthForm = document.getElementById('health-form');
+            const errorMessage = document.getElementById('error-message');
+
+            if (!accessCode) {
+                formContainer.style.display = 'none';
+                errorMessage.textContent = 'No se encontró el código de acceso en la URL.';
+                errorMessage.classList.remove('d-none');
+                return;
+            }
+
+            // Verificar el access_code
+            const valido = await verificarAccessCode(accessCode);
+            if (!valido) {
+                formContainer.style.display = 'none';
+                errorMessage.textContent = 'El código de acceso no es válido o no está activo.';
+                errorMessage.classList.remove('d-none');
+                return;
+            }
+
+            // Si es válido, mostrar el formulario y establecer el access_code
+            formContainer.style.display = '';
+            document.getElementById('access_code').value = accessCode;
+
+            // Establecer fecha actual por defecto
             const today = new Date();
             const yyyy = today.getFullYear();
             let mm = today.getMonth() + 1;
