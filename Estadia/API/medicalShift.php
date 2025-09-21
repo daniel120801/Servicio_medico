@@ -184,6 +184,31 @@ if (!isset($_GET['id'])) {
     http_response_code(200);
     echo json_encode(['status' => 'success']);
     exit;
+} elseif (isset($_GET['saveForm'])) {
+    // Guardar registro de formulario en carpeta por access_code y con nombre NOMBRE.json
+    $input = $_POST;
+    if (!isset($input['access_code'])) {
+        http_response_code(400);
+        echo json_encode(['status' => 'failed', 'message' => 'access_code faltante']);
+        exit;
+    }
+    if (!isset($input['nombre']) || empty($input['nombre'])) {
+        http_response_code(400);
+        echo json_encode(['status' => 'failed', 'message' => 'nombre faltante']);
+        exit;
+    }
+    $folderPath = $directory . '/' . $input['access_code'];
+    if (!is_dir($folderPath)) {
+        mkdir($folderPath, 0777, true);
+    }
+    // Limpiar el nombre para el archivo
+    $nombre = preg_replace('/[^A-Za-z0-9]/', '', str_replace(' ', '_', $input['nombre']));
+    $filename = $folderPath . '/' . $nombre . '.json';
+    $contenido = json_encode($input, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    if (file_put_contents($filename, $contenido) !== false) {
+        http_response_code(200);
+        echo json_encode(['status' => 'success', 'message' => 'Registro guardado', 'file' => basename($filename)]);
+    } 
 }
 else {
     http_response_code(403);

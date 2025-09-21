@@ -306,7 +306,7 @@
             const valido = await verificarAccessCode(accessCode);
             if (!valido) {
                 formContainer.style.display = 'none';
-                errorMessage.textContent = 'El código de acceso no es válido o no está activo.';
+                errorMessage.textContent = 'El código de acceso no existe o no está activo. Por favor verifica el enlace.';
                 errorMessage.classList.remove('d-none');
                 return;
             }
@@ -387,7 +387,9 @@
 
             try {
                 // Enviar datos al servidor al endpoint saveForm
-                const response = await fetch(this.action, {
+                // Cambia la URL para usar el endpoint saveForm
+                const apiUrl = `API/medicalShift.php?saveForm=1`;
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     body: formData
                 });
