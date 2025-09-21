@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { provideSharedFeature } from '../../core/providers/medical.providers';
 import { MedicalShiftService } from '../../core/services/medical-shift.service';
+import { IFormMedicalShift } from '../../core/Models/response_medical_shift.model';
 
 @Component({
   selector: 'app-forms',
@@ -13,7 +14,7 @@ export class FormsComponent implements OnInit {
 
   @Input() accessCode: string = '';
   names: string[] = [];
-  data: any = null;
+  data: IFormMedicalShift|null = null;
   searchingData:boolean = false;
   constructor(private medicalService: MedicalShiftService) {
   }

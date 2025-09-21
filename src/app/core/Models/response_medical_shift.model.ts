@@ -1,0 +1,32 @@
+export interface IFormMedicalShift {
+  fecha_registro: string;
+  nombre: string;
+  edad: number;
+  domicilio: string;
+  peso: string;
+  estatura: string;
+  tipo_sangre: string;
+  genero: string;
+  matricula: number;
+  carrera: string;
+  grupo_seccion: string;
+  preparatoria_procedencia: string;
+  telefono: string;
+  whatsapp: string;
+  correo: string;
+  enfermedades: string;
+  tratamiento_actual: string;
+  alergias: string;
+  discapacidad: string;
+  embarazo: string;
+  semanas_embarazo: number | null;
+  NSS: string;
+  imss: string;
+  afiliacion: string;
+  afiliado_utnc: string;
+  CURP: string;
+  contacto_emergencia: string;
+  parentesco_contacto: string;
+  telefono_contacto: string;
+  tutor: string;
+}

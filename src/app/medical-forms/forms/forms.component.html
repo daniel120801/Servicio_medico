@@ -39,7 +39,7 @@
                         <div class="row">
                             <div class="col-md-3 mb-2">
                                 <div class="text-secondary small">Fecha</div>
-                                <div class="fw-medium">{{data.fecha_registro || data.fecha}}</div>
+                                <div class="fw-medium">{{data.fecha_registro }}</div>
                             </div>
                             <div class="col-md-5 mb-2">
                                 <div class="text-secondary small">Nombre completo</div>
@@ -54,7 +54,7 @@
                         <div class="row mt-2">
                             <div class="col-12 mb-2">
                                 <div class="text-secondary small">Dirección</div>
-                                <div class="fw-medium">{{data.domicilio || data.direccion}}</div>
+                                <div class="fw-medium">{{data.domicilio}}</div>
                             </div>
                         </div>
 
@@ -65,11 +65,11 @@
                             </div>
                             <div class="col-md-3 mb-2">
                                 <div class="text-secondary small">Estatura</div>
-                                <div class="fw-medium">{{data.estatura || data.talla}} cm</div>
+                                <div class="fw-medium">{{data.estatura}} cm</div>
                             </div>
                             <div class="col-md-3 mb-2">
                                 <div class="text-secondary small">Tipo de sangre</div>
-                                <div class="fw-medium">{{data.RH || data.sangre}}</div>
+                                <div class="fw-medium">{{ data.tipo_sangre}}</div>
                             </div>
                             <div class="col-md-3 mb-2">
                                 <div class="text-secondary small">Género</div>
@@ -94,7 +94,7 @@
                         <div class="row mt-2">
                             <div class="col-12 mb-2">
                                 <div class="text-secondary small">Preparatoria de procedencia</div>
-                                <div class="fw-medium">{{data.preparatoria_procedencia || data.preparatoria}}</div>
+                                <div class="fw-medium">{{data.preparatoria_procedencia }}</div>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -139,7 +139,7 @@
                         <div class="row mt-2">
                             <div class="col-12 mb-2">
                                 <div class="text-secondary small">Tratamientos actuales</div>
-                                <div class="fw-medium">{{data.tratamiento_actual || data.tratamientos || 'N/A'}}</div>
+                                <div class="fw-medium">{{data.tratamiento_actual || 'N/A'}}</div>
                             </div>
                         </div>
 
@@ -158,10 +158,7 @@
                         </div>
 
                         <div class="row mt-2">
-                            <div class="col-md-6 mb-2">
-                                <div class="text-secondary small">¿Es donador de órganos?</div>
-                                <div class="fw-medium">{{data.donador || 'N/A'}}</div>
-                            </div>
+                   
                             <div class="col-md-6 mb-2">
                                 <div class="text-secondary small">¿Está embarazada?</div>
                                 <div class="fw-medium">{{data.embarazo || 'N/A'}}</div>
@@ -206,7 +203,7 @@
                         <div class="row mt-2">
                             <div class="col-12 mb-2">
                                 <div class="text-secondary small">CURP</div>
-                                <div class="fw-medium">{{data.CURP || data.curp}}</div>
+                                <div class="fw-medium">{{data.CURP }}</div>
                             </div>
                         </div>
                     </div>
@@ -217,8 +214,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-2">
                                 <div class="text-secondary small">Contacto de emergencia</div>
-                                <div class="fw-medium">{{data.contacto_emergencia || data.contacto ||
-                                    data.enCasoDeAccidente}}</div>
+                                <div class="fw-medium">{{data.contacto_emergencia}}</div>
                             </div>
                             <div class="col-md-6 mb-2">
                                 <div class="text-secondary small">Parentesco</div>
@@ -229,7 +225,7 @@
                         <div class="row mt-2">
                             <div class="col-md-6 mb-2">
                                 <div class="text-secondary small">Teléfono de contacto</div>
-                                <div class="fw-medium">{{data.telefono_contacto || data.contacto_cel}}</div>
+                                <div class="fw-medium">{{data.telefono_contacto }}</div>
                             </div>
                         </div>
 
@@ -239,6 +235,15 @@
                                 <div class="fw-medium">{{data.tutor || 'N/A'}}</div>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                        >
+                            Confirmar
+                        </button>
+                        
                     </div>
                 </div>
             </div>

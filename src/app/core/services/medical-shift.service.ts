@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { API_MEDICALSHIFT } from '../Utilities/Api';
 import { IMedicalShift, medicalShift } from '../Models/medicalShift.model';
 import { map, Observable, tap } from 'rxjs';
+import { IFormMedicalShift } from '../Models/response_medical_shift.model';
 
 @Injectable()
 export class MedicalShiftService {
@@ -56,7 +57,7 @@ export class MedicalShiftService {
   getFormData($accessCode: string, name: string): Observable<any> {
     return this.http.get<any>(API_MEDICALSHIFT + "?getForm&access_code=" + $accessCode + "&nameFile=" + name)
       .pipe(
-        tap(console.log), map(response => response.data)
+        tap(console.log), map(response => response.data as IFormMedicalShift)
       );
   }
   updateState(id: number): Observable<boolean> {

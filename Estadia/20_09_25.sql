@@ -100,35 +100,6 @@ INSERT INTO `alumnos` (`nombre`, `matricula`, `telefono`, `correo`, `carrera`, `
 	('Ana López', 23005048, '555-987-6543', 'ana.lopez@example.com', 'MAI', 'LOPA980202MDFRZN07', 'Guadalajara', 'Calle Juárez #456', 22, '222222222223', 'ISSSTE', 'A-', 'No', '60kg', '1.65m', 'Penicilina', 'Ninguna', 'Ningunoa', 'Auditiva', 'Llamar a José López 555-321-7654', 'H'),
 	('Tania Torres', 23005102, '8781239277', 'angeltorrest@gmail.com', 'TIADSM', 'TOTT060928MCLRRNA9', 'Piedras negras', 'Nuevo leon #206', 18, '234567834567', 'IMSS', 'O-', 'No', '57kg', '1.60m', NULL, NULL, NULL, NULL, 'Llamar a Carmen 878-114-3744', 'F');
 
--- Volcando estructura para tabla estadia.alumnovacuna
-CREATE TABLE IF NOT EXISTS `alumnovacuna` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `vacuna_id` int(11) NOT NULL,
-  `alumno_mtr` int(9) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `constraint_vacunas` (`vacuna_id`),
-  KEY `alumno_mtr` (`alumno_mtr`),
-  CONSTRAINT `alumnovacuna_ibfk_1` FOREIGN KEY (`alumno_mtr`) REFERENCES `alumnos` (`matricula`),
-  CONSTRAINT `constraint_vacunas` FOREIGN KEY (`vacuna_id`) REFERENCES `vacunas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Volcando datos para la tabla estadia.alumnovacuna: ~15 rows (aproximadamente)
-INSERT INTO `alumnovacuna` (`id`, `vacuna_id`, `alumno_mtr`) VALUES
-	(2, 2, 23005012),
-	(4, 2, 20230015),
-	(5, 2, 20230017),
-	(6, 2, 20230011),
-	(7, 2, 23005048),
-	(8, 2, 20230022),
-	(9, 2, 20230021),
-	(10, 2, 20230020),
-	(11, 2, 20230019),
-	(12, 2, 20230018),
-	(14, 1, 20230021),
-	(16, 1, 20230008),
-	(17, 1, 20230014),
-	(18, 1, 20230016),
-	(33, 1, 20230005);
 
 -- Volcando estructura para tabla estadia.conferencia
 CREATE TABLE IF NOT EXISTS `conferencia` (
@@ -241,6 +212,7 @@ INSERT INTO `vacunas` (`id`, `nombre`, `fecha`) VALUES
 
 -- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `all_alumno`;
+
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `all_alumno` AS SELECT 
         `a`.`nombre` AS `nombre`,
         `a`.`genero` AS `genero`,
@@ -306,6 +278,37 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `all_alumno` AS SELECT
         LEFT JOIN `estadia`.`documento` `d` ON (`a`.`matricula` = `d`.`alumno_mtr`))
     GROUP BY `a`.`matricula` 
 ;
+
+-- Volcando estructura para tabla estadia.alumnovacuna
+CREATE TABLE IF NOT EXISTS `alumnovacuna` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `vacuna_id` int(11) NOT NULL,
+  `alumno_mtr` int(9) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `constraint_vacunas` (`vacuna_id`),
+  KEY `alumno_mtr` (`alumno_mtr`),
+  CONSTRAINT `alumnovacuna_ibfk_1` FOREIGN KEY (`alumno_mtr`) REFERENCES `alumnos` (`matricula`),
+  CONSTRAINT `constraint_vacunas` FOREIGN KEY (`vacuna_id`) REFERENCES `vacunas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla estadia.alumnovacuna: ~15 rows (aproximadamente)
+INSERT INTO `alumnovacuna` (`id`, `vacuna_id`, `alumno_mtr`) VALUES
+	(2, 2, 23005012),
+	(4, 2, 20230015),
+	(5, 2, 20230017),
+	(6, 2, 20230011),
+	(7, 2, 23005048),
+	(8, 2, 20230022),
+	(9, 2, 20230021),
+	(10, 2, 20230020),
+	(11, 2, 20230019),
+	(12, 2, 20230018),
+	(14, 1, 20230021),
+	(16, 1, 20230008),
+	(17, 1, 20230014),
+	(18, 1, 20230016),
+	(33, 1, 20230005);
+
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

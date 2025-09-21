@@ -18,6 +18,7 @@
 ^encontrar manera de deshabilitar el qr una vez terminada la jornada de edición
 
 ?crear el visual del formulario
+    ? agregar la interfaz para la respuesta del servicio en la funcion <getFormData> para poder mapear la respuesta del servidor a un formato capaz de ser visto en el formulario 
 
 ^agregar logica que intente seleccionar al alumno de base de datos que coincida con el alumno del formulario
     &- de no ser localizado, agregar un buscador que permita filtrar entre los alumnos existentes en bd.
@@ -27,7 +28,6 @@
 ^ agregar boton en formulario para confirmar datos y llamar al api que actualizara
 
 ^ crear api que actualize los datos medicos recibiendo el accesscode y curp del alumno a confirmar
-
 
 
 
