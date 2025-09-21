@@ -23,7 +23,6 @@ export class MedicalShiftService {
         })))
       );
   }
-
   createNewMedicalShift(name: string): Observable<medicalShift> {
 
     var date = new Date();
@@ -48,7 +47,7 @@ export class MedicalShiftService {
         })
       );
   }
-  getFormsName($accessCode: string) {
+  getFormsHeader($accessCode: string) {
     return this.http.get<any>(API_MEDICALSHIFT + "?labels&access_code=" + $accessCode)
       .pipe(
         tap(console.log), map(response => response.data)
@@ -65,5 +64,4 @@ export class MedicalShiftService {
       map(response => response.status == 'success')
     )
   }
-
 }

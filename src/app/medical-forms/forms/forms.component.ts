@@ -13,17 +13,16 @@ export class FormsComponent implements OnInit {
 
   @Input() accessCode: string = '';
   names: string[] = [];
-  data: any = '';
+  data: any = null;
   searchingData:boolean = false;
   constructor(private medicalService: MedicalShiftService) {
   }
   ngOnInit(): void {
     console.log('opening forms');
 
-    this.medicalService.getFormsName(this.accessCode).subscribe((forms) => {
+    this.medicalService.getFormsHeader(this.accessCode).subscribe((forms) => {
       this.names = forms;
     });
-
 
   }
   onLoadFormData(name: string) {
@@ -31,6 +30,8 @@ export class FormsComponent implements OnInit {
     this.medicalService.getFormData(this.accessCode, name).subscribe({
       next: (data) => {
         this.searchingData = false;
+        console.log('data recibida, ', data);
+        
         this.data = data;
       },
     })

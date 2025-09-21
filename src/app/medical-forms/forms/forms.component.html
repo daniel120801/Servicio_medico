@@ -1,14 +1,16 @@
 <div class="container">
     @if(names.length <= 0){ <div class="text-center">
-        
+
         <div class="spinner-border text-primary" role="status">
         </div>
 
 </div>
 }
 @else {
-<div class="row justify-content-center  g-2">
-    <div class="col-4">
+
+
+<div class="row ">
+    <div class="col-3">
 
 
         <ul class="list-group flex-grow-1 overflow-auto">
@@ -25,8 +27,224 @@
         <div class="spinner-border text-primary" role="status">
         </div>
         }
-        @else{
-        {{data}}
+        @else
+        {
+        @if(data != null){
+        <div class="container mt-4">
+            <div class="card border-0 ">
+                <div class="card-body p-4">
+                    <!-- Información Personal -->
+                    <div class="data-section mb-4">
+                        <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información Personal</h5>
+                        <div class="row">
+                            <div class="col-md-3 mb-2">
+                                <div class="text-secondary small">Fecha</div>
+                                <div class="fw-medium">{{data.fecha_registro || data.fecha}}</div>
+                            </div>
+                            <div class="col-md-5 mb-2">
+                                <div class="text-secondary small">Nombre completo</div>
+                                <div class="fw-medium">{{data.nombre}}</div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="text-secondary small">Edad</div>
+                                <div class="fw-medium">{{data.edad}} años</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Dirección</div>
+                                <div class="fw-medium">{{data.domicilio || data.direccion}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 mb-2">
+                                <div class="text-secondary small">Peso</div>
+                                <div class="fw-medium">{{data.peso}} kg</div>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <div class="text-secondary small">Estatura</div>
+                                <div class="fw-medium">{{data.estatura || data.talla}} cm</div>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <div class="text-secondary small">Tipo de sangre</div>
+                                <div class="fw-medium">{{data.RH || data.sangre}}</div>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <div class="text-secondary small">Género</div>
+                                <div class="fw-medium">{{data.genero || 'N/A'}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información Académica -->
+                    <div class="data-section mb-4">
+                        <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información Académica</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Carrera</div>
+                                <div class="fw-medium">{{data.carrera}}</div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Grupo y Sección</div>
+                                <div class="fw-medium">{{data.grupo_seccion || 'N/A'}}</div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Preparatoria de procedencia</div>
+                                <div class="fw-medium">{{data.preparatoria_procedencia || data.preparatoria}}</div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Matrícula</div>
+                                <div class="fw-medium">{{data.matricula}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información de Contacto -->
+                    <div class="data-section mb-4">
+                        <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información de Contacto</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Teléfono</div>
+                                <div class="fw-medium">{{data.telefono}}</div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">WhatsApp</div>
+                                <div class="fw-medium">{{data.whatsapp || 'N/A'}}</div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Correo electrónico</div>
+                                <div class="fw-medium">{{data.correo}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información de Salud -->
+                    <div class="data-section mb-4">
+                        <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información de Salud</h5>
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Enfermedades actuales</div>
+                                <div class="fw-medium">{{data.enfermedades || 'N/A'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Tratamientos actuales</div>
+                                <div class="fw-medium">{{data.tratamiento_actual || data.tratamientos || 'N/A'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Alergias</div>
+                                <div class="fw-medium">{{data.alergias || 'N/A'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Discapacidad</div>
+                                <div class="fw-medium">{{data.discapacidad || 'N/A'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">¿Es donador de órganos?</div>
+                                <div class="fw-medium">{{data.donador || 'N/A'}}</div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">¿Está embarazada?</div>
+                                <div class="fw-medium">{{data.embarazo || 'N/A'}}</div>
+                            </div>
+                        </div>
+                        @if(data.embarazo === 'Sí'){
+
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Semanas de embarazo</div>
+                                <div class="fw-medium">{{data.semanas_embarazo}}</div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Información de Seguro -->
+                    <div class="data-section mb-4">
+                        <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información de Seguro</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Número de Seguro Social (NSS)</div>
+                                <div class="fw-medium">{{data.NSS || 'N/A'}}</div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Número del IMSS</div>
+                                <div class="fw-medium">{{data.imss || 'N/A'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Afiliación</div>
+                                <div class="fw-medium">{{data.afiliacion || 'N/A'}}</div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Afiliado por UTNC</div>
+                                <div class="fw-medium">{{data.afiliado_utnc || 'N/A'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">CURP</div>
+                                <div class="fw-medium">{{data.CURP || data.curp}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contacto de Emergencia -->
+                    <div class="data-section mb-4">
+                        <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Contacto de Emergencia</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Contacto de emergencia</div>
+                                <div class="fw-medium">{{data.contacto_emergencia || data.contacto ||
+                                    data.enCasoDeAccidente}}</div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Parentesco</div>
+                                <div class="fw-medium">{{data.parentesco_contacto || 'N/A'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-6 mb-2">
+                                <div class="text-secondary small">Teléfono de contacto</div>
+                                <div class="fw-medium">{{data.telefono_contacto || data.contacto_cel}}</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 mb-2">
+                                <div class="text-secondary small">Tutor</div>
+                                <div class="fw-medium">{{data.tutor || 'N/A'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        }
 
         }
     </div>
