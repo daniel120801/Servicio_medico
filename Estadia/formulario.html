@@ -93,8 +93,8 @@
                 <h5 class="section-title">Información Personal</h5>
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="fecha" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="fecha" name="fecha" required>
+                        <label for="fecha_registro" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha_registro" name="fecha_registro" required>
                     </div>
                     <div class="col-md-8">
                         <label for="nombre" class="form-label">Nombre completo</label>
@@ -103,8 +103,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="direccion" class="form-label">Dirección y ciudad donde vive actualmente</label>
-                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                    <label for="domicilio" class="form-label">Dirección y ciudad donde vive actualmente</label>
+                    <input type="text" class="form-control" id="domicilio" name="domicilio" required>
                 </div>
 
                 <div class="row mb-3">
@@ -121,8 +121,8 @@
                         <input type="number" class="form-control" id="estatura" name="estatura" required>
                     </div>
                     <div class="col-md-3">
-                        <label for="sangre" class="form-label">Tipo de sangre</label>
-                        <select class="form-select" id="sangre" name="sangre" required>
+                        <label for="tipo_sangre" class="form-label">Tipo de sangre</label>
+                        <select class="form-select" id="tipo_sangre" name="tipo_sangre" required>
                             <option value="">Seleccionar</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
@@ -157,16 +157,13 @@
                         <input type="text" class="form-control" id="carrera" name="carrera" required>
                     </div>
                     <div class="col-md-4">
-                        <label for="grupo" class="form-label">Grupo</label>
-                        <input type="text" class="form-control" id="grupo" name="grupo" required>
+                        <label for="grupo_seccion" class="form-label">Grupo y Sección</label>
+                        <input type="text" class="form-control" id="grupo_seccion" name="grupo_seccion" required>
                     </div>
-                    <div class="col-md-4">
-                        <label for="seccion" class="form-label">Sección</label>
-                        <input type="text" class="form-control" id="seccion" name="seccion" required>
-                    </div>
+
                     <div class="col-md-6">
-                        <label for="preparatoria" class="form-label">Preparatoria (de la que egresó)</label>
-                        <input type="text" class="form-control" id="preparatoria" name="preparatoria" required>
+                        <label for="preparatoria_procedencia" class="form-label">Preparatoria (de la que egresó)</label>
+                        <input type="text" class="form-control" id="preparatoria_procedencia" name="preparatoria_procedencia" required>
                     </div>
                 </div>
 
@@ -178,8 +175,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="tratamiento" class="form-label">¿Lleva algún tratamiento?</label>
-                    <input type="text" class="form-control" id="tratamiento" name="tratamiento">
+                    <label for="tratamiento_actual" class="form-label">¿Lleva algún tratamiento?</label>
+                    <input type="text" class="form-control" id="tratamiento_actual" name="tratamiento_actual">
                 </div>
 
                 <div class="mb-3">
@@ -209,8 +206,8 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="imss" class="form-label">N° del IMSS</label>
-                        <input type="text" class="form-control" id="imss" name="imss">
+                        <label for="NSS" class="form-label"> NSS </label>
+                        <input type="number" class="form-control" id="NSS" name="NSS">
                     </div>
                     <div class="col-md-6">
                         <label for="afiliado_utnc" class="form-label">Afiliado por UTNC</label>
@@ -223,25 +220,24 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="curp" class="form-label">CURP</label>
-                    <input type="text" class="form-control" id="curp" name="curp" required>
+                    <label for="CURP" class="form-label">CURP</label>
+                    <input type="text" class="form-control" id="CURP" name="CURP" required>
                 </div>
 
                 <h5 class="section-title">Contacto de Emergencia</h5>
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="contacto" class="form-label">Nombre y parentesco</label>
-                        <input type="text" class="form-control" id="contacto" name="contacto" required>
+                        <label for="contacto_emergencia" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="contacto_emergencia" name="contacto_emergencia" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="contacto_cel" class="form-label">Teléfono de contacto</label>
-                        <input type="tel" class="form-control" id="contacto_cel" name="contacto_cel" required>
+                        <label for="parentesco_contacto" class="form-label">Parentesco</label>
+                        <input type="text" class="form-control" id="parentesco_contacto" name="parentesco_contacto" required>
                     </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="tutor" class="form-label">Nombre del tutor (si aplica)</label>
-                    <input type="text" class="form-control" id="tutor" name="tutor">
+                    <div class="col-md-6">
+                        <label for="teefono_contacto" class="form-label">Teléfono de contacto</label>
+                        <input type="number" class="form-control" id="teefono_contacto" name="teefono_contacto" required>
+                    </div>
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
