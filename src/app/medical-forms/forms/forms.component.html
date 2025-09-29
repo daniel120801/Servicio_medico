@@ -13,7 +13,7 @@
     <div class="col-3">
 
 
-        <ul class="list-group flex-grow-1 overflow-auto">
+        <ul class="list-group flex-grow-1 overflow-auto " style="max-height: 50vh;">
             @for (item of names; track $index) {
             <li class="list-group-item" (click)="onLoadFormData(item)">{{item}} </li>
 
@@ -31,7 +31,7 @@
         {
         @if(data != null){
         <div class="container mt-4">
-            <div class="card border-0 ">
+            <div class="card border-1 ">
                 <div class="card-body p-4">
                     <!-- Información Personal -->
                     <div class="data-section mb-4">
