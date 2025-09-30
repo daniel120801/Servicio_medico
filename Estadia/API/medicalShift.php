@@ -136,7 +136,7 @@ if (isset($_GET['allheaders'])) {
     //obtener los archivos json
     $file = file_get_contents($filePath);
 
-
+    $file = json_decode($file);
     http_response_code(200);
     echo json_encode(['status' => 'success', 'data' => $file]);
     exit;
@@ -192,7 +192,7 @@ if (!isset($_GET['id'])) {
         echo json_encode(['status' => 'failed', 'message' => 'access_code faltante']);
         exit;
     }
-    if (!isset($input['curp']) || empty($input['curp'])) {
+    if (!isset($input['CURP']) || empty($input['CURP'])) {
         http_response_code(400);
         echo json_encode(['status' => 'failed', 'message' => 'curp faltante']);
         exit;
@@ -201,7 +201,7 @@ if (!isset($_GET['id'])) {
     if (!is_dir($folderPath)) {
         mkdir($folderPath, 0777, true);
     }
-    $curp = preg_replace('/[^A-Za-z0-9]/', '', $input['curp']);
+    $curp = preg_replace('/[^A-Za-z0-9]/', '', $input['CURP']);
     $filename = $folderPath . '/' . $curp . '.json';
     $contenido = json_encode($input, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     if (file_put_contents($filename, $contenido) !== false) {
@@ -216,7 +216,6 @@ else {
     http_response_code(403);
     echo json_encode(['error' => 'solicitud no encontrada']);
 }
-
 
 
 

@@ -30,9 +30,10 @@
         @else
         {
         @if(data != null){
-        <div class="container mt-4">
+        <div class="container mt-4 ">
             <div class="card border-1 ">
-                <div class="card-body p-4">
+                <div class="card-body p-4 mb-2">
+                    
                     <!-- Información Personal -->
                     <div class="data-section mb-4">
                         <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información Personal</h5>
@@ -217,14 +218,8 @@
                                 <div class="fw-medium">{{data.telefono_contacto }}</div>
                             </div>
                         </div>
-
-                        <div class="row mt-2">
-                            <div class="col-12 mb-2">
-                                <div class="text-secondary small">Tutor</div>
-                                <div class="fw-medium">{{data.tutor || 'N/A'}}</div>
-                            </div>
-                        </div>
                     </div>
+
                     <div>
                         <button
                             type="button"
