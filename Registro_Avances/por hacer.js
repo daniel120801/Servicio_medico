@@ -13,12 +13,12 @@
 -----Funcion de formulario llenado por alumnos para informacion medica----
 
     !--IMPORTANTE--
-    ^arreglar el apartado de contacto de emergencia en  Alumnos> alumno> seguimiwnto medico> en caso de accidente
+    ^arreglar el apartado de contacto de emergencia en  Alumnos> alumno> seguimiento medico> en caso de accidente
 
 ^encontrar manera de deshabilitar el qr una vez terminada la jornada de edición
 
-?crear el visual del formulario
-    ? agregar la interfaz para la respuesta del servicio en la funcion <getFormData> para poder mapear la respuesta del servidor a un formato capaz de ser visto en el formulario 
+*crear el visual del formulario
+    * agregar la interfaz para la respuesta del servicio en la funcion <getFormData> para poder mapear la respuesta del servidor a un formato capaz de ser visto en el formulario 
 
 ^agregar logica que intente seleccionar al alumno de base de datos que coincida con el alumno del formulario
     &- de no ser localizado, agregar un buscador que permita filtrar entre los alumnos existentes en bd.
