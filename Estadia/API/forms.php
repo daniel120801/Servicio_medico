@@ -8,8 +8,18 @@ header("Access-Control-Allow-Methods: GET, POST,OPTIONS");
 header('Content-Type: application/json');
 require_once '../conexion.php';
 
+if (isset($_GET['allheaders'])) {
+    $select = $con->select("jornadamedica", "access_code");
+    $result = $select->execute();
 
-if(isset($_GET['saveForm'])) {
+    http_response_code(200);
+    echo json_encode([
+        'status' => 'success',
+        'data' => $result,
+    ]);
+
+}
+elseif(isset($_GET['saveForm'])) {
     // Guardar registro de formulario en carpeta por access_code y con nombre CURP.json
     $input = $_POST;
     if (!isset($input['access_code'])) {

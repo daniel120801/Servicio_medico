@@ -235,8 +235,8 @@
                         <input type="text" class="form-control" id="parentesco_contacto" name="parentesco_contacto" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="telefono_contacto" class="form-label">Teléfono de contacto</label>
-                        <input type="number" class="form-control" id="telefono_contacto" name="telefono_contacto" required>
+                        <label for="teefono_contacto" class="form-label">Teléfono de contacto</label>
+                        <input type="number" class="form-control" id="teefono_contacto" name="teefono_contacto" required>
                     </div>
                 </div>
 
@@ -269,7 +269,7 @@
         async function verificarAccessCode(accessCode) {
             try {
                 // Cambia la URL al endpoint que verifica el access_code
-                const response = await fetch(`API/medicalShift.php?jornadamedica`, {
+                const response = await fetch(`API/medicalShift.php?allheaders`, {
                     method: 'GET'
                 });
                 const result = await response.json();
