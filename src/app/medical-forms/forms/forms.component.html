@@ -30,10 +30,10 @@
         @else
         {
         @if(data != null){
-        <div class="container mt-4 ">
-            <div class="card border-1 ">
-                <div class="card-body p-4 mb-2">
-                    
+        <div class="container mt-2 ">
+            <div class="card border-2  mb-3">
+                <div class="card-body p-4">
+
                     <!-- Información Personal -->
                     <div class="data-section mb-4">
                         <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información Personal</h5>
@@ -83,13 +83,17 @@
                     <div class="data-section mb-4">
                         <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información Académica</h5>
                         <div class="row">
-                            <div class="col-md-6 mb-2">
+                            <div class="col-md-4 mb-2">
                                 <div class="text-secondary small">Carrera</div>
                                 <div class="fw-medium">{{data.carrera}}</div>
                             </div>
-                            <div class="col-md-6 mb-2">
+                            <div class="col-md-4 mb-2">
                                 <div class="text-secondary small">Grupo y Sección</div>
                                 <div class="fw-medium">{{data.grupo_seccion || 'N/A'}}</div>
+                            </div>
+                            <div class="col-4 mb-2">
+                                <div class="text-secondary small">Matrícula</div>
+                                <div class="fw-medium">{{data.matricula}}</div>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -98,88 +102,83 @@
                                 <div class="fw-medium">{{data.preparatoria_procedencia }}</div>
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-12 mb-2">
-                                <div class="text-secondary small">Matrícula</div>
-                                <div class="fw-medium">{{data.matricula}}</div>
-                            </div>
-                        </div>
+
                     </div>
 
                     <!-- Información de Contacto -->
                     <div class="data-section mb-4">
                         <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información de Contacto</h5>
                         <div class="row">
-                            <div class="col-md-6 mb-2">
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">Teléfono</div>
                                 <div class="fw-medium">{{data.telefono}}</div>
                             </div>
-                         
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-12 mb-2">
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">Correo electrónico</div>
                                 <div class="fw-medium">{{data.correo}}</div>
                             </div>
+
                         </div>
+
                     </div>
 
                     <!-- Información de Salud -->
                     <div class="data-section mb-4">
                         <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información de Salud</h5>
                         <div class="row">
-                            <div class="col-12 mb-2">
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">Enfermedades actuales</div>
                                 <div class="fw-medium">{{data.enfermedades || 'N/A'}}</div>
                             </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-12 mb-2">
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">Tratamientos actuales</div>
                                 <div class="fw-medium">{{data.tratamiento_actual || 'N/A'}}</div>
                             </div>
                         </div>
 
+
                         <div class="row mt-2">
-                            <div class="col-12 mb-2">
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">Alergias</div>
                                 <div class="fw-medium">{{data.alergias || 'N/A'}}</div>
                             </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-12 mb-2">
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">Discapacidad</div>
                                 <div class="fw-medium">{{data.discapacidad || 'N/A'}}</div>
                             </div>
                         </div>
 
+
+
                         <div class="row mt-2">
-                   
-                            <div class="col-md-6 mb-2">
+
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">¿Está embarazada?</div>
                                 <div class="fw-medium">{{data.embarazo || 'N/A'}}</div>
                             </div>
-                        </div>
-                        @if(data.embarazo === 'Sí'){
+                            @if(data.embarazo === 'Sí'){
 
-                        <div class="row mt-2">
-                            <div class="col-12 mb-2">
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">Semanas de embarazo</div>
                                 <div class="fw-medium">{{data.semanas_embarazo}}</div>
                             </div>
+
+                            }
                         </div>
-                        }
+
                     </div>
 
                     <!-- Información de Seguro -->
                     <div class="data-section mb-4">
                         <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Información de Seguro</h5>
                         <div class="row">
-                            <div class="col-md-6 mb-2">
+                            <div class="col-6 mb-2">
                                 <div class="text-secondary small">Número de Seguro Social (NSS)</div>
                                 <div class="fw-medium">{{data.NSS || 'N/A'}}</div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="text-secondary small">CURP</div>
+                                <div class="fw-medium">{{data.CURP }}</div>
                             </div>
                         </div>
 
@@ -191,10 +190,7 @@
                         </div>
 
                         <div class="row mt-2">
-                            <div class="col-12 mb-2">
-                                <div class="text-secondary small">CURP</div>
-                                <div class="fw-medium">{{data.CURP }}</div>
-                            </div>
+
                         </div>
                     </div>
 
@@ -202,33 +198,29 @@
                     <div class="data-section mb-4">
                         <h5 class="text-primary mb-3 fw-semibold border-bottom pb-2">Contacto de Emergencia</h5>
                         <div class="row">
-                            <div class="col-md-6 mb-2">
+                            <div class="col-4 mb-2">
                                 <div class="text-secondary small">Contacto de emergencia</div>
                                 <div class="fw-medium">{{data.contacto_emergencia}}</div>
                             </div>
-                            <div class="col-md-6 mb-2">
+                            <div class="col-4 mb-2">
                                 <div class="text-secondary small">Parentesco</div>
                                 <div class="fw-medium">{{data.parentesco_contacto || 'N/A'}}</div>
                             </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-md-6 mb-2">
+                            <div class="col-4 mb-2">
                                 <div class="text-secondary small">Teléfono de contacto</div>
                                 <div class="fw-medium">{{data.telefono_contacto }}</div>
                             </div>
                         </div>
+
                     </div>
 
-                    <div>
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                        >
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-primary">
                             Confirmar
                         </button>
-                        
+
                     </div>
+
                 </div>
             </div>
         </div>
