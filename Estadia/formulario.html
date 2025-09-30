@@ -88,7 +88,7 @@
                 Ha ocurrido un error al enviar el formulario.
             </div>
 
-            <form id="health-form" action="API/medicalShift.php" method="POST">
+            <form id="health-form" action="API/forms.php" method="POST">
                 <input type="hidden" id="access_code" name="access_code" value="">
                 <h5 class="section-title">Información Personal</h5>
                 <div class="row mb-3">
@@ -269,7 +269,7 @@
         async function verificarAccessCode(accessCode) {
             try {
                 // Cambia la URL al endpoint que verifica el access_code
-                const response = await fetch(`API/medicalShift.php?allheaders`, {
+                const response = await fetch(`API/medicalShift.php?jornadamedica`, {
                     method: 'GET'
                 });
                 const result = await response.json();
